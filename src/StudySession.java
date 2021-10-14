@@ -5,10 +5,17 @@ import java.util.Map;
 public class StudySession {
     public Deck deck;
     private Map<Flashcard, Integer> proficiencies = new Map<Flashcard, Integer>();
+    public String name;
     int currentCard;
 
-    public void createSession(Deck deck) {
+    public StudySession(Deck deck, String name) {
         this.deck = deck;
+        this.name = name;
+    }
+
+    public StudySession(Deck deck) {
+        this.deck = deck;
+        this.name = "Untitled";
     }
 
     public Flashcard getNextCard(){
