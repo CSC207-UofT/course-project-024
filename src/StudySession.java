@@ -4,6 +4,7 @@ import java.util.Map;
 // TODO documentation
 public class StudySession {
     public Deck deck;
+    private Map<Flashcard, Integer> proficiencies = new Map<Flashcard, Integer>();
     int currentCard;
 
     public void createSession(Deck deck) {
