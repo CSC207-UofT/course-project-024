@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -11,6 +12,7 @@ public class PracticeSession implements StudySession {
      * @param deck The deck that this session will use to show cards to the user.
      */
     public PracticeSession(Deck deck) {
+        this.proficiencies = new HashMap<Flashcard, Integer>();
         this.deck = deck;
         for (Flashcard card : this.deck.flashcards) {
             this.proficiencies.put(card, 0);
@@ -31,7 +33,6 @@ public class PracticeSession implements StudySession {
         // nextInt takes an exclusive right bound, so rand_index takes from [0, flashcards.size() - 1]
         int rand_index = random.nextInt(this.deck.flashcards.size());
         return flashcard_lst.get(rand_index);
-        }
     }
 
 }
