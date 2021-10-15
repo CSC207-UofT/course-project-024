@@ -21,11 +21,15 @@ public class PracticeSession implements StudySession {
      * Randomly pick a new card from this PracticeSession's deck to show to the user.
      * @return Return a randomly chosen Flashcard from this PracticeSession's deck.
      */
-    public Flashcard getNextCard() {
+    public Flashcard getNextCard() throws Exception {
         Random random = new Random();
         ArrayList<Flashcard> flashcard_lst = this.deck.flashcards;
-        int rand_index = random.nextInt();
-        return flashcard_lst.get(rand_index);
+        if (flashcard_lst.size() == 0) {
+            throw new Exception("Attempted to get next card from an empty deck");
+        } else {
+            int rand_index = random.nextInt(this.deck.flashcards.size());
+            return flashcard_lst.get(rand_index);
+        }
     }
 
 }
