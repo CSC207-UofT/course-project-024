@@ -3,8 +3,9 @@ import java.util.Map;
 
 // TODO documentation
 public class StudySession {
+    // TODO consider changing some of these private
     public Deck deck;
-    private Map<Flashcard, Integer> proficiencies = new Map<Flashcard, Integer>();
+    public Map<Flashcard, Integer> proficiencies = new Map<Flashcard, Integer>();
     public String name;
     int currentCard;
 
@@ -20,7 +21,7 @@ public class StudySession {
 
     public Flashcard getNextCard(){
         this.currentCard = currentCard + 1;
-        return deck.getFlashcards()[this.currentCard - 1];
+        return deck.getFlashcards()[this.currentCard];
     }
 
     public void shuffleCards(){

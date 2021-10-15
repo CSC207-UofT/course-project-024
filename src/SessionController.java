@@ -14,26 +14,29 @@ public class SessionController {
         recent = session;
     }
 
+    // name of session if they want to resume a specific session
     public StudySession resumeSession(String name) {
         for (StudySession studySession : this.sessions) {
             if (studySession.name.equals(name)) {
+                recent = studySession;
                 return studySession;
             }
         }
         return resumeSession();
     }
 
+    // resume recent session if they do not specify, if no recent choose last one created, if no options throw error
     public StudySession resumeSession() {
         if (recent != null){
             return recent;
         }
-        else if (this.sessions.size() != 0){
-           StudySession session = this.sessions.get(this.sessions.size() - 1);
-           recent = session;
-           return session;
+        else if (this.sessions.size() == 0){
+           // TODO throw an error
         }
         else {
-            // TODO throw an error
+            StudySession session = this.sessions.get(this.sessions.size() - 1);
+            recent = session;
+            return session;
         }
     }
 }
