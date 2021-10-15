@@ -19,16 +19,18 @@ public class PracticeSession implements StudySession {
 
     /**
      * Randomly pick a new card from this PracticeSession's deck to show to the user.
+     * Assume that this.deck.flashcards is non-empty. The empty case should be
+     * handled by the SessionController before calling this method.
      * @return Return a randomly chosen Flashcard from this PracticeSession's deck.
      */
-    public Flashcard getNextCard() throws Exception {
+    @Override
+    public Flashcard getNextCard() {
         Random random = new Random();
         ArrayList<Flashcard> flashcard_lst = this.deck.flashcards;
-        if (flashcard_lst.size() == 0) {
-            throw new Exception("Attempted to get next card from an empty deck");
-        } else {
-            int rand_index = random.nextInt(this.deck.flashcards.size());
-            return flashcard_lst.get(rand_index);
+
+        // nextInt takes an exclusive right bound, so rand_index takes from [0, flashcards.size() - 1]
+        int rand_index = random.nextInt(this.deck.flashcards.size());
+        return flashcard_lst.get(rand_index);
         }
     }
 
