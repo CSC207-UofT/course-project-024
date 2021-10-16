@@ -2,8 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SessionController {
-    List<StudySession> sessions = new ArrayList<StudySession>();
-    StudySession recent;
+    private List<StudySession> sessions = new ArrayList<StudySession>();
+    private StudySession recent;
 
     public SessionController() {
         this.sessions = new ArrayList<>();

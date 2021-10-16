@@ -2,8 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Deck {
-    public String name;
-    public List<Flashcard> flashcards;
+    private String name;
+    private List<Flashcard> flashcards;
 
     public Deck(String name, List<Flashcard> flashcards){
         this.name = name;
