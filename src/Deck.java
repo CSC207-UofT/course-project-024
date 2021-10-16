@@ -5,14 +5,14 @@ public class Deck {
     public String name;
     public List<Flashcard> flashcards;
 
-    public Deck(String name, ArrayList<Flashcard> flashcards){
+    public Deck(String name, List<Flashcard> flashcards){
         this.name = name;
         this.flashcards = flashcards;
     }
 
     public Deck(String name){
         this.name = name;
-        this.flashcards = new ArrayList<Flashcard>();
+        this.flashcards = new ArrayList<>();
     }
 
     public String getName() {
@@ -31,13 +31,8 @@ public class Deck {
         flashcards.add(newFlashcard);
     }
 
-    public void removeFlashcard(Flashcard flashcard){
+    public void removeFlashcard(Flashcard flashcard) {
         flashcards.remove(flashcard);
-    }
-
-    public static void main(String[] args) {
-        Deck a = new Deck("hi");
-        System.out.println(a.getName());
     }
 
 }
