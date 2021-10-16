@@ -1,12 +1,8 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
-public class PracticeSession implements StudySession {
-    private Deck deck;
-    private Map<Flashcard, Integer> proficiencies;
-
+public class PracticeSession extends StudySession {
     /**
      * Construct a PracticeSession instance that initializes all proficiencies to 0.
      * @param deck The deck that this session will use to show cards to the user.
