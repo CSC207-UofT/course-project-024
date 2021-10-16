@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 // TODO documentation
-public class StudySession {
+public abstract class StudySession {
     // TODO consider changing some of these private
     public Deck deck;
     public Map<Flashcard, Integer> proficiencies = new HashMap<>();
@@ -20,10 +20,7 @@ public class StudySession {
         this.name = "Untitled";
     }
 
-    public Flashcard getNextCard() {
-        this.currentCard = currentCard + 1;
-        return deck.getFlashcards()[this.currentCard];
-    }
+    public abstract Flashcard getNextCard();
 
     public void shuffleCards() {
         Collections.shuffle(this.deck.getFlashcards());
