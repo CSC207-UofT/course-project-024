@@ -6,22 +6,25 @@ public class FlashcardSystem {
     public Scanner scanner = new Scanner(System.in);
 
     public void displayMainMenu() {
-        System.out.println("(0) Logout (1) Create a Deck (2) Select deck to study (3) Edit deck");
-        String select = scanner.nextLine();
-        //TODO: check for invalid input
-        switch(select) {
-            case "0":
-                break;
-            case "1":
-                displayCreateDeckMenu();
-                break;
-            case "2":
-                displaySelectDeckToStudyMenu();
-                break;
-            case "3":
-                displayEditDeckMenu();
-                break;
-        }
+        String select;
+        do {
+            System.out.println("(0) Logout (1) Create a Deck (2) Select deck to study (3) Edit deck");
+            select = scanner.nextLine();
+            //TODO: check for invalid input
+            switch(select) {
+                case "0":
+                    break;
+                case "1":
+                    displayCreateDeckMenu();
+                    break;
+                case "2":
+                    displaySelectDeckToStudyMenu();
+                    break;
+                case "3":
+                    displayEditDeckMenu();
+                    break;
+            }
+        } while(!select.equals("0"));
 
     }
 
