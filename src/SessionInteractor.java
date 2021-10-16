@@ -1,18 +1,17 @@
 import java.util.Map;
 
 public class SessionInteractor {
-    StudySession session;
     boolean currentCardStatus = true;
 
-    public SessionInteractor(StudySession session){
+    private SessionInteractor(StudySession session){
         this.session = session;
     }
 
     // if they get the card right, add one to proficiency
-    public void adjustProficiency(){
-        Flashcard card = this.session.deck.getFlashcards()[this.session.getCurrentCard()];
+    public static void adjustProficiency(StudySession session, Flashcard flashcard){
+        Flashcard card = session.deck.getFlashcards()[session.getCurrentCard()];
         if (currentCardStatus){
-            this.session.getProficiencies().put(card, this.session.getProficiencies().get(card) + 1);
+            session.getProficiencies().put(card, session.getProficiencies().get(card) + 1);
         }
     }
 }
