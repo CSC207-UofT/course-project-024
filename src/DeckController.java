@@ -6,7 +6,7 @@ public class DeckController {
 //    public DeckInteractor deckInteractor;
     public List<Deck> decks;
 
-    public DeckController(ArrayList<Deck> decks){
+    public DeckController(List<Deck> decks){
         this.decks = decks;
     }
 

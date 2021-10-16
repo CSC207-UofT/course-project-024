@@ -3,9 +3,7 @@ import java.util.ArrayList;
 public class DeckInteractor {
 //    public FlashcardInteractor flashcardInteractor;
 
-    public static Deck createDeck(String deckName){
-        return (new Deck(deckName));
-    }
+    public static Deck createDeck(String deckName){return (new Deck(deckName));}
 
     public static void renameDeck(Deck deck, String newName){
         deck.setName(newName);
