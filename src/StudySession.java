@@ -5,10 +5,10 @@ import java.util.Map;
 // TODO documentation
 public abstract class StudySession {
     // TODO consider changing some of these private
-    public Deck deck;
-    private final Map<Flashcard, Integer> proficiencies = new HashMap<>();
-    public String name;
-    private int currentCard;
+    protected Deck deck;
+    protected Map<Flashcard, Integer> proficiencies = new HashMap<>();
+    protected String name;
+    protected int currentCard;
 
     public StudySession(Deck deck, String name) {
         this.deck = deck;
