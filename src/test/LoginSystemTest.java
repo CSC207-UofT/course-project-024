@@ -13,8 +13,8 @@ public class LoginSystemTest {
     void setUp() {
         loginSystem = new LoginSystem();
 
-        Account account1 = loginSystem.accountInteractor.createAccount("user1", "pass1");
-        Account account2 = loginSystem.accountInteractor.createAccount("user2", "pass2");
+        Account account1 = AccountInteractor.createAccount("user1", "pass1");
+        Account account2 = AccountInteractor.createAccount("user2", "pass2");
         loginSystem.accounts = new ArrayList<>(
                 List.of(account1, account2)
         );
