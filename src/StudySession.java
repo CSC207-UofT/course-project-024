@@ -6,7 +6,7 @@ import java.util.Map;
 public abstract class StudySession {
     // TODO consider changing some of these private
     public Deck deck;
-    private final Map<Flashcard, Integer> proficiencies = new HashMap<>();
+    protected Map<Flashcard, Integer> proficiencies = new HashMap<>();
     public String name;
     private int currentCard;
 
