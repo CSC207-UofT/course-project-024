@@ -5,14 +5,16 @@ public class SessionController {
     List<StudySession> sessions = new ArrayList<StudySession>();
     StudySession recent;
 
-    public void sessionController() {
+    public SessionController() {
         this.sessions = new ArrayList<>();
     }
 
-    public void createSession(Deck deck, String name) {
-        StudySession session = new StudySession(deck, name);
+    public StudySession createPracitceSession(Deck deck, String name) {
+        // TODO createsession for every type
+        StudySession session = new PracticeSession(deck);
         sessions.add(session);
         recent = session;
+        return recent;
     }
 
     // name of session if they want to resume a specific session

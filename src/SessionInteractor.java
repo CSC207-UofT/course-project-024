@@ -10,9 +10,9 @@ public class SessionInteractor {
 
     // if they get the card right, add one to proficiency
     public void adjustProficiency(){
-        Flashcard card = this.session.deck.getFlashcards()[this.session.currentCard];
+        Flashcard card = this.session.deck.getFlashcards()[this.session.getCurrentCard()];
         if (currentCardStatus){
-            this.session.proficiencies.put(card, this.session.proficiencies.get(card) + 1);
+            this.session.getProficiencies().put(card, this.session.getProficiencies().get(card) + 1);
         }
     }
 }
