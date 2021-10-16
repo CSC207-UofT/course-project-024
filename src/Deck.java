@@ -1,8 +1,9 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Deck {
     public String name;
-    public ArrayList<Flashcard> flashcards;
+    public List<Flashcard> flashcards;
 
     public Deck(String name, ArrayList<Flashcard> flashcards){
         this.name = name;
@@ -11,19 +12,27 @@ public class Deck {
 
     public Deck(String name){
         this.name = name;
-        this.flashcards = new ArrayList<>();
+        this.flashcards = new ArrayList<Flashcard>();
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String newName) {
+        name = newName;
     }
 
-    public ArrayList<Flashcard> getFlashcards() {
+    public List<Flashcard> getFlashcards() {
         return flashcards;
+    }
+
+    public void addFlashcard(Flashcard newFlashcard){
+        flashcards.add(newFlashcard);
+    }
+
+    public void removeFlashcard(Flashcard flashcard){
+        flashcards.remove(flashcard);
     }
 
     public static void main(String[] args) {

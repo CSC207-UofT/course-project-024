@@ -1,9 +1,29 @@
-public class DeckController {
-    public AccountInteractor accountInteractor;
-    public DeckInteractor deckInteractor;
-    public Deck[] decks;
+import java.util.ArrayList;
+import java.util.List;
 
-    public void renameDeck(Deck deck, String name){
-        deck.setName(name);
+public class DeckController {
+//    public AccountInteractor accountInteractor;
+//    public DeckInteractor deckInteractor;
+    public List<Deck> decks;
+
+    public DeckController(ArrayList<Deck> decks){
+        this.decks = decks;
     }
+
+    public void createDeck(String name){
+        decks.add(DeckInteractor.createDeck(name));
+    }
+
+    public void renameDeck(Deck deck, String newName){
+        DeckInteractor.renameDeck(deck, newName);
+    }
+
+    public void addCard(Deck deck, String front, String back){
+        DeckInteractor.addFlashcard(deck, front, back);
+    }
+
+    public void deleteCard(Deck deck, Flashcard flashcard){
+        DeckInteractor.deleteFlashcard(deck, flashcard);
+    }
+
 }
