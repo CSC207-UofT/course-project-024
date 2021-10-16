@@ -29,7 +29,7 @@ public class FlashcardSystem {
         //TODO: change format to (0) Back (1) Deck 1 (2) Deck 2 ....
         List<Deck> decks = deckController.decks;
         for (int i=0; i<decks.size(); i++) {
-            System.out.println("("+i+") Deck "+i);
+            System.out.println("("+i+") Deck "+ decks.get(i).getName());
         }
         String x = scanner.nextLine();
         //TODO: handle NumberFormatException
