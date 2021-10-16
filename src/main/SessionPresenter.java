@@ -1,6 +1,3 @@
-/*
- * Copyright 2021 group-024
- */
 import java.util.Scanner;
 
 /**
@@ -50,7 +47,7 @@ public class SessionPresenter {
      * @param card The flashcard whose front is displayed.
      */
     private void displayFlashcardFront(Flashcard card) {
-        System.out.println(card.getFront());
+        System.out.println("Front: " + card.getFront());
     }
 
     /**
@@ -59,7 +56,7 @@ public class SessionPresenter {
      * @param card The flashcard whose back is displayed.
      */
     private void displayFlashcardBack(Flashcard card) {
-        System.out.println(card.getBack());
+        System.out.println("Back: " + card.getBack());
     }
 
     /**
