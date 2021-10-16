@@ -14,7 +14,7 @@ public class DeckInteractor {
     }
 
     public static void addFlashcard(Deck deck, String front, String back){
-        newFlashcard = FlashcardInteractor.createFlashcard(front, back);
+        Flashcard newFlashcard = FlashcardInteractor.createFlashcard(front, back);
         deck.addFlashcard(newFlashcard);
     }
 
