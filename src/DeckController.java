@@ -10,6 +10,10 @@ public class DeckController {
         this.decks = decks;
     }
 
+    public DeckController(){
+        this.decks = new ArrayList<Deck>();
+    }
+
     public void createDeck(String name){
         decks.add(DeckInteractor.createDeck(name));
     }
