@@ -2,14 +2,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SessionController {
-    private List<StudySession> sessions = new ArrayList<StudySession>();
+    private List<StudySession> sessions;
     private StudySession recent;
 
     public SessionController() {
         this.sessions = new ArrayList<>();
     }
 
-    public StudySession createPracticeSession(Deck deck, String name) {
+    public StudySession createPracticeSession(Deck deck) {
         // TODO createsession for every type
         StudySession session = SessionInteractor.createPracticeSession(deck);
         sessions.add(session);
@@ -42,5 +42,10 @@ public class SessionController {
             recent = session;
             return session;
         }
+    }
+
+    public Flashcard getNextCard(StudySession session) {
+        // TODO: throw an exception if the deck is empty
+        return SessionInteractor.getNextCard(session);
     }
 }
