@@ -9,7 +9,7 @@ public class SessionController {
         this.sessions = new ArrayList<>();
     }
 
-    public StudySession createPracitceSession(Deck deck, String name) {
+    public StudySession createPracticeSession(Deck deck, String name) {
         // TODO createsession for every type
         StudySession session = new PracticeSession(deck);
         sessions.add(session);
