@@ -45,6 +45,7 @@ public class SessionController {
     }
 
     public Flashcard getNextCard(StudySession session) {
+        // TODO: throw an exception if the deck is empty
         return SessionInteractor.getNextCard(session);
     }
 }
