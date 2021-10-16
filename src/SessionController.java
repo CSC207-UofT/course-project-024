@@ -11,7 +11,7 @@ public class SessionController {
 
     public StudySession createPracticeSession(Deck deck, String name) {
         // TODO createsession for every type
-        StudySession session = new PracticeSession(deck);
+        StudySession session = SessionInteractor.createPracticeSession(deck);
         sessions.add(session);
         recent = session;
         return recent;
@@ -35,6 +35,7 @@ public class SessionController {
         }
         else if (this.sessions.size() == 0){
            // TODO throw an error
+            return null;
         }
         else {
             StudySession session = this.sessions.get(this.sessions.size() - 1);
