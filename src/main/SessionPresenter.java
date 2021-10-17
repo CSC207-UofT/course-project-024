@@ -25,22 +25,13 @@ public class SessionPresenter {
         System.out.println("Beginning session...");
         do {
             System.out.println("Retrieving new card...");
-            card = getNextFlashcard(session);
+            card = sessionController.getNextCard(session);
             displayFlashcardFront(card);
             getUserInput("Please input anything to see the back.");
             displayFlashcardBack(card);
             userInput = getUserInput("Would you like to see another card? If not, please input \"" + exitChar + "\", " +
                     "and if so, input anything else.");
         } while (!userInput.equals(exitChar));
-    }
-
-    /**
-     * Retrieve the next flashcard from session.
-     *
-     * @param session The current StudySession for which we are displaying cards.
-     */
-    private Flashcard getNextFlashcard(StudySession session) {
-        return sessionController.getNextCard(session);
     }
 
     /**
