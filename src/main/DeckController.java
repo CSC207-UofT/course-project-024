@@ -2,8 +2,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeckController {
-//    public AccountInteractor accountInteractor;
-//    public DeckInteractor deckInteractor;
     public List<Deck> decks;
 
     public DeckController(List<Deck> decks){
@@ -11,7 +9,7 @@ public class DeckController {
     }
 
     public DeckController(){
-        this.decks = new ArrayList<Deck>();
+        this.decks = new ArrayList<>();
     }
 
     public Deck createDeck(String name){

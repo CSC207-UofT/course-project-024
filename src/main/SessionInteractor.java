@@ -1,5 +1,3 @@
-import java.util.*;
-
 public class SessionInteractor {
     // TODO: remove this attribute to be handled elsewhere
     private static boolean currentCardStatus = true;

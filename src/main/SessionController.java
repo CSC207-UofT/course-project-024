@@ -10,7 +10,7 @@ public class SessionController {
     }
 
     public StudySession createPracticeSession(Deck deck) {
-        // TODO createsession for every type
+        // TODO: createSession for every type
         StudySession session = SessionInteractor.createPracticeSession(deck);
         sessions.add(session);
         recent = session;

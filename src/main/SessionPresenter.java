@@ -26,7 +26,7 @@ public class SessionPresenter {
         do {
             card = getNextFlashcard(session);
             displayFlashcardFront(card);
-            userInput = getUserInput("Please input anything to see the back.");
+            getUserInput("Please input anything to see the back.");
             displayFlashcardBack(card);
             userInput = getUserInput("Would you like to see another card? If not, please input \"" + exitChar + "\", " +
                     "and if so, input anything else.");

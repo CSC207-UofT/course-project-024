@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-
 public class DeckInteractor {
-//    public FlashcardInteractor flashcardInteractor;
 
     public static Deck createDeck(String deckName){return (new Deck(deckName));}
 

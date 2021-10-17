@@ -10,7 +10,7 @@ public class PracticeSession extends StudySession {
      */
     public PracticeSession(Deck deck) {
         super(deck);
-        this.proficiencies = new HashMap<Flashcard, Integer>();
+        this.proficiencies = new HashMap<>();
         this.deck = deck;
         for (Flashcard card : this.deck.getFlashcards()) {
             this.proficiencies.put(card, 0);
