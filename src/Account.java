@@ -29,4 +29,8 @@ public class Account {
     public boolean isCorrectPassword(String attemptedPassword){
         return password.equals(attemptedPassword);
     }
+
+    public List<Deck> getDecks() {
+        return decks;
+    }
 }
