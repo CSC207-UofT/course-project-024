@@ -24,6 +24,7 @@ public class SessionPresenter {
         String userInput;
         System.out.println("Beginning session...");
         do {
+            System.out.println("Retrieving new card...");
             card = getNextFlashcard(session);
             displayFlashcardFront(card);
             getUserInput("Please input anything to see the back.");
