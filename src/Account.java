@@ -1,11 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Account {
-    public String username;
-    public String password;
-    public List<Deck> decks;
+    private String username;
+    private final String password;
+    private List<Deck> decks;
 
     public Account(String username, String password, List<Deck> decks){
         this.username = username;
@@ -28,6 +27,6 @@ public class Account {
     }
 
     public boolean isCorrectPassword(String attemptedPassword){
-        return Objects.equals(password, attemptedPassword);
+        return password.equals(attemptedPassword);
     }
 }
