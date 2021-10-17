@@ -1,6 +1,4 @@
 public class SessionInteractor {
-    // TODO: remove this attribute to be handled elsewhere
-    private static boolean currentCardStatus = true;
 
     private SessionInteractor() {
     }
@@ -12,10 +10,8 @@ public class SessionInteractor {
     // if they get the card right, add one to proficiency
     // TODO: Move this method into StudySession implementers to be customized by calling session.adjustProficiency()
     public static void adjustProficiency(StudySession session, Flashcard flashcard) {
-        if (currentCardStatus){
-            int currProficiency = session.getProficiencies().get(flashcard);
-            session.getProficiencies().put(flashcard, currProficiency + 1);
-        }
+        int currProficiency = session.getProficiencies().get(flashcard);
+        session.getProficiencies().put(flashcard, currProficiency + 1);
     }
 
     public static Flashcard getNextCard(StudySession session) {
