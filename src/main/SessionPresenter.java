@@ -22,13 +22,14 @@ public class SessionPresenter {
     public void displaySession(StudySession session, String exitChar) {
         Flashcard card;
         String userInput;
+        System.out.println("Beginning session...");
         do {
             card = getNextFlashcard(session);
             displayFlashcardFront(card);
             userInput = getUserInput("Please input anything to see the back.");
             displayFlashcardBack(card);
-            userInput = getUserInput("Would you like to see another card? If so, press enter, and if not, please" +
-                    " input \"" + exitChar + "\".");
+            userInput = getUserInput("Would you like to see another card? If not, please input \"" + exitChar + "\", " +
+                    "and if so, input anything else.");
         } while (!userInput.equals(exitChar));
     }
 

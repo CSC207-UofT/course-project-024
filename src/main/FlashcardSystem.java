@@ -1,9 +1,10 @@
 import java.util.*;
 
 public class FlashcardSystem {
-    public DeckController deckController = new DeckController();
-    public SessionController sessionController = new SessionController();
-    public Scanner scanner = new Scanner(System.in);
+    private final DeckController deckController = new DeckController();
+    private final SessionController sessionController = new SessionController();
+    private final SessionPresenter sessionPresenter = new SessionPresenter();
+    private final Scanner scanner = new Scanner(System.in);
 
     public void displayMainMenu() {
         String select;
@@ -28,7 +29,7 @@ public class FlashcardSystem {
 
     }
 
-    public Deck displayDecks() {
+    private Deck displayDecks() {
         //TODO: change format to (0) Back (1) Deck 1 (2) Deck 2 ....
         List<Deck> decks = deckController.decks;
         for (int i=0; i<decks.size(); i++) {
@@ -39,7 +40,7 @@ public class FlashcardSystem {
         return decks.get(Integer.parseInt(x));
     }
 
-    public Flashcard displayCards(Deck deck) {
+    private Flashcard displayCards(Deck deck) {
         //TODO: change format to (0) Back (1) Card 1 (2) Card 2 ....
         List<Flashcard> flashcards = deck.getFlashcards();
         for (int i=0; i<flashcards.size(); i++) {
@@ -50,19 +51,34 @@ public class FlashcardSystem {
         return flashcards.get(Integer.parseInt(x));
     }
 
-    public void displaySelectDeckToStudyMenu() {
+    private void displaySelectDeckToStudyMenu() {
         System.out.println("Which deck would you like to study?");
         Deck deck = displayDecks();
-        //TODO: now start a study session for the selected Deck deck
+        StudySession session = displaySelectSessionMenu(deck);
+        sessionPresenter.displaySession(session, "-1");
     }
 
-    public void displayCreateDeckMenu() {
+    private StudySession displaySelectSessionMenu(Deck deck) {
+        System.out.println("Which session would you like to study?");
+        System.out.println("(0) Practice");
+        String select = scanner.nextLine();
+        //TODO: check for invalid input
+        switch (select) {
+            case "0":
+                return sessionController.createPracticeSession(deck);
+            default:
+                // TODO: properly handle
+                return null;
+        }
+    }
+
+    private void displayCreateDeckMenu() {
         System.out.println("Name of New Deck:");
         String name = scanner.nextLine();
         deckController.createDeck(name);
     }
 
-    public void displayEditDeckMenu() {
+    private void displayEditDeckMenu() {
         System.out.println("Which deck would you like to edit?");
         Deck deck = displayDecks();
         System.out.println("(0) Back (1) Add a Card (2) Select Card for Edit (3) Rename Deck (4) Delete Deck");
@@ -87,13 +103,13 @@ public class FlashcardSystem {
         }
     }
 
-    public void displayRenameDeckMenu(Deck deck) {
+    private void displayRenameDeckMenu(Deck deck) {
         System.out.println("New Name for Deck:");
         String name = scanner.nextLine();
         deckController.renameDeck(deck, name);
     }
 
-    public void displayAddCardMenu(Deck deck) {
+    private void displayAddCardMenu(Deck deck) {
         System.out.println("Front of card:");
         String front = scanner.nextLine();
         System.out.println("Back of card:");
@@ -101,7 +117,7 @@ public class FlashcardSystem {
         deckController.addCard(deck, front, back);
     }
 
-    public void displayEditCardMenu(Deck deck) {
+    private void displayEditCardMenu(Deck deck) {
         System.out.println("Which card would you like to edit?");
         Flashcard card = displayCards(deck);
         System.out.println("(0) Back (1) Edit Front (2) Edit Back (3) Delete");
