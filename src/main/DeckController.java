@@ -14,8 +14,10 @@ public class DeckController {
         this.decks = new ArrayList<Deck>();
     }
 
-    public void createDeck(String name){
-        decks.add(DeckInteractor.createDeck(name));
+    public Deck createDeck(String name){
+        Deck deck = DeckInteractor.createDeck(name);
+        decks.add(deck);
+        return deck;
     }
 
     public void renameDeck(Deck deck, String newName){
