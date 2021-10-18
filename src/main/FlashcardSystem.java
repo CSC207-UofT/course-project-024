@@ -63,13 +63,11 @@ public class FlashcardSystem {
         System.out.println("(0) Practice");
         String select = scanner.nextLine();
         //TODO: check for invalid input
-        switch (select) {
-            case "0":
-                return sessionController.createPracticeSession(deck);
-            default:
-                // TODO: properly handle
-                return null;
+        if (select.equals("0")) {
+            return sessionController.createPracticeSession(deck);
         }
+        // TODO: remove once invalid input is properly handled
+        return null;
     }
 
     private void displayCreateDeckMenu() {

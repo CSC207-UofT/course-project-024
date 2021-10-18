@@ -4,7 +4,7 @@ import java.util.List;
 public class Account {
     private String username;
     private final String password;
-    private List<Deck> decks;
+    private final List<Deck> decks;
 
     public Account(String username, String password, List<Deck> decks){
         this.username = username;

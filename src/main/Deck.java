@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Deck {
     private String name;
-    private List<Flashcard> flashcards;
+    private final List<Flashcard> flashcards;
 
     public Deck(String name, List<Flashcard> flashcards){
         this.name = name;

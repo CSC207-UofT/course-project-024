@@ -1,5 +1,4 @@
 public class FlashcardInteractor {
-
     /**
      * Construct and return a new Flashcard.
      * @param front The front of the new Flashcard to be returned
