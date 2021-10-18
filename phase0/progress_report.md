@@ -45,13 +45,9 @@ For Phase 0, Mahathi worked on implementing Account and AccountInteractor. Fatim
 We’ve identified the next steps for our program, which include:
 
 - Finishing up interactions with editing flashcards in a deck
-
 - Unifying the flashcard system with the addition of accounts, so that decks belong to accounts
-
 - Adding more StudySessions than just PracticeSession
-
 - Finding a way to keep data after closing the program, like accounts, decks, and flashcard proficiencies
-
-- Adding a graphical user interfaceAdding exceptions and handling exceptions for validation
-
+- Adding a graphical user interface
+- Adding exceptions and handling exceptions for validation
 - Consider extensions such as implementing a friend system, or making a graded testing system for the user’s proficiency with a deck of flashcards
