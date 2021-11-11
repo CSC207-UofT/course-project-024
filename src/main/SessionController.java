@@ -48,4 +48,16 @@ public class SessionController {
         // TODO: throw an exception if the deck is empty
         return SessionInteractor.getNextCard(session);
     }
+
+    public StudySession createLearningSession(Deck deck) {
+        StudySession session = SessionInteractor.createLearningSession(deck);
+        sessions.add(session);
+        recent = session;
+        return recent;
+    }
+
+    public void postAnswerUpdate(StudySession session, boolean wasCorrect) {
+        SessionInteractor.postAnswerUpdate(session, wasCorrect);
+    }
+
 }

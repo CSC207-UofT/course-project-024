@@ -3,11 +3,11 @@ import java.util.Map;
 
 // TODO documentation
 public abstract class StudySession {
-    // TODO consider changing some of these private
     protected Deck deck;
-    protected Map<Flashcard, Integer> proficiencies = new HashMap<>();
+    protected Map<Flashcard, FlashcardData> flashcardData = new HashMap<>();
     protected String name;
-    protected int currentCard;
+    // protected int currentCard;
+    protected Flashcard currentCard;
     protected CardShuffler cardshuffler;
 
     public StudySession(Deck deck, String name, CardShuffler cardShuffler) {
@@ -21,22 +21,28 @@ public abstract class StudySession {
         this.name = "Untitled";
     }
 
-    public Flashcard getNextCard(){
-        currentCard = currentCard + 1;
-        return deck.getFlashcards().get(currentCard);
-    };
-
-    public void shuffleCards() {
-        cardshuffler.shuffleCards(this.deck, this.proficiencies);
-        currentCard = 0;
+    // TODO: REMOVE, FOR TESTING
+    public StudySession(Deck deck) {
+        this.deck = deck;
+        this.name = "Untitled";
     }
 
-    public Map<Flashcard, Integer> getProficiencies(){
-        return proficiencies;
+    public abstract Flashcard getNextCard();
+//        currentCard = currentCard + 1;
+//        return deck.getFlashcards().get(currentCard);
+//    };
+
+//    public void shuffleCards() {
+//        cardshuffler.shuffleCardsAndReturnFirst(this.deck, this.flashcardData);
+//        currentCard = 0;
+//    }
+
+    public Map<Flashcard, FlashcardData> getFlashcardData(){
+        return this.flashcardData;
     }
 
-    public int getCurrentCard(){
-        return currentCard;
+    public Flashcard getCurrentCard(){
+        return this.currentCard;
     }
 
 }

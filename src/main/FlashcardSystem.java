@@ -60,11 +60,13 @@ public class FlashcardSystem {
 
     private StudySession displaySelectSessionMenu(Deck deck) {
         System.out.println("Which session would you like to study?");
-        System.out.println("(0) Practice");
+        System.out.println("(0) Practice (1) Learning");
         String select = scanner.nextLine();
         //TODO: check for invalid input
         if (select.equals("0")) {
             return sessionController.createPracticeSession(deck);
+        } else if (select.equals("1")) {
+            return sessionController.createLearningSession(deck);
         }
         // TODO: remove once invalid input is properly handled
         return null;
