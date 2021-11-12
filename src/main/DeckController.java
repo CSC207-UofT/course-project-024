@@ -3,20 +3,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeckController {
-    public List<Deck> decks;
 
-    public DeckController(List<Deck> decks){
-        this.decks = decks;
-    }
+    public DeckController() {}
 
-    public DeckController(){
-        this.decks = new ArrayList<>();
-    }
-
-    public Deck createDeck(String name){
+    public Deck createDeck(String name, Account account){
         Deck deck = DeckInteractor.createDeck(name);
-        decks.add(deck);
+        AccountInteractor.addDeckToAccount(account, deck);
         return deck;
+    }
+
+    public void deleteDeck(Deck deck, Account account) {
+        AccountInteractor.deleteDeckFromAccount(account, deck);
     }
 
     public void renameDeck(Deck deck, String newName){
@@ -27,12 +24,12 @@ public class DeckController {
         DeckInteractor.addFlashcard(deck, front, back);
     }
 
-    public Flashcard.Front createFront(String text, Image image) {
-        return DeckInteractor.createFront(text, image);
-    }
-
     public void deleteCard(Deck deck, Flashcard flashcard){
         DeckInteractor.deleteFlashcard(deck, flashcard);
+    }
+
+    public Flashcard.Front createFront(String text, Image image) {
+        return DeckInteractor.createFront(text, image);
     }
 
 }
