@@ -9,6 +9,7 @@ public abstract class StudySession {
     protected Map<Flashcard, FlashcardData> flashcardData = new HashMap<>();
     protected String name;
     protected int currentCard;
+    protected CardShuffler cardshuffler;
 
     public StudySession(Deck deck, String name) {
         this.deck = deck;

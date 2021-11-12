@@ -34,7 +34,7 @@ public class BasicShuffle implements CardShuffler {
         } else { // counter == flashcardData.size()
             System.out.println("Reached end, shuffling!");
             Collections.shuffle(linkedListDeck);
-            counter = 0;
+            counter = 1;
             return linkedListDeck.getFirst();
 
         }
