@@ -33,7 +33,7 @@ public class SmartShuffle implements CardShuffler {
 
     public void updateLinkedListDeck(Flashcard currentFlashcard) {
         int stepsToSendBackward = this.flashcardData.get(currentFlashcard).getCardsUntilDue();
-        System.out.println(stepsToSendBackward);
+        // System.out.println(stepsToSendBackward);
         int currIndex = -1;
         for (int i = 0; i < this.linkedListDeck.size(); i++) {
             if (this.linkedListDeck.get(i) == currentFlashcard) {
