@@ -20,21 +20,21 @@ public class BasicShuffle implements CardShuffler {
     @Override
     public Flashcard returnChosenFlashcard() {
         if (counter == 0) {
-            System.out.println("First run!");
+            // System.out.println("First run!");
             shuffleCards();
             counter += 1;
             return linkedListDeck.getFirst();
         } else if (counter < linkedListDeck.size()) {
-            System.out.println("Removing first and adding to last");
+            // System.out.println("Removing first and adding to last");
             Flashcard oldFirstFlashcard = linkedListDeck.getFirst();
             linkedListDeck.removeFirst();
             linkedListDeck.addLast(oldFirstFlashcard);
             counter += 1;
             return linkedListDeck.getFirst();
         } else { // counter == flashcardData.size()
-            System.out.println("Reached end, shuffling!");
+            // System.out.println("Reached end, shuffling!");
             Collections.shuffle(linkedListDeck);
-            counter = 0;
+            counter = 1;
             return linkedListDeck.getFirst();
 
         }
