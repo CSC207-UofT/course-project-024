@@ -5,12 +5,14 @@ public class WorstToBestShuffle implements CardShuffler{
     public void shuffleCards(Deck deck, Map<Flashcard, Integer> proficiencies) {
         for (int i = 0; i < deck.getFlashcards().size(); i++){
             Flashcard cardOne = deck.getFlashcards().get(i);
-            while (i > 0 && proficiencies.get(deck.getFlashcards().get(i - 1)) > proficiencies.get(cardOne)){
-                deck.getFlashcards().remove(i);
-                deck.getFlashcards().add(i, deck.getFlashcards().get(i-1));
-                i = i - 1;
+            int j = i;
+            while (j > 0 && proficiencies.get(deck.getFlashcards().get(j - 1)) > proficiencies.get(cardOne)){
+                deck.getFlashcards().remove(j);
+                deck.getFlashcards().add(j, deck.getFlashcards().get(j - 1));
+                j = j - 1;
             }
-            deck.getFlashcards().add(i, cardOne);
+            deck.getFlashcards().remove(j);
+            deck.getFlashcards().add(j, cardOne);
 
         }
     }
