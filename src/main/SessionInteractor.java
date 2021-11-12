@@ -11,8 +11,8 @@ public class SessionInteractor {
         return session.getNextCard();
     }
 
-    public static StudySession createLearningSession(Deck deck) {
-        return new LearningSession(deck);
+    public static StudySession createLearningSession(Deck deck, ShuffleType type) {
+        return new LearningSession(deck, type);
     }
 
     public static void postAnswerUpdate(StudySession session, boolean wasCorrect) {

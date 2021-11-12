@@ -31,7 +31,7 @@ class WorstToBestShuffleTest {
 
         SessionController sessionController = new SessionController();
 
-        StudySession session = sessionController.createLearningSession(deck);
+        StudySession session = sessionController.createLearningSession(deck, ShuffleType.SMART);
 
         Map<Flashcard, FlashcardData> flashcardData = session.flashcardData;
 

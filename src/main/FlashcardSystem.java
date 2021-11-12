@@ -66,7 +66,7 @@ public class FlashcardSystem {
         if (select.equals("0")) {
             return sessionController.createPracticeSession(deck);
         } else if (select.equals("1")) {
-            return sessionController.createLearningSession(deck);
+            return sessionController.createLearningSession(deck, ShuffleType.SMART);
         }
         // TODO: remove once invalid input is properly handled
         return null;

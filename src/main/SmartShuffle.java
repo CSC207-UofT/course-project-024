@@ -46,12 +46,12 @@ public class SmartShuffle implements CardShuffler {
             // send currentFlashcard to the back
             this.linkedListDeck.addLast(currentFlashcard);
             this.linkedListDeck.remove(currIndex);
-            System.out.println("Sent to the back");
+            // System.out.println("Sent to the back");
         } else {
             // send currentFlashcard stepsToSendBackward number of indices
             this.linkedListDeck.remove(currIndex);
             this.linkedListDeck.add(currIndex + stepsToSendBackward, currentFlashcard);
-            System.out.println("Sent " + stepsToSendBackward + " steps backward.");
+            // System.out.println("Sent " + stepsToSendBackward + " steps backward.");
         }
 
     }

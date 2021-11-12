@@ -49,8 +49,8 @@ public class SessionController {
         return SessionInteractor.getNextCard(session);
     }
 
-    public StudySession createLearningSession(Deck deck) {
-        StudySession session = SessionInteractor.createLearningSession(deck);
+    public StudySession createLearningSession(Deck deck, ShuffleType type) {
+        StudySession session = SessionInteractor.createLearningSession(deck, type);
         sessions.add(session);
         recent = session;
         return recent;

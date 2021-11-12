@@ -2,14 +2,20 @@ import java.util.HashMap;
 
 public class LearningSession extends StudySession implements UpdatingSession {
 
-    public LearningSession(Deck deck) {
+
+
+
+    public LearningSession(Deck deck, ShuffleType scheduler) {
         super(deck);
         this.flashcardData = new HashMap<>();
         this.deck = deck;
         for (Flashcard card : this.deck.getFlashcards()) {
             this.flashcardData.put(card, new FlashcardData(0));
         }
-        this.cardshuffler = new SmartShuffle(this.flashcardData);
+
+        if (scheduler == ShuffleType.SMART) {
+            this.cardshuffler = new SmartShuffle(this.flashcardData);
+        }
 
     }
 
