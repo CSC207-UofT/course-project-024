@@ -1,10 +1,9 @@
 package main;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
+
 
 public interface DataBaseGateway {
     static void main(String[] args) {
@@ -19,6 +18,26 @@ public interface DataBaseGateway {
             }
         } catch (Exception e){
             e.printStackTrace();
+        }
+    }
+
+    default ArrayList<Deck> getDecksFromDB(){
+        try {
+            ArrayList<Deck> deckList = new ArrayList<Deck>();
+            ResultSet decks = createStatement().executeQuery("Select * from decks");
+            while (decks.next()){
+                Deck newDeck = DeckInteractor.createDeck(decks.getString("deck_name"));
+                deckList.add(DeckInteractor.createDeck(decks.getString("deck_name")));
+                ResultSet correspondingCards = createStatement().executeQuery("Select * from cards where deck_id = '" + decks.getString("deck_id") + "'");
+                while (correspondingCards.next()){
+                    DeckController.addCard(newDeck, correspondingCards.getString("front"), correspondingCards.getString("back"));
+                }
+                deckList.add(newDeck);
+            }
+            return deckList;
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
     }
 
