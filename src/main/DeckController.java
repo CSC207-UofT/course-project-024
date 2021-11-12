@@ -1,5 +1,4 @@
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DeckController implements DataBaseGateway {
@@ -19,7 +18,7 @@ public class DeckController implements DataBaseGateway {
     }
 
     public void renameDeck(Deck deck, String newName){
-        updateDeckInDB("decks", "deck_name", deck.getName(), newName);
+        updateRowInDB("decks", "deck_name", deck.getName(), newName);
         DeckInteractor.renameDeck(deck, newName);
     }
 
@@ -29,6 +28,7 @@ public class DeckController implements DataBaseGateway {
     }
 
     public void deleteCard(Deck deck, Flashcard flashcard){
+        deleteCardInDB(deck.getName(), flashcard.getFront(), flashcard.getBack());
         DeckInteractor.deleteFlashcard(deck, flashcard);
     }
 
