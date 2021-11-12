@@ -1,4 +1,5 @@
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DeckController implements DataBaseGateway {
@@ -8,7 +9,14 @@ public class DeckController implements DataBaseGateway {
 
 //    public DeckController(){this.decks = new ArrayList<>();}
 
-    public DeckController(){this.decks = getDecksFromDB();}
+    public DeckController(){
+        ArrayList<Deck> decksFromDB = getDecksFromDB();
+        if (decksFromDB.size() > 0){
+            this.decks = decksFromDB;
+        }else{
+            this.decks = new ArrayList<>();
+        }
+    }
 
     public Deck createDeck(String name){
         Deck deck = DeckInteractor.createDeck(name);
