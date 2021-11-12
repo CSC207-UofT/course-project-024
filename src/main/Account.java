@@ -63,4 +63,43 @@ public class Account {
     public void deleteSession(Deck deck, StudySession session) {
         this.decksToSessions.get(deck).remove(session);
     }
+
+    public void updateSessionsOfDeck(Deck deck) {
+
+        List<Flashcard> flashcardList = deck.getFlashcards();
+
+        List<StudySession> listOfSessions = this.decksToSessions.get(deck);
+
+        for (StudySession session : listOfSessions) {
+            // First, check for updates needed from adding a card:
+            // Loop through flashcardList. If it is in flashcardData, move on.
+            // If it is not in flashcardData, add it to flashcardData.
+            // Second, check for updates needed from deleting a card:
+            // Loop through flashcardData. If it is in flashcardList, move on.
+            // If it is not in flashcardList, then delete it from flashcardData
+
+            Map<Flashcard, FlashcardData> flashcardToFlashcardData = session.getFlashcardData();
+
+            for (Flashcard flashcard : flashcardList) {
+                if (!session.getFlashcardData().containsKey(flashcard)) {
+                    session.flashcardData.put(flashcard, new FlashcardData(0));
+                }
+            }
+
+            for (Flashcard flashcard : flashcardToFlashcardData.keySet()) {
+                if (!flashcardList.contains(flashcard)) {
+                    flashcardToFlashcardData.remove(flashcard);
+                }
+            }
+
+        }
+
+
+
+
+
+
+
+
+    }
 }

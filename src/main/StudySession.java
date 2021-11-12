@@ -6,7 +6,7 @@ import java.util.Map;
 public abstract class StudySession {
     // TODO consider changing some of these private
     protected Deck deck;
-    protected Map<Flashcard, Integer> proficiencies = new HashMap<>();
+    protected Map<Flashcard, FlashcardData> flashcardData = new HashMap<>();
     protected String name;
     protected int currentCard;
 
@@ -26,12 +26,13 @@ public abstract class StudySession {
         Collections.shuffle(this.deck.getFlashcards());
         currentCard = 0;
     }
-    public Map<Flashcard, Integer> getProficiencies(){
-        return proficiencies;
-    }
 
     public int getCurrentCard(){
         return currentCard;
+    }
+
+    public Map<Flashcard, FlashcardData> getFlashcardData() {
+        return this.flashcardData;
     }
 
 }

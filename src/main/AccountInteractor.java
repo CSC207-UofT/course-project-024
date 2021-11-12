@@ -23,4 +23,9 @@ public class AccountInteractor {
     public static void deleteSessionFromAccount(Account account, Deck deck, StudySession session) {
         account.deleteSession(deck, session);
     }
+
+    public static void updateSessionsOfDeck(Account account, Deck deck) {
+        account.updateSessionsOfDeck(deck);
+    }
+
 }

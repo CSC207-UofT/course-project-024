@@ -114,7 +114,7 @@ public class FlashcardSystem {
         Flashcard.Front front = deckController.createFront(frontInput, null);
         System.out.println("Back of card:");
         String back = scanner.nextLine();
-        deckController.addCard(deck, front, back);
+        deckController.addCard(account, deck, front, back);
     }
 
     private void displayEditCardMenu(Deck deck) {
@@ -134,7 +134,7 @@ public class FlashcardSystem {
                 //TODO: edit front
                 break;
             case "3":
-                deckController.deleteCard(deck, card);
+                deckController.deleteCard(account, deck, card);
                 break;
         }
     }

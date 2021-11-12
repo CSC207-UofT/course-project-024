@@ -18,16 +18,22 @@ public class DeckController {
         DeckInteractor.renameDeck(deck, newName);
     }
 
-    public void addCard(Deck deck, Flashcard.Front front, String back){
+    public void addCard(Account account, Deck deck, Flashcard.Front front, String back){
         DeckInteractor.addFlashcard(deck, front, back);
+        updateSessionsOfDeck(account, deck);
     }
 
-    public void deleteCard(Deck deck, Flashcard flashcard){
+    public void deleteCard(Account account, Deck deck, Flashcard flashcard){
         DeckInteractor.deleteFlashcard(deck, flashcard);
+        updateSessionsOfDeck(account, deck);
     }
 
     public Flashcard.Front createFront(String text, Image image) {
         return DeckInteractor.createFront(text, image);
+    }
+
+    public void updateSessionsOfDeck(Account account, Deck deck) {
+        AccountInteractor.updateSessionsOfDeck(account, deck);
     }
 
 }
