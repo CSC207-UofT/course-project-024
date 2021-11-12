@@ -1,4 +1,3 @@
-package main;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -27,10 +26,9 @@ public interface DataBaseGateway {
             ResultSet decks = createStatement().executeQuery("Select * from decks");
             while (decks.next()){
                 Deck newDeck = DeckInteractor.createDeck(decks.getString("deck_name"));
-                deckList.add(DeckInteractor.createDeck(decks.getString("deck_name")));
                 ResultSet correspondingCards = createStatement().executeQuery("Select * from cards where deck_id = '" + decks.getString("deck_id") + "'");
                 while (correspondingCards.next()){
-                    DeckController.addCard(newDeck, correspondingCards.getString("front"), correspondingCards.getString("back"));
+                    DeckInteractor.addFlashcard(newDeck, correspondingCards.getString("front"), correspondingCards.getString("back"));
                 }
                 deckList.add(newDeck);
             }
