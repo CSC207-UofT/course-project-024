@@ -3,6 +3,6 @@ public class Main {
 //        FlashcardSystem fs = new FlashcardSystem();
 //        fs.displayMainMenu();
         // TODO: properly use modules instead of this hack for JavaFX
-        UI.main(args);
+        LearningSessionUI.main(args);
     }
 }
