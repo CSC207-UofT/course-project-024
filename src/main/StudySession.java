@@ -10,14 +10,14 @@ public abstract class StudySession {
     protected GetNextCard cardShuffler;
 
     public StudySession(Deck deck, String name, GetNextCard cardShuffler) {
-        this.deck = deck.copyDeck();
+        this.deck = deck;
         this.name = name;
         setCardShuffler(cardShuffler);
         setProficiencies();
     }
 
     public StudySession(Deck deck, GetNextCard cardShuffler) {
-        this.deck = deck.copyDeck();
+        this.deck = deck;
         this.name = "Untitled";
         this.cardShuffler = cardShuffler;
     }

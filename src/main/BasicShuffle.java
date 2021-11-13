@@ -4,8 +4,9 @@ import java.util.Map;
 public class BasicShuffle implements GetNextCard {
     @Override
     public Flashcard getNextCard(Deck deck, Map<Flashcard, Integer> proficiencies) {
-        Collections.shuffle(deck.getFlashcards());
-        Flashcard card = deck.getFlashcards().get(0);
+        Deck newDeck = deck.copyDeck();
+        Collections.shuffle(newDeck.getFlashcards());
+        Flashcard card = newDeck.getFlashcards().get(0);
         return card;
     }
 }
