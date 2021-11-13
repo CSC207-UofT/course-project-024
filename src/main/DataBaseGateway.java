@@ -7,20 +7,6 @@ import java.util.NoSuchElementException;
 
 
 public interface DataBaseGateway {
-    static void main(String[] args) {
-        try {
-            String url = "mysql://b7da4dd8912b8e:3620922e@us-cdbr-east-04.cleardb.com/heroku_ee9e4fde75342a4?reconnect=true";
-            Connection connection = DriverManager.getConnection("jdbc:" + url, "b7da4dd8912b8e", "3620922e");
-            Statement statement = connection.createStatement();
-
-            ResultSet results = statement.executeQuery("SELECT * FROM main");
-            while (results.next()) {
-                System.out.println(results.getString("User"));
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
 
     default Statement createStatement() {
         try {
