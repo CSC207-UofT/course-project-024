@@ -17,17 +17,17 @@ public class DeckControllerTest {
 
     @Test
     void addCard() {
-        Flashcard.Front front = deckController.createFront("front", null);
-        deckController.addCard(account, deck, front, "back");
+        Deck deck = deckController.createDeck("Deck Name");
+        deckController.addCard(deck, "front", null, "back");
         // TODO: check if card exists in account's Deck-StudySession proficiency map
         assertEquals(1, deck.getFlashcards().size());
     }
 
     @Test
     void deleteCard() {
-        Flashcard.Front front = deckController.createFront("front", null);
-        deckController.addCard(account, deck, front, "back");
-        deckController.deleteCard(account, deck, deck.getFlashcards().get(0));
+        Deck deck = deckController.createDeck("Deck Name");
+        deckController.addCard(deck, "front",null, "back");
+        deckController.deleteCard(deck, deck.getFlashcards().get(0));
         assertEquals(0, deck.getFlashcards().size());
     }
 

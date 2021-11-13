@@ -17,12 +17,7 @@ public class DeckController {
     public void renameDeck(Deck deck, String newName){
         DeckInteractor.renameDeck(deck, newName);
     }
-
-    public void addCard(Account account, Deck deck, Flashcard.Front front, String back){
-        DeckInteractor.addFlashcard(deck, front, back);
-        updateSessionsOfDeck(account, deck);
-    }
-
+  
     public void deleteCard(Account account, Deck deck, Flashcard flashcard){
         DeckInteractor.deleteFlashcard(deck, flashcard);
         updateSessionsOfDeck(account, deck);
@@ -30,6 +25,10 @@ public class DeckController {
 
     public Flashcard.Front createFront(String text, Image image) {
         return DeckInteractor.createFront(text, image);
+
+    public void addCard(Deck deck, String frontText, Image frontImage, String back) {
+        DeckInteractor.addFlashcard(deck, frontText, frontImage, back);
+        updateSessionsOfDeck(account, deck);
     }
 
     public void updateSessionsOfDeck(Account account, Deck deck) {
