@@ -26,16 +26,6 @@ public abstract class StudySession {
         return cardshuffler.returnChosenFlashcard();
     };
 
-    public void setProficiencies(){
-        for (Flashcard flashcard : deck.getFlashcards()){
-            proficiencies.put(flashcard, 0);
-        }
-    }
-
-
-    public Map<Flashcard, Integer> getProficiencies(){
-        return proficiencies;
-    }
 
     public void setCardshuffler(CardShuffler cardshuffler){
         this.cardshuffler = cardshuffler;
