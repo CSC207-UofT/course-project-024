@@ -1,47 +1,30 @@
-import java.util.ArrayList;
 import java.util.List;
 
 public class SessionController {
-    private List<StudySession> sessions;
-    private StudySession recent;
 
-    public SessionController() {
-        this.sessions = new ArrayList<>();
+    public SessionController() {}
+
+    // TODO: createSession for every type
+    public StudySession getPracticeSession(Deck deck, Account account) {
+        List<StudySession> sessions = account.getDecksToSessions().get(deck);
+        StudySession existingSession = getExistingSameSession(sessions, PracticeSession.class);
+        // if session already exists, resume it, else, create a new session
+        if (existingSession == null) {
+            StudySession newSession = SessionInteractor.createPracticeSession(deck);
+            AccountInteractor.addSessionToAccount(account, deck, newSession);
+            return newSession;
+        } else {
+            return existingSession;
+        }
     }
 
-    public StudySession createPracticeSession(Deck deck) {
-        // TODO: createSession for every type
-        StudySession session = SessionInteractor.createPracticeSession(deck);
-        sessions.add(session);
-        recent = session;
-        return recent;
-    }
-
-    // name of session if they want to resume a specific session
-    public StudySession resumeSession(String name) {
-        for (StudySession studySession : this.sessions) {
-            if (studySession.name.equals(name)) {
-                recent = studySession;
-                return studySession;
+    private StudySession getExistingSameSession(List<StudySession> sessions, Class<? extends StudySession> sessionClass) {
+        for (StudySession session : sessions) {
+            if (sessionClass.isInstance(session)) {
+                return session;
             }
         }
-        return resumeSession();
-    }
-
-    // resume recent session if they do not specify, if no recent choose last one created, if no options throw error
-    public StudySession resumeSession() {
-        if (recent != null){
-            return recent;
-        }
-        else if (this.sessions.size() == 0){
-           // TODO throw an error
-            return null;
-        }
-        else {
-            StudySession session = this.sessions.get(this.sessions.size() - 1);
-            recent = session;
-            return session;
-        }
+        return null;
     }
 
     public Flashcard getNextCard(StudySession session) {
