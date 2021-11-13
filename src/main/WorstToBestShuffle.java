@@ -1,22 +1,33 @@
+import java.util.ArrayList;
 import java.util.Map;
 
-public class WorstToBestShuffle implements GetNextCard {
+public class WorstToBestShuffle implements CardShuffler {
+
+    int index = 0;
+    Deck deckCopy;
+    Map<Flashcard, Integer> proficiencies;
+
+    public void setDeck(Deck deck){
+        this.deck = deck.copyDeck();
+    }
     @Override
-    public Flashcard getNextCard(Deck deck, Map<Flashcard, Integer> proficiencies) {
-        Deck newDeck = deck.copyDeck();
-        for (int i = 0; i < newDeck.getFlashcards().size(); i++){
-            Flashcard cardOne = newDeck.getFlashcards().get(i);
+    public void shuffleCards(){
+        for (int i = 0; i < deckCopy.getFlashcards().size(); i++){
+            Flashcard cardOne = deckCopy.getFlashcards().get(i);
             int j = i;
-            while (j > 0 && proficiencies.get(newDeck.getFlashcards().get(j - 1)) > proficiencies.get(cardOne)){
-                newDeck.getFlashcards().remove(j);
-                newDeck.getFlashcards().add(j, newDeck.getFlashcards().get(j - 1));
+            while (j > 0 && proficiencies.get(deckCopy.getFlashcards().get(j - 1)) > proficiencies.get(cardOne)){
+                deckCopy.getFlashcards().remove(j);
+                deckCopy.getFlashcards().add(j, deckCopy.getFlashcards().get(j - 1));
                 j = j - 1;
             }
-            newDeck.getFlashcards().remove(j);
-            newDeck.getFlashcards().add(j, cardOne);
-
+            deckCopy.getFlashcards().remove(j);
+            deckCopy.getFlashcards().add(j, cardOne);
         }
-        Flashcard card = newDeck.getFlashcards().get(0);
+
+    }
+    @Override
+    public Flashcard returnChosenFlashcard() {
+        Flashcard card = deckCopy.getFlashcards().get(0);
         return card;
     }
 }

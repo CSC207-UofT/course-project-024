@@ -1,6 +1,6 @@
 import java.util.Map;
 
-public class SmartShuffle implements GetNextCard {
+public class SmartShuffle implements CardShuffler {
     @Override
     public Flashcard getNextCard(Deck deck, Map<Flashcard, Integer> proficiencies) {
 
