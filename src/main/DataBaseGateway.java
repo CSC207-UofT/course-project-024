@@ -1,12 +1,43 @@
 
-import com.mysql.cj.protocol.Resultset;
-
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 
 public interface DataBaseGateway {
+    static void main(String[] args) {
+        try {
+            String url = "mysql://b7da4dd8912b8e:3620922e@us-cdbr-east-04.cleardb.com/heroku_ee9e4fde75342a4?reconnect=true";
+            Connection connection = DriverManager.getConnection("jdbc:" + url, "b7da4dd8912b8e", "3620922e");
+            Statement statement = connection.createStatement();
+
+//            PreparedStatement pstmt = connection.prepareStatement("INSERT INTO images VALUES(?, ?)");
+//            pstmt.setString(1, "sample image");
+//            InputStream in = new FileInputStream("/Users/abdus/Desktop/google.jpeg");
+//            pstmt.setBlob(2, in);
+//            pstmt.execute();
+
+            ResultSet results =  statement.executeQuery("SELECT * from images");
+            while (results.next()) {
+                Blob blob = results.getBlob("image");
+                InputStream in = blob.getBinaryStream();
+                OutputStream out = new FileOutputStream("someFile.jpeg");
+                byte[] buff = new byte[4096];  // how much of the blob to read/write at a time
+                int len = 0;
+
+                while ((len = in.read(buff)) != -1) {
+                    out.write(buff, 0, len);
+                }
+                System.out.println(blob);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     default Statement createStatement() {
         try {

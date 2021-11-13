@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -6,8 +5,6 @@ public class DeckController implements DataBaseGateway {
     public List<Deck> decks;
 
     public DeckController(List<Deck> decks){this.decks = decks;}
-
-//    public DeckController(){this.decks = new ArrayList<>();}
 
     public DeckController(){
         ArrayList<Deck> decksFromDB = getDecksFromDB();
