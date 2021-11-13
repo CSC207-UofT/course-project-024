@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,8 +23,8 @@ public class DeckController {
         DeckInteractor.renameDeck(deck, newName);
     }
 
-    public void addCard(Deck deck, String front, String back){
-        DeckInteractor.addFlashcard(deck, front, back);
+    public void addCard(Deck deck, String frontText, Image frontImage, String back) {
+        DeckInteractor.addFlashcard(deck, frontText, frontImage, back);
     }
 
     public void deleteCard(Deck deck, Flashcard flashcard){
