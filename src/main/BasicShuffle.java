@@ -1,43 +1,39 @@
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.Map;
 
 public class BasicShuffle implements CardShuffler {
 
-    int counter = 0;
-    LinkedList<Flashcard> linkedListDeck;
+    int index = 0;
+    ArrayList<Flashcard> deckCopy;
 
     public BasicShuffle(Map<Flashcard, FlashcardData> flashcardData) {
-        // This turns an ImmutableList, which ToList returns, to a LinkedList. Don't ask me why.
-        this.linkedListDeck = new LinkedList<Flashcard>(flashcardData.keySet().stream().toList());
+        // This turns an ImmutableList, which ToList returns, to an ArrayList. Don't ask me why.
+        this.deckCopy = new ArrayList<>(flashcardData.keySet().stream().toList());
     }
 
-    @Override
     public void shuffleCards() {
-        Collections.shuffle(this.linkedListDeck);
+        Collections.shuffle(this.deckCopy);
     }
 
     @Override
     public Flashcard returnChosenFlashcard() {
-        if (counter == 0) {
-            System.out.println("First run!");
+        Flashcard chosenFlashcard;
+        if (index == 0) {
+            // System.out.println("First run!");
             shuffleCards();
-            counter += 1;
-            return linkedListDeck.getFirst();
-        } else if (counter < linkedListDeck.size()) {
-            System.out.println("Removing first and adding to last");
-            Flashcard oldFirstFlashcard = linkedListDeck.getFirst();
-            linkedListDeck.removeFirst();
-            linkedListDeck.addLast(oldFirstFlashcard);
-            counter += 1;
-            return linkedListDeck.getFirst();
-        } else { // counter == flashcardData.size()
-            System.out.println("Reached end, shuffling!");
-            Collections.shuffle(linkedListDeck);
-            counter = 1;
-            return linkedListDeck.getFirst();
+            chosenFlashcard = this.deckCopy.get(index);
+            index += 1;
+        } else if (index < this.deckCopy.size() - 1) {
+            // System.out.println("Removing first and adding to last");
+            chosenFlashcard = this.deckCopy.get(index);
+            index += 1;
+        } else { // index == flashcardData.size() - 1
+            // System.out.println("Reached end, shuffling!");
+            chosenFlashcard = this.deckCopy.get(index);
+            index = 0;
 
         }
-
+        return chosenFlashcard;
     }
 }
