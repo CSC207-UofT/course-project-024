@@ -30,16 +30,13 @@ public class BasicShuffle implements CardShuffler {
     public Flashcard returnChosenFlashcard() {
         Flashcard chosenFlashcard;
         if (index == 0) {
-            // System.out.println("First run!");
             shuffleCards();
             chosenFlashcard = this.deckCopy.get(index);
             index += 1;
         } else if (index < this.deckCopy.size() - 1) {
-            // System.out.println("Removing first and adding to last");
             chosenFlashcard = this.deckCopy.get(index);
             index += 1;
         } else { // index == flashcardData.size() - 1
-            // System.out.println("Reached end, shuffling!");
             chosenFlashcard = this.deckCopy.get(index);
             index = 0;
 

@@ -32,11 +32,17 @@ public class SessionController {
         return SessionInteractor.getNextCard(session);
     }
 
-    public StudySession createLearningSession(Deck deck, ShuffleType type) {
-        StudySession session = SessionInteractor.createLearningSession(deck, type);
-        sessions.add(session);
-        recent = session;
-        return recent;
+    public StudySession getLearningSession(Deck deck, Account account, ShuffleType type) {
+        List<StudySession> sessions = account.getDecksToSessions().get(deck);
+        StudySession existingSession = getExistingSameSession(sessions, LearningSession.class);
+        // if session already exists, resume it, else, create a new session
+        if (existingSession == null) {
+            StudySession newSession = SessionInteractor.createLearningSession(deck, type);
+            AccountInteractor.addSessionToAccount(account, deck, newSession);
+            return newSession;
+        } else {
+            return existingSession;
+        }
     }
 
     public void postAnswerUpdate(StudySession session, boolean wasCorrect) {
