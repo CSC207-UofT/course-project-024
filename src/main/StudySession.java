@@ -31,4 +31,8 @@ public abstract class StudySession {
         this.cardshuffler = cardshuffler;
     }
 
+    public Map<Flashcard, FlashcardData> getFlashcardData() {
+        return this.flashcardData;
+    }
+
 }
