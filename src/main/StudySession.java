@@ -23,7 +23,7 @@ public abstract class StudySession {
 
     public Flashcard returnChosenFlashcard(){
         return cardshuffler.returnChosenFlashcard();
-    };
+    }
 
 
     public void setCardshuffler(CardShuffler cardshuffler){
