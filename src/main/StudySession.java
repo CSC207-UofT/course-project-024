@@ -13,7 +13,6 @@ public abstract class StudySession {
         this.deck = deck;
         this.name = name;
         setCardshuffler(cardShuffler);
-        setProficiencies();
     }
 
     public StudySession(Deck deck, CardShuffler cardShuffler) {

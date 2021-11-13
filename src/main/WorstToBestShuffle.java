@@ -5,17 +5,17 @@ public class WorstToBestShuffle implements CardShuffler {
 
     int index = 0;
     Deck deckCopy;
-    Map<Flashcard, Integer> proficiencies;
+    Map<Flashcard, FlashcardData> proficiencies;
 
     public void setDeck(Deck deck){
-        this.deck = deck.copyDeck();
+        this.deckCopy = deck.copyDeck();
     }
     @Override
     public void shuffleCards(){
         for (int i = 0; i < deckCopy.getFlashcards().size(); i++){
             Flashcard cardOne = deckCopy.getFlashcards().get(i);
             int j = i;
-            while (j > 0 && proficiencies.get(deckCopy.getFlashcards().get(j - 1)) > proficiencies.get(cardOne)){
+            while (j > 0 && proficiencies.get(deckCopy.getFlashcards().get(j - 1)).getProficiency() > proficiencies.get(cardOne).getProficiency()){
                 deckCopy.getFlashcards().remove(j);
                 deckCopy.getFlashcards().add(j, deckCopy.getFlashcards().get(j - 1));
                 j = j - 1;
@@ -27,7 +27,6 @@ public class WorstToBestShuffle implements CardShuffler {
     }
     @Override
     public Flashcard returnChosenFlashcard() {
-        Flashcard card = deckCopy.getFlashcards().get(0);
-        return card;
+        return deckCopy.getFlashcards().get(0);
     }
 }
