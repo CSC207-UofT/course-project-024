@@ -2,9 +2,6 @@ import java.util.HashMap;
 
 public class LearningSession extends StudySession implements UpdatingSession {
 
-
-
-
     public LearningSession(Deck deck, ShuffleType scheduler) {
         super(deck);
         this.flashcardData = new HashMap<>();
