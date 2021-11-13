@@ -1,7 +1,4 @@
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
 
 public class PracticeSession extends StudySession {
     /**
@@ -10,12 +7,12 @@ public class PracticeSession extends StudySession {
      */
     public PracticeSession(Deck deck) {
         super(deck);
-        this.flashcardData = new HashMap<>();
+        this.flashcardToData = new HashMap<>();
         this.deck = deck;
         for (Flashcard card : this.deck.getFlashcards()) {
-            this.flashcardData.put(card, new FlashcardData(0));
+            this.flashcardToData.put(card, new FlashcardData(0));
         }
-        this.cardshuffler = new BasicShuffle(this.flashcardData);
+        this.cardshuffler = new BasicShuffle(this.flashcardToData);
     }
 
     @Override

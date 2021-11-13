@@ -4,7 +4,7 @@ import java.util.Map;
 // TODO documentation
 public abstract class StudySession {
     protected Deck deck;
-    protected Map<Flashcard, FlashcardData> flashcardData = new HashMap<>();
+    protected Map<Flashcard, FlashcardData> flashcardToData = new HashMap<>();
     protected String name;
     // protected int currentCard;
     protected Flashcard currentCard;
@@ -37,8 +37,8 @@ public abstract class StudySession {
 //        currentCard = 0;
 //    }
 
-    public Map<Flashcard, FlashcardData> getFlashcardData(){
-        return this.flashcardData;
+    public Map<Flashcard, FlashcardData> getFlashcardToData(){
+        return this.flashcardToData;
     }
 
     public Flashcard getCurrentCard(){
