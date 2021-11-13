@@ -9,10 +9,9 @@ public class BasicShuffle implements CardShuffler {
 
     public BasicShuffle(Map<Flashcard, FlashcardData> flashcardData) {
         // This turns an ImmutableList, which ToList returns, to a LinkedList. Don't ask me why.
-        this.linkedListDeck = new LinkedList<Flashcard>(flashcardData.keySet().stream().toList());
+        this.linkedListDeck = new LinkedList<>(flashcardData.keySet().stream().toList());
     }
 
-    @Override
     public void shuffleCards() {
         Collections.shuffle(this.linkedListDeck);
     }
@@ -38,6 +37,11 @@ public class BasicShuffle implements CardShuffler {
             return linkedListDeck.getFirst();
 
         }
+
+    }
+    // TODO: Implement
+    @Override
+    public void updateCardShuffler() {
 
     }
 }

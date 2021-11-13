@@ -26,6 +26,21 @@ public class SmartShuffle implements CardShuffler {
         return this.linkedListDeck.getFirst();
     }
 
+    @Override
+    public void updateCardShuffler() {
+        for (Flashcard flashcard : this.flashcardData.keySet()) {
+            if (!this.linkedListDeck.contains(flashcard)) {
+                this.linkedListDeck.addLast(flashcard);
+            }
+        }
+
+        for (Flashcard card : this.linkedListDeck) {
+            if (!this.flashcardData.containsKey(card)) {
+                this.linkedListDeck.remove(card);
+            }
+        }
+    }
+
 
     public LinkedList<Flashcard> getLinkedListDeck() {
         return this.linkedListDeck;

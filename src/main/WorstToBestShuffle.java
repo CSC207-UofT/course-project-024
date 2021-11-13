@@ -48,5 +48,11 @@ public class WorstToBestShuffle implements CardShuffler {
         return null;
     }
 
+    //TODO: Implement
+    @Override
+    public void updateCardShuffler() {
+
+    }
+
 
 }
