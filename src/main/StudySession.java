@@ -4,7 +4,7 @@ import java.util.Map;
 // TODO documentation
 public abstract class StudySession {
     protected Deck deck;
-    protected Map<Flashcard, Integer> proficiencies = new HashMap<>();
+    protected Map<Flashcard, FlashcardData> proficiencies = new HashMap<>();
     protected String name;
     protected int currentCard;
     protected CardShuffler cardshuffler;
