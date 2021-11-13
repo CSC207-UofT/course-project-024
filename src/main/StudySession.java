@@ -13,12 +13,13 @@ public abstract class StudySession {
     public StudySession(Deck deck, String name, CardShuffler cardShuffler) {
         this.deck = deck;
         this.name = name;
-        this.cardshuffler = cardShuffler;
+        setCardshuffler(cardShuffler);
     }
 
     public StudySession(Deck deck, CardShuffler cardShuffler) {
         this.deck = deck;
         this.name = "Untitled";
+        this.cardshuffler = cardShuffler;
     }
 
     // TODO: REMOVE, FOR TESTING
@@ -28,21 +29,21 @@ public abstract class StudySession {
     }
 
     public abstract Flashcard getNextCard();
-//        currentCard = currentCard + 1;
-//        return deck.getFlashcards().get(currentCard);
-//    };
-
-//    public void shuffleCards() {
-//        cardshuffler.shuffleCardsAndReturnFirst(this.deck, this.flashcardData);
-//        currentCard = 0;
-//    }
 
     public Map<Flashcard, FlashcardData> getFlashcardToData(){
         return this.flashcardToData;
     }
 
-    public Flashcard getCurrentCard(){
+    public Flashcard getCurrentCard() {
         return this.currentCard;
+    }
+
+    public Flashcard returnChosenFlashcard() {
+        return cardshuffler.returnChosenFlashcard();
+    }
+
+    public void setCardshuffler(CardShuffler cardshuffler){
+        this.cardshuffler = cardshuffler;
     }
 
 }

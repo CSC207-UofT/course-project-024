@@ -18,9 +18,6 @@ public class BasicShuffle implements CardShuffler {
         this.flashcardToData = flashcardToData;
     }
 
-    /**
-     * Randomly shuffles this shuffler's deckCopy.
-     */
     public void shuffleCards() {
         Collections.shuffle(this.deckCopy);
     }
@@ -48,6 +45,7 @@ public class BasicShuffle implements CardShuffler {
 
         }
         return chosenFlashcard;
+
     }
 
     /**

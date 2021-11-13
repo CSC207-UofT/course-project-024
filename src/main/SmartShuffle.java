@@ -75,6 +75,5 @@ public class SmartShuffle implements CardShuffler {
             this.deckCopy.add(currFlashcardIndex + stepsToSendBackward, currentFlashcard);
             // System.out.println("Sent " + stepsToSendBackward + " steps backward.");
         }
-
     }
 }

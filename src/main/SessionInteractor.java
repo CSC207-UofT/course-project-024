@@ -1,7 +1,6 @@
 public class SessionInteractor {
 
-    private SessionInteractor() {
-    }
+    private SessionInteractor() {}
 
     public static StudySession createPracticeSession(Deck deck) {
         return new PracticeSession(deck);
