@@ -7,23 +7,23 @@ public abstract class StudySession {
     protected Map<Flashcard, Integer> proficiencies = new HashMap<>();
     protected String name;
     protected int currentCard;
-    protected CardShuffler cardShuffler;
+    protected CardShuffler cardshuffler;
 
     public StudySession(Deck deck, String name, CardShuffler cardShuffler) {
         this.deck = deck;
         this.name = name;
-        setCardShuffler(cardShuffler);
+        setCardshuffler(cardShuffler);
         setProficiencies();
     }
 
     public StudySession(Deck deck, CardShuffler cardShuffler) {
         this.deck = deck;
         this.name = "Untitled";
-        this.cardShuffler = cardShuffler;
+        this.cardshuffler = cardShuffler;
     }
 
     public Flashcard returnChosenFlashcard(){
-        return cardShuffler.returnChosenFlashcard();
+        return cardshuffler.returnChosenFlashcard();
     };
 
     public void setProficiencies(){
@@ -37,8 +37,8 @@ public abstract class StudySession {
         return proficiencies;
     }
 
-    public void setCardShuffler(CardShuffler cardShuffler){
-        this.cardShuffler = cardShuffler;
+    public void setCardshuffler(CardShuffler cardshuffler){
+        this.cardshuffler = cardshuffler;
     }
 
 }
