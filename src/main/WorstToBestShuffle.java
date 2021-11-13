@@ -1,8 +1,8 @@
 import java.util.Map;
 
-public class WorstToBestShuffle implements CardShuffler{
+public class WorstToBestShuffle implements GetNextCard {
     @Override
-    public void shuffleCards(Deck deck, Map<Flashcard, Integer> proficiencies) {
+    public Flashcard getNextCard(Deck deck, Map<Flashcard, Integer> proficiencies) {
         for (int i = 0; i < deck.getFlashcards().size(); i++){
             Flashcard cardOne = deck.getFlashcards().get(i);
             int j = i;
@@ -15,5 +15,7 @@ public class WorstToBestShuffle implements CardShuffler{
             deck.getFlashcards().add(j, cardOne);
 
         }
+        Flashcard card = deck.getFlashcards().get(0);
+        return card;
     }
 }
