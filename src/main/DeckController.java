@@ -23,12 +23,8 @@ public class DeckController {
         DeckInteractor.renameDeck(deck, newName);
     }
 
-    public void addCard(Deck deck, Flashcard.Front front, String back){
-        DeckInteractor.addFlashcard(deck, front, back);
-    }
-
-    public Flashcard.Front createFront(String text, Image image) {
-        return DeckInteractor.createFront(text, image);
+    public void addCard(Deck deck, String frontText, Image frontImage, String back) {
+        DeckInteractor.addFlashcard(deck, frontText, frontImage, back);
     }
 
     public void deleteCard(Deck deck, Flashcard flashcard){

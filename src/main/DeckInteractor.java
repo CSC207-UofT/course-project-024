@@ -14,15 +14,9 @@ public class DeckInteractor {
         deck.removeFlashcard(flashcard);
     }
 
-    public static void addFlashcard(Deck deck, Flashcard.Front front, String back) {
-        Flashcard newFlashcard = FlashcardInteractor.createFlashcard(front, back);
+    public static void addFlashcard(Deck deck, String frontText, Image frontImage, String back) {
+        Flashcard newFlashcard = FlashcardInteractor.createFlashcard(frontText, frontImage, back);
         deck.addFlashcard(newFlashcard);
     }
-
-    public static Flashcard.Front createFront(String text, Image image) {
-        return FlashcardInteractor.createFront(text, image);
-    }
-
-
 
 }
