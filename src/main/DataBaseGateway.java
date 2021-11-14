@@ -6,7 +6,7 @@ import java.io.OutputStream;
 import java.sql.*;
 import java.util.ArrayList;
 
-
+// A collection of methods that interacts with the database on behalf of the program
 public interface DataBaseGateway {
     // This main method is used for testing the database, it does not have an actual purpose in the overall program
 //    static void main(String[] args) {
@@ -80,9 +80,9 @@ public interface DataBaseGateway {
             while (decks.next()){
                 Deck newDeck = DeckInteractor.createDeck(decks.getString("deck_name"));
                 ResultSet correspondingCards = createStatement().executeQuery("SELECT * FROM cards WHERE deck_id = '" + decks.getString("deck_id") + "'");
-                while (correspondingCards.next()){
+//                while (correspondingCards.next()){
 //                    DeckInteractor.addFlashcard(newDeck, correspondingCards.getString("front"), correspondingCards.getString("back"), );
-                }
+//                }
                 deckList.add(newDeck);
             }
             return deckList;
