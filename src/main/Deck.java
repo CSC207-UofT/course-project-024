@@ -35,4 +35,9 @@ public class Deck{
         flashcards.remove(flashcard);
     }
 
+    public Deck copyDeck(){
+        List<Flashcard> copiedFlashcards = new ArrayList<>(this.flashcards);
+        return new Deck(this.name, copiedFlashcards);
+    }
+
 }

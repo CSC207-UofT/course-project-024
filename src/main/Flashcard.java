@@ -1,5 +1,8 @@
+import java.awt.*;
+
 public class Flashcard {
-    private String front;
+
+    private Front front;
     private String back;
 
     /**
@@ -7,7 +10,7 @@ public class Flashcard {
      * @param front The front of a Flashcard
      * @param back The back of a Flashcard
      */
-    public Flashcard(String front, String back) {
+    public Flashcard(Front front, String back) {
         this.front = front;
         this.back = back;
     }
@@ -16,7 +19,7 @@ public class Flashcard {
      * Set the front of this Flashcard to newFront.
      * @param newFront What to set this Flashcard's front to.
      */
-    public void setFront(String newFront) {
+    public void setFront(Front newFront) {
         this.front = newFront;
     }
 
@@ -32,7 +35,7 @@ public class Flashcard {
      * Return the front of this Flashcard.
      * @return The front of this card.
      */
-    public String getFront() {
+    public Front getFront() {
         return this.front;
     }
 
@@ -42,6 +45,32 @@ public class Flashcard {
      */
     public String getBack() {
         return this.back;
+    }
+
+    public static class Front {
+        private String text;
+        private Image image;
+
+        public Front(String text, Image image) {
+            this.text = text;
+            this.image = image;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public void setText(String text) {
+            this.text = text;
+        }
+
+        public Image getImage() {
+            return image;
+        }
+
+        public void setImage(Image image) {
+            this.image = image;
+        }
     }
 
 }

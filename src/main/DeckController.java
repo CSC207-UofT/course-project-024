@@ -1,25 +1,18 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.*;
 
-public class DeckController implements DataBaseGateway {
-    public List<Deck> decks;
 
-    public DeckController(List<Deck> decks){this.decks = decks;}
+public class DeckController {
 
-    public DeckController(){
-        ArrayList<Deck> decksFromDB = getDecksFromDB();
-        if (decksFromDB.size() > 0){
-            this.decks = decksFromDB;
-        }else{
-            this.decks = new ArrayList<>();
-        }
+    public DeckController() {}
+
+    public Deck createDeck(Account account, String name){
+        Deck deck = DeckInteractor.createDeck(name);
+        AccountInteractor.addDeckToAccount(account, deck);
+        return deck;
     }
 
-    public Deck createDeck(String name){
-        Deck deck = DeckInteractor.createDeck(name);
-        decks.add(deck);
-        insertDeckIntoDB("decks", "deck_name", deck.getName());
-        return deck;
+    public void deleteDeck(Account account, Deck deck) {
+        AccountInteractor.deleteDeckFromAccount(account, deck);
     }
 
     public void renameDeck(Deck deck, String newName){
@@ -27,14 +20,20 @@ public class DeckController implements DataBaseGateway {
         DeckInteractor.renameDeck(deck, newName);
     }
 
-    public void addCard(Deck deck, String front, String back){
-        addCardToDeckInDB(deck.getName(),  front, back, "");
-        DeckInteractor.addFlashcard(deck, front, back);
+    public void updateSessionsOfDeck(Account account, Deck deck) {
+        AccountInteractor.updateSessionsOfDeck(account, deck);
+    }
+  
+    public void deleteCard(Account account, Deck deck, Flashcard flashcard){
+        DeckInteractor.deleteFlashcard(deck, flashcard);
+        updateSessionsOfDeck(account, deck);
     }
 
-    public void deleteCard(Deck deck, Flashcard flashcard){
-        deleteCardInDB(deck.getName(), flashcard.getFront(), flashcard.getBack());
-        DeckInteractor.deleteFlashcard(deck, flashcard);
+    public void addCard(Account account, Deck deck, String frontText, Image frontImage, String back) {
+        DeckInteractor.addFlashcard(deck, frontText, frontImage, back);
+        updateSessionsOfDeck(account, deck);
     }
+
+
 
 }

@@ -1,37 +1,61 @@
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-// TODO documentation
+/**
+ * This class represents a study session
+ */
 public abstract class StudySession {
-    // TODO consider changing some of these private
     protected Deck deck;
-    protected Map<Flashcard, Integer> proficiencies = new HashMap<>();
-    protected String name;
-    protected int currentCard;
 
-    public StudySession(Deck deck, String name) {
+    protected String name;
+    // cardshuffler holds the strategy in how we choose the next card
+    protected CardShuffler cardShuffler;
+
+    /**
+     * Constructs a study session with given deck, name and cardshuffler
+     * @param deck
+     * @param name
+     * @param cardShuffler
+     */
+    public StudySession(Deck deck, String name, CardShuffler cardShuffler) {
         this.deck = deck;
         this.name = name;
+        setCardShuffler(cardShuffler);
     }
 
-    public StudySession(Deck deck) {
+    /**
+     * Constructs a study session with given deck and cardshuffler
+     * @param deck
+     * @param cardShuffler
+     */
+    public StudySession(Deck deck, CardShuffler cardShuffler) {
         this.deck = deck;
         this.name = "Untitled";
+        this.cardShuffler = cardShuffler;
     }
 
-    public abstract Flashcard getNextCard();
-
-    public void shuffleCards() {
-        Collections.shuffle(this.deck.getFlashcards());
-        currentCard = 0;
+     /**
+     * Returns this StudySession's CardShuffler's flashcardToData
+     * @return Map<Flashcard, FlashcardData>
+     */
+    public Map<Flashcard, FlashcardData> getFlashcardToData(){
+        return this.cardShuffler.getFlashcardToData();
     }
-    public Map<Flashcard, Integer> getProficiencies(){
-        return proficiencies;
+    
+    /**
+     * Returns the next card given by this StudySession's CardShuffler
+     * @return Flashcard
+     */
+    public Flashcard getNextCard() {
+        return cardShuffler.returnChosenFlashcard();
     }
+    
+    /**
+     * Sets the CardShuffler for this StudySession
+     * @param cardshuffler
+     */
+    public void setCardShuffler(CardShuffler cardShuffler){
+        this.cardShuffler = cardShuffler;
 
-    public int getCurrentCard(){
-        return currentCard;
     }
-
 }

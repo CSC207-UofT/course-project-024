@@ -5,6 +5,7 @@ public class FlashcardSystem{
     private final SessionController sessionController = new SessionController();
     private final SessionPresenter sessionPresenter = new SessionPresenter();
     private final Scanner scanner = new Scanner(System.in);
+    private final Account account = AccountInteractor.createAccount("User", "Pass");
 
     public void displayMainMenu() {
         String select;
@@ -31,7 +32,7 @@ public class FlashcardSystem{
 
     private Deck displayDecks() {
         //TODO: change format to (0) Back (1) Deck 1 (2) Deck 2 ....
-        List<Deck> decks = deckController.decks;
+        List<Deck> decks = account.getDecks();
         for (int i=0; i<decks.size(); i++) {
             System.out.println("("+i+") Deck "+ decks.get(i).getName());
         }
@@ -60,11 +61,13 @@ public class FlashcardSystem{
 
     private StudySession displaySelectSessionMenu(Deck deck) {
         System.out.println("Which session would you like to study?");
-        System.out.println("(0) Practice");
+        System.out.println("(0) Practice (1) Learning");
         String select = scanner.nextLine();
         //TODO: check for invalid input
         if (select.equals("0")) {
-            return sessionController.createPracticeSession(deck);
+            return sessionController.getPracticeSession(deck, account);
+        } else if (select.equals("1")) {
+            return sessionController.getLearningSession(deck, account);
         }
         // TODO: remove once invalid input is properly handled
         return null;
@@ -73,7 +76,7 @@ public class FlashcardSystem{
     private void displayCreateDeckMenu() {
         System.out.println("Name of New Deck:");
         String name = scanner.nextLine();
-        deckController.createDeck(name);
+        deckController.createDeck(account, name);
     }
 
     private void displayEditDeckMenu() {
@@ -109,10 +112,10 @@ public class FlashcardSystem{
 
     private void displayAddCardMenu(Deck deck) {
         System.out.println("Front of card:");
-        String front = scanner.nextLine();
+        String frontInput = scanner.nextLine();
         System.out.println("Back of card:");
         String back = scanner.nextLine();
-        deckController.addCard(deck, front, back);
+        deckController.addCard(account, deck, frontInput, null, back);
     }
 
     private void displayEditCardMenu(Deck deck) {
@@ -132,7 +135,7 @@ public class FlashcardSystem{
                 //TODO: edit front
                 break;
             case "3":
-                deckController.deleteCard(deck, card);
+                deckController.deleteCard(account, deck, card);
                 break;
         }
     }
