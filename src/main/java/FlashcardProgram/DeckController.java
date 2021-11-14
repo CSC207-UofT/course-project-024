@@ -1,8 +1,10 @@
+package FlashcardProgram;
+
 import java.awt.*;
 
 public class DeckController {
 
-    public DeckController() {}
+    //public DeckController() {}
 
     public Deck createDeck(String name, Account account){
         Deck deck = DeckInteractor.createDeck(name);
@@ -21,12 +23,9 @@ public class DeckController {
     public void deleteCard(Account account, Deck deck, Flashcard flashcard){
         DeckInteractor.deleteFlashcard(deck, flashcard);
         updateSessionsOfDeck(account, deck);
-    }
+    };
 
-    public Flashcard.Front createFront(String text, Image image) {
-        return DeckInteractor.createFront(text, image);
-
-    public void addCard(Deck deck, String frontText, Image frontImage, String back) {
+    public void addCard(Account account, Deck deck, String frontText, Image frontImage, String back) {
         DeckInteractor.addFlashcard(deck, frontText, frontImage, back);
         updateSessionsOfDeck(account, deck);
     }

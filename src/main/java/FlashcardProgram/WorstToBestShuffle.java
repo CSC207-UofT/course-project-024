@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+package FlashcardProgram;
+
 import java.util.Map;
 
 public class WorstToBestShuffle implements CardShuffler {

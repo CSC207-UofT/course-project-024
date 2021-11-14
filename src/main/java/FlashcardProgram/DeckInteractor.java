@@ -1,3 +1,5 @@
+package FlashcardProgram;
+
 import java.awt.*;
 
 public class DeckInteractor {

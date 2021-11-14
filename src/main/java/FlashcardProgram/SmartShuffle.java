@@ -1,3 +1,5 @@
+package FlashcardProgram;
+
 import java.util.Map;
 
 public class SmartShuffle implements CardShuffler {

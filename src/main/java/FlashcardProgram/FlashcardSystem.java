@@ -115,7 +115,7 @@ public class FlashcardSystem {
         String frontInput = scanner.nextLine();
         System.out.println("Back of card:");
         String back = scanner.nextLine();
-        deckController.addCard(deck, frontInput, null, back);
+        deckController.addCard(account, deck, frontInput, null, back);
     }
 
     private void displayEditCardMenu(Deck deck) {

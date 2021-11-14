@@ -31,7 +31,7 @@ public class DeckControllerTest {
     @Test
     void deleteCard() {
         Deck deck = deckController.createDeck("Deck Name");
-        deckController.addCard(deck, "front",null, "back");
+        deckController.addCard(deck, "front", null, "back");
         deckController.deleteCard(deck, deck.getFlashcards().get(0));
         assertEquals(0, deck.getFlashcards().size());
     }

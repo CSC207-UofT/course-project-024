@@ -21,15 +21,6 @@ public class DeckUIController {
     @FXML private TextField cardBackText;
 
     private File cardImage;
-
-    public DeckUIController() {
-    }
-
-    private File cardImage;
-
-    public DeckUIController() {
-    }
-
     /**
      * Generates pop-up to add a new Flashcard
      * @param e action event on click

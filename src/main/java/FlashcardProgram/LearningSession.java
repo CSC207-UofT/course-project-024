@@ -2,8 +2,8 @@ package FlashcardProgram;
 
 public class LearningSession extends StudySession {
 
-    public LearningSession(Deck deck) {
-        super(deck);
+    public LearningSession(Deck deck, CardShuffler cardShuffler) {
+        super(deck, cardShuffler);
     }
 
     // TODO: Implement

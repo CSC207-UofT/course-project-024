@@ -1,3 +1,5 @@
+package FlashcardProgram;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +28,7 @@ public abstract class StudySession {
     }
 
 
-    public void setCardshuffler(CardShuffler cardshuffler){
+    public void setCardShuffler(CardShuffler cardshuffler){
         this.cardshuffler = cardshuffler;
     }
 

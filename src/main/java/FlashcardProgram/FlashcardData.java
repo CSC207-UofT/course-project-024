@@ -1,3 +1,5 @@
+package FlashcardProgram;
+
 public class FlashcardData {
     private int proficiency;
     private int cardsUntilDue;
