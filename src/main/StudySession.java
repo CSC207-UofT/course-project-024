@@ -4,47 +4,32 @@ import java.util.Map;
 // TODO documentation
 public abstract class StudySession {
     protected Deck deck;
-    protected Map<Flashcard, FlashcardData> flashcardToData = new HashMap<>();
     protected String name;
     // protected int currentCard;
-    protected Flashcard currentCard;
-    protected CardShuffler cardshuffler;
+    protected CardShuffler cardShuffler;
 
     public StudySession(Deck deck, String name, CardShuffler cardShuffler) {
         this.deck = deck;
         this.name = name;
-        setCardshuffler(cardShuffler);
+        setCardShuffler(cardShuffler);
     }
 
     public StudySession(Deck deck, CardShuffler cardShuffler) {
         this.deck = deck;
         this.name = "Untitled";
-        this.cardshuffler = cardShuffler;
+        this.cardShuffler = cardShuffler;
     }
-
-
-    // TODO: REMOVE, FOR TESTING
-    public StudySession(Deck deck) {
-        this.deck = deck;
-        this.name = "Untitled";
-    }
-
-    public abstract Flashcard getNextCard();
 
     public Map<Flashcard, FlashcardData> getFlashcardToData(){
-        return this.flashcardToData;
+        return this.cardShuffler.getFlashcardToData();
     }
 
-    public Flashcard getCurrentCard() {
-        return this.currentCard;
+    public Flashcard getNextCard() {
+        return cardShuffler.returnChosenFlashcard();
     }
 
-    public Flashcard returnChosenFlashcard() {
-        return cardshuffler.returnChosenFlashcard();
-    }
-
-    public void setCardshuffler(CardShuffler cardshuffler){
-        this.cardshuffler = cardshuffler;
+    public void setCardShuffler(CardShuffler cardShuffler){
+        this.cardShuffler = cardShuffler;
     }
 
 }

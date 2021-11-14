@@ -1,12 +1,9 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Map;
+import java.util.*;
 
-public class BasicShuffle implements CardShuffler {
+public class BasicShuffle extends CardShuffler {
 
     int index = 0;
     ArrayList<Flashcard> deckCopy;
-    private final Map<Flashcard, FlashcardData> flashcardToData;
 
     /**
      * Construct a new BasicShuffle card shuffler.
@@ -16,6 +13,14 @@ public class BasicShuffle implements CardShuffler {
         // This turns an ImmutableList, which ToList returns, to an ArrayList. Don't ask me why.
         this.deckCopy = new ArrayList<>(flashcardToData.keySet().stream().toList());
         this.flashcardToData = flashcardToData;
+    }
+
+    public BasicShuffle(Deck deck) {
+        this.flashcardToData = new HashMap<>();
+        for (Flashcard card : deck.getFlashcards()) {
+            this.flashcardToData.put(card, new FlashcardData(0));
+        }
+        this.deckCopy = new ArrayList<>(this.flashcardToData.keySet().stream().toList());
     }
 
     public void shuffleCards() {
@@ -49,7 +54,7 @@ public class BasicShuffle implements CardShuffler {
      * Updates this card shuffler to make it up-to-date with any changes to its flashcardToData mapping.
      */
     @Override
-    public void updateCardShuffler() {
+    public void updateDeckContext() {
         for (Flashcard flashcard : this.flashcardToData.keySet()) {
             if (!this.deckCopy.contains(flashcard)) {
                 this.deckCopy.add(flashcard);

@@ -82,7 +82,7 @@ public class Account {
 
             for (Flashcard flashcard : flashcardList) {
                 if (!session.getFlashcardToData().containsKey(flashcard)) {
-                    session.flashcardToData.put(flashcard, new FlashcardData(0));
+                    session.getFlashcardToData().put(flashcard, new FlashcardData(0));
                 }
             }
 
@@ -92,7 +92,7 @@ public class Account {
                 }
             }
 
-            session.cardshuffler.updateCardShuffler();
+            session.cardShuffler.updateDeckContext();
 
         }
 

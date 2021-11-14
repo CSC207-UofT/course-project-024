@@ -1,8 +1,17 @@
 import java.util.Map;
 
-public interface CardShuffler {
+public abstract class CardShuffler {
 
-    Flashcard returnChosenFlashcard();
+    protected Map<Flashcard, FlashcardData> flashcardToData;
 
-    void updateCardShuffler();
+    abstract Flashcard returnChosenFlashcard();
+
+    abstract void updateDeckContext();
+
+    protected Map<Flashcard, FlashcardData> getFlashcardToData() {
+        return this.flashcardToData;
+    }
+
+
+
 }
