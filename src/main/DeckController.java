@@ -1,5 +1,6 @@
 import java.awt.*;
 
+
 public class DeckController {
 
     public DeckController() {}
@@ -15,6 +16,7 @@ public class DeckController {
     }
 
     public void renameDeck(Deck deck, String newName){
+        updateRowInDB("decks", "deck_name", deck.getName(), newName);
         DeckInteractor.renameDeck(deck, newName);
     }
 
