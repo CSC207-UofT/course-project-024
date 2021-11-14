@@ -92,6 +92,8 @@ public class Account {
                 }
             }
 
+            session.cardshuffler.updateCardShuffler();
+
         }
 
 
