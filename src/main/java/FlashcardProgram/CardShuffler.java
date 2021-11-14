@@ -2,11 +2,18 @@ package FlashcardProgram;
 
 import java.util.Map;
 
-public interface CardShuffler {
-    /**
-     * Shuffles cards in a deck.
-     */
-    void shuffleCards();
+public abstract class CardShuffler {
 
-    Flashcard returnChosenFlashcard();
+    protected Map<Flashcard, FlashcardData> flashcardToData;
+
+    abstract Flashcard returnChosenFlashcard();
+
+    abstract void updateDeckContext();
+
+    protected Map<Flashcard, FlashcardData> getFlashcardToData() {
+        return this.flashcardToData;
+    }
+
+
+
 }

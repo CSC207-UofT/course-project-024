@@ -3,7 +3,7 @@ package FlashcardProgram;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Deck {
+public class Deck{
     private String name;
     private final List<Flashcard> flashcards;
 
@@ -38,12 +38,8 @@ public class Deck {
     }
 
     public Deck copyDeck(){
-        List<Flashcard> copiedFlashcards = new ArrayList<>();
-        for (Flashcard card: getFlashcards()){
-            copiedFlashcards.add(card);
-        }
-        Deck deck = new Deck(this.name, copiedFlashcards);
-        return deck;
+        List<Flashcard> copiedFlashcards = new ArrayList<>(this.flashcards);
+        return new Deck(this.name, copiedFlashcards);
     }
 
 }

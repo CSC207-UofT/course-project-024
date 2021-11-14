@@ -2,7 +2,7 @@ package FlashcardProgram;
 
 import java.util.*;
 
-public class FlashcardSystem {
+public class FlashcardSystem{
     private final DeckController deckController = new DeckController();
     private final SessionController sessionController = new SessionController();
     private final SessionPresenter sessionPresenter = new SessionPresenter();
@@ -63,11 +63,13 @@ public class FlashcardSystem {
 
     private StudySession displaySelectSessionMenu(Deck deck) {
         System.out.println("Which session would you like to study?");
-        System.out.println("(0) Practice");
+        System.out.println("(0) Practice (1) Learning");
         String select = scanner.nextLine();
         //TODO: check for invalid input
         if (select.equals("0")) {
             return sessionController.getPracticeSession(deck, account);
+        } else if (select.equals("1")) {
+            return sessionController.getLearningSession(deck, account);
         }
         // TODO: remove once invalid input is properly handled
         return null;
@@ -76,7 +78,7 @@ public class FlashcardSystem {
     private void displayCreateDeckMenu() {
         System.out.println("Name of New Deck:");
         String name = scanner.nextLine();
-        deckController.createDeck(name, account);
+        deckController.createDeck(account, name);
     }
 
     private void displayEditDeckMenu() {

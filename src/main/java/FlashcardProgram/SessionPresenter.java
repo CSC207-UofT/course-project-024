@@ -29,8 +29,15 @@ public class SessionPresenter {
             System.out.println("Retrieving new card...");
             card = sessionController.getNextCard(session);
             displayFlashcardFront(card);
-            getUserInput("Please input anything to see the back.");
+            String answer = getUserInput("Please input anything to see the back.");
             displayFlashcardBack(card);
+            if (card.getBack().equalsIgnoreCase(answer)) {
+                sessionController.postAnswerUpdate(session, true);
+                System.out.println("You got the answer right!");
+            } else {
+                sessionController.postAnswerUpdate(session, false);
+                System.out.println("You got the answer wrong!");
+            }
             userInput = getUserInput("Would you like to see another card? If not, please input \"" + exitChar + "\", " +
                     "and if so, input anything else.");
         } while (!userInput.equals(exitChar));

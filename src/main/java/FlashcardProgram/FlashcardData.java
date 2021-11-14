@@ -7,6 +7,10 @@ public class FlashcardData {
     private int consecutiveIncorrects;
     private boolean isSeen;
 
+    /**
+     * Construct a new FlashcardData instance, which contains raw statistics for a Flashcard in a StudySession.
+     * @param defaultCardsUntilDue Default cardsUntilDue, customizable for the needs of a StudySession.
+     */
     public FlashcardData(int defaultCardsUntilDue) {
         this.isSeen = false;
         this.proficiency = 0;
@@ -17,6 +21,10 @@ public class FlashcardData {
 
     public boolean getIsSeen() {
         return this.isSeen;
+    }
+
+    public void setIsSeen(boolean isSeen) {
+        this.isSeen = isSeen;
     }
 
     public int getProficiency() {

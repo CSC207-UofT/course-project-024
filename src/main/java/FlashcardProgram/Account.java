@@ -80,11 +80,11 @@ public class Account {
             // Loop through flashcardData. If it is in flashcardList, move on.
             // If it is not in flashcardList, then delete it from flashcardData
 
-            Map<Flashcard, FlashcardData> flashcardToFlashcardData = session.getFlashcardData();
+            Map<Flashcard, FlashcardData> flashcardToFlashcardData = session.getFlashcardToData();
 
             for (Flashcard flashcard : flashcardList) {
-                if (!session.getFlashcardData().containsKey(flashcard)) {
-                    session.flashcardData.put(flashcard, new FlashcardData(0));
+                if (!session.getFlashcardToData().containsKey(flashcard)) {
+                    session.getFlashcardToData().put(flashcard, new FlashcardData(0));
                 }
             }
 
@@ -93,6 +93,8 @@ public class Account {
                     flashcardToFlashcardData.remove(flashcard);
                 }
             }
+
+            session.cardShuffler.updateDeckContext();
 
         }
 
