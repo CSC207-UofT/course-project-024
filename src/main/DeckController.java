@@ -28,7 +28,7 @@ public class DeckController implements DataBaseGateway {
     }
 
     public void addCard(Deck deck, String front, String back){
-        addCardToDeckInDB(deck.getName(),  front, back);
+        addCardToDeckInDB(deck.getName(),  front, back, "");
         DeckInteractor.addFlashcard(deck, front, back);
     }
 
