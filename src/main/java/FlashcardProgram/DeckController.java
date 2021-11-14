@@ -1,5 +1,6 @@
-import java.awt.*;
+package FlashcardProgram;
 
+import java.awt.*;
 
 public class DeckController {
 
@@ -16,7 +17,7 @@ public class DeckController {
     }
 
     public void renameDeck(Deck deck, String newName){
-        updateRowInDB("decks", "deck_name", deck.getName(), newName);
+        //updateRowInDB("decks", "deck_name", deck.getName(), newName);
         DeckInteractor.renameDeck(deck, newName);
     }
 

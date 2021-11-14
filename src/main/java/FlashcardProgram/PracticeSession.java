@@ -1,3 +1,5 @@
+package FlashcardProgram;
+
 public class PracticeSession extends StudySession {
     /**
      * Construct a PracticeSession with all FlashcardData initialized to default values.

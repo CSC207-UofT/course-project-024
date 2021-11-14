@@ -1,3 +1,5 @@
+package FlashcardProgram;
+
 public interface UpdatingShuffler {
     /**
      * Performs any post-answer updates that are needed for studySession.

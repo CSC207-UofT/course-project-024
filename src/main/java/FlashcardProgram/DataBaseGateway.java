@@ -1,3 +1,4 @@
+package FlashcardProgram;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -69,7 +70,7 @@ public interface DataBaseGateway {
                 ResultSet correspondingCards = createStatement().executeQuery("SELECT * FROM cards WHERE deck_id = '" + decks.getString("deck_id") + "'");
                 while (correspondingCards.next()){
 
-                    DeckInteractor.addFlashcard(newDeck, correspondingCards.getString("front"), correspondingCards.getString("back"));
+                    DeckInteractor.addFlashcard(newDeck, correspondingCards.getString("front"), null, correspondingCards.getString("back"));
                 }
                 deckList.add(newDeck);
             }
