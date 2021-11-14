@@ -73,19 +73,16 @@ public class MainUIController {
     }
 
     /**
-     * Opens study session
+     * Opens study session application
      */
     @FXML
     protected void onStartSessionSubmit() {
         Platform.runLater(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            new LearningSessionUI().start(new Stage());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                () -> {
+                    try {
+                        new LearningSessionUI().start(new Stage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
         );

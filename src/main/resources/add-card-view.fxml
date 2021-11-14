@@ -21,6 +21,7 @@
             <TextField fx:id="cardFrontText"/>
             <Label text="Card Back Text:"/>
             <TextField fx:id="cardBackText"/>
+            <Button onAction="#onUploadFileButtonClick" text="Upload File..."/>
             <Button onAction="#onAddCardSubmit" fx:id="newCardButton" text="Submit"/>
         </VBox>
     </center>
