@@ -8,18 +8,22 @@ import javafx.scene.Scene;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 
 public class DeckUIController {
-    @FXML private TextField deckName;
-    @FXML private Button newDeckButton;
-
     @FXML private TextField cardFrontText;
     @FXML private TextField cardBackText;
-    @FXML private Button newCardButton;
+
+    private File cardImage;
+
+    public DeckUIController() {
+    }
 
     /**
      * Generates pop-up to add a new Flashcard
@@ -44,10 +48,36 @@ public class DeckUIController {
         popUp.show();
     }
 
+    /**
+     * Gets image file for flashcard from user and displays the uploaded image
+     * @param e action event on click
+     */
+    @FXML
+    protected void onUploadFileButtonClick (ActionEvent e) {
+        Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("JPG file (*.JPG)","*.JPG"),
+                new FileChooser.ExtensionFilter("jpg files (*.jpg)", "*.jpg"),
+                new FileChooser.ExtensionFilter("PNG files (*.PNG)", "*.PNG"),
+                new FileChooser.ExtensionFilter("png files (*.png)", "*.png")
+        );
+        File file = fileChooser.showOpenDialog(stage);
+        if (file != null) {
+            try {
+                //TODO: show uploaded image within the application instead
+                Desktop.getDesktop().open(file);
+                this.cardImage = file;
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
     @FXML
     protected void onAddCardSubmit (ActionEvent e) {
         //TODO: add card with DeckController.addCard(<deck>, cardFrontText.getText(),
-        // <image>, cardFrontText.getText())
+        // cardImage, cardFrontText.getText())
 
         onBackButtonClick(e);
     }
@@ -63,6 +93,7 @@ public class DeckUIController {
         //TODO: rename deck
         onMainMenuButtonClick(e);
     }
+
     @FXML
     protected void onDeleteDeckButtonClick (ActionEvent e) throws IOException {
         //TODO: delete deck

@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -18,7 +19,7 @@ import java.io.IOException;
 public class MainUIController {
     @FXML private MenuButton deckSelect;
     @FXML private MenuButton sessionSelect;
-    @FXML private Button studyButton;
+    @FXML private TextField deckName;
 
     /**
      * Opens Deck creation menu
@@ -45,7 +46,7 @@ public class MainUIController {
 
     @FXML
     protected void onCreateDeckSubmit(ActionEvent e) {
-        //TODO: create deck
+        //TODO: create deck with deckName.getText();
         onBackButtonClick(e);
     }
 
@@ -73,19 +74,16 @@ public class MainUIController {
     }
 
     /**
-     * Opens study session
+     * Opens study session application
      */
     @FXML
     protected void onStartSessionSubmit() {
         Platform.runLater(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            new LearningSessionUI().start(new Stage());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                () -> {
+                    try {
+                        new LearningSessionUI().start(new Stage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
         );
