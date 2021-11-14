@@ -25,6 +25,11 @@ public class DeckUIController {
     public DeckUIController() {
     }
 
+    private File cardImage;
+
+    public DeckUIController() {
+    }
+
     /**
      * Generates pop-up to add a new Flashcard
      * @param e action event on click
