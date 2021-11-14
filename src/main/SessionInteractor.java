@@ -14,6 +14,6 @@ public class SessionInteractor {
 //    }
 
     public static Flashcard getNextCard(StudySession session) {
-        return session.getNextCard();
+        return session.returnChosenFlashcard();
     }
 }

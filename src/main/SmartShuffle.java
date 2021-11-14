@@ -6,4 +6,19 @@ public class SmartShuffle implements CardShuffler {
 
         //TODO maybe better shuffle
     }
+
+    @Override
+    public void setDeck(Deck deck) {
+
+    }
+
+    @Override
+    public void shuffleCards() {
+
+    }
+
+    @Override
+    public Flashcard returnChosenFlashcard() {
+        return null;
+    }
 }

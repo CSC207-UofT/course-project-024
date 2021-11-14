@@ -40,6 +40,7 @@ public abstract class StudySession {
      * @return Flashcard
      */
     public Flashcard returnChosenFlashcard(){
+        cardshuffler.setDeck(this.deck);
         return cardshuffler.returnChosenFlashcard();
     }
 

@@ -1,15 +1,25 @@
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * A class that represents a strategy on how to shuffle cards and retrieve the next card. WorstToBestShuffle orders cards by the user's proficiency (ascending).
+ */
 public class WorstToBestShuffle implements CardShuffler {
 
-    int index = 0;
     Deck deckCopy;
     Map<Flashcard, FlashcardData> proficiencies;
 
+    /**
+     * sets the deck to be shuffled
+     * @param deck
+     */
     public void setDeck(Deck deck){
         this.deckCopy = deck.copyDeck();
     }
+
+    /**
+     * shuffles cards in the deck
+     */
     @Override
     public void shuffleCards(){
         for (int i = 0; i < deckCopy.getFlashcards().size(); i++){
@@ -25,8 +35,14 @@ public class WorstToBestShuffle implements CardShuffler {
         }
 
     }
+
+    /**
+     * returns a flashcard to present to the user based on a card shuffle strategy
+     * @return Flashcard
+     */
     @Override
     public Flashcard returnChosenFlashcard() {
+        shuffleCards();
         return deckCopy.getFlashcards().get(0);
     }
 }
