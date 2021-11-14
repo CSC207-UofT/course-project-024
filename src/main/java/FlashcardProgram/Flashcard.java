@@ -1,3 +1,5 @@
+package FlashcardProgram;
+
 public class Flashcard {
     private String front;
     private String back;

@@ -3,6 +3,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import FlashcardProgram.Deck;
+import FlashcardProgram.Account;
+import FlashcardProgram.DeckController;
+import FlashcardProgram.AccountInteractor;
+
 public class DeckControllerTest {
     DeckController deckController;
     Account account;

@@ -1,3 +1,5 @@
+package FlashcardProgram;
+
 public class LearningSession extends StudySession {
 
     public LearningSession(Deck deck) {

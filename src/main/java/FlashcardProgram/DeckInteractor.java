@@ -1,3 +1,5 @@
+package FlashcardProgram;
+
 public class DeckInteractor {
 
     public static Deck createDeck(String deckName){return (new Deck(deckName));}

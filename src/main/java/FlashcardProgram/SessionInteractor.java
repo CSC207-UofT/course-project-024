@@ -1,3 +1,5 @@
+package FlashcardProgram;
+
 public class SessionInteractor {
 
     private SessionInteractor() {

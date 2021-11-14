@@ -1,3 +1,5 @@
+package FlashcardProgram;
+
 public class FlashcardInteractor {
     /**
      * Construct and return a new Flashcard.
