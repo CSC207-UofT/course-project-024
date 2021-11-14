@@ -32,12 +32,12 @@ public class SessionController {
         return SessionInteractor.getNextCard(session);
     }
 
-    public StudySession getLearningSession(Deck deck, Account account, ShuffleType type) {
+    public StudySession getLearningSession(Deck deck, Account account) {
         List<StudySession> sessions = account.getDecksToSessions().get(deck);
         StudySession existingSession = getExistingSameSession(sessions, LearningSession.class);
         // if session already exists, resume it, else, create a new session
         if (existingSession == null) {
-            StudySession newSession = SessionInteractor.createLearningSession(deck, type);
+            StudySession newSession = SessionInteractor.createLearningSession(deck);
             AccountInteractor.addSessionToAccount(account, deck, newSession);
             return newSession;
         } else {

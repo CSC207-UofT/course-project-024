@@ -10,13 +10,13 @@ public class SessionInteractor {
         return session.getNextCard();
     }
 
-    public static StudySession createLearningSession(Deck deck, ShuffleType type) {
-        return new LearningSession(deck, type);
+    public static StudySession createLearningSession(Deck deck) {
+        return new LearningSession(deck);
     }
 
     public static void postAnswerUpdate(StudySession session, boolean wasCorrect) {
-        if (session instanceof UpdatingSession) {
-            ((UpdatingSession) session).postAnswerUpdate(session, wasCorrect);
+        if (session.cardShuffler instanceof UpdatingShuffler) {
+            ((UpdatingShuffler) session.cardShuffler).postAnswerFlashcardDataUpdate(wasCorrect);
         }
     }
 

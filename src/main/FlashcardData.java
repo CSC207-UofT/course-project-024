@@ -21,6 +21,10 @@ public class FlashcardData {
         return this.isSeen;
     }
 
+    public void setIsSeen(boolean isSeen) {
+        this.isSeen = isSeen;
+    }
+
     public int getProficiency() {
         return proficiency;
     }

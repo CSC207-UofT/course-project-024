@@ -4,13 +4,13 @@ public class DeckController {
 
     public DeckController() {}
 
-    public Deck createDeck(String name, Account account){
+    public Deck createDeck(Account account, String name){
         Deck deck = DeckInteractor.createDeck(name);
         AccountInteractor.addDeckToAccount(account, deck);
         return deck;
     }
 
-    public void deleteDeck(Deck deck, Account account) {
+    public void deleteDeck(Account account, Deck deck) {
         AccountInteractor.deleteDeckFromAccount(account, deck);
     }
 

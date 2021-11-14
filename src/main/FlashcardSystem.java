@@ -67,7 +67,7 @@ public class FlashcardSystem {
         if (select.equals("0")) {
             return sessionController.getPracticeSession(deck, account);
         } else if (select.equals("1")) {
-            return sessionController.getLearningSession(deck, account, ShuffleType.SMART);
+            return sessionController.getLearningSession(deck, account);
         }
         // TODO: remove once invalid input is properly handled
         return null;
@@ -76,7 +76,7 @@ public class FlashcardSystem {
     private void displayCreateDeckMenu() {
         System.out.println("Name of New Deck:");
         String name = scanner.nextLine();
-        deckController.createDeck(name, account);
+        deckController.createDeck(account, name);
     }
 
     private void displayEditDeckMenu() {
