@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class FlashcardSystem {
+public class FlashcardSystem{
     private final DeckController deckController = new DeckController();
     private final SessionController sessionController = new SessionController();
     private final SessionPresenter sessionPresenter = new SessionPresenter();
