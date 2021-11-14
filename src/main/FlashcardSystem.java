@@ -61,11 +61,13 @@ public class FlashcardSystem {
 
     private StudySession displaySelectSessionMenu(Deck deck) {
         System.out.println("Which session would you like to study?");
-        System.out.println("(0) Practice");
+        System.out.println("(0) Practice (1) Learning");
         String select = scanner.nextLine();
         //TODO: check for invalid input
         if (select.equals("0")) {
             return sessionController.getPracticeSession(deck, account);
+        } else if (select.equals("1")) {
+            return sessionController.getLearningSession(deck, account);
         }
         // TODO: remove once invalid input is properly handled
         return null;
@@ -74,7 +76,7 @@ public class FlashcardSystem {
     private void displayCreateDeckMenu() {
         System.out.println("Name of New Deck:");
         String name = scanner.nextLine();
-        deckController.createDeck(name, account);
+        deckController.createDeck(account, name);
     }
 
     private void displayEditDeckMenu() {
@@ -113,7 +115,7 @@ public class FlashcardSystem {
         String frontInput = scanner.nextLine();
         System.out.println("Back of card:");
         String back = scanner.nextLine();
-        deckController.addCard(deck, frontInput, null, back);
+        deckController.addCard(account, deck, frontInput, null, back);
     }
 
     private void displayEditCardMenu(Deck deck) {

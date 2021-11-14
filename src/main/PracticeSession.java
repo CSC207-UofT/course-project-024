@@ -1,27 +1,11 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-
 public class PracticeSession extends StudySession {
     /**
-     * Construct a PracticeSession instance that initializes all proficiencies to 0.
+     * Construct a PracticeSession with all FlashcardData initialized to default values.
      * @param deck The deck that this session will use to show cards to the user.
      */
     public PracticeSession(Deck deck) {
-        super(deck);
-        this.flashcardData = new HashMap<>();
+        super(deck, new BasicShuffle(deck));
         this.deck = deck;
-        for (Flashcard card : this.deck.getFlashcards()) {
-            this.flashcardData.put(card, new FlashcardData(0));
-        }
-        this.cardshuffler = new BasicShuffle(this.flashcardData);
+        this.cardShuffler = new BasicShuffle(deck);
     }
-
-    @Override
-    public Flashcard getNextCard() {
-        return this.cardshuffler.returnChosenFlashcard();
-    }
-
-
 }
