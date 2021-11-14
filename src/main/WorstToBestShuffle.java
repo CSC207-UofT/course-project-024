@@ -3,6 +3,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+/**
+ * A strategy on how to shuffle and select cards. BasicShuffle's strategy is to order deck by ascending proficiency of the user
+ */
 public class WorstToBestShuffle extends CardShuffler {
 
     int index = 0;

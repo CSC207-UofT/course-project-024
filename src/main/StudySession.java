@@ -52,7 +52,7 @@ public abstract class StudySession {
     
     /**
      * Sets the CardShuffler for this StudySession
-     * @param cardshuffler
+     * @param cardShuffler
      */
     public void setCardShuffler(CardShuffler cardShuffler){
         this.cardShuffler = cardShuffler;

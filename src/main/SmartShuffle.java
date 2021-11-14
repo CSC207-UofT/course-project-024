@@ -2,6 +2,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+/**
+ * A strategy on how to shuffle and select cards. SmartShuffle's strategy //TODO
+ */
 public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
 
     private final LinkedList<Flashcard> deckCopy;
