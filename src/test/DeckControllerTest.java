@@ -2,6 +2,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import FlashcardProgram.Deck;
+import FlashcardProgram.DeckController;
+import FlashcardProgram.Account;
+import FlashcardProgram.AccountInteractor;
 
 public class DeckControllerTest {
     DeckController deckController;

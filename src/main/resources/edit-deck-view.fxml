@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="UI.DeckUIController">
+    <top>
+        <Label BorderPane.alignment="TOP_CENTER" text="Flashcards!"/>
+    </top>
+    <center>
+        <VBox alignment="CENTER" spacing="10.0">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+            </padding>
+
+            <MenuButton fx:id="deckSelect" text="Select Deck"/>
+            <Button onAction="#onAddCardButtonClick" text="Add Card"/>
+            <Button onAction="#onEditCardButtonClick" text="Edit Card"/>
+            <Button onAction="#onRenameDeckButtonClick" text="Rename Deck"/>
+            <Button onAction="#onDeleteDeckButtonClick" text="Delete Deck"/>
+        </VBox>
+    </center>
+</BorderPane>
