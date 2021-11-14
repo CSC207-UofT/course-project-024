@@ -15,6 +15,10 @@ public class BasicShuffle extends CardShuffler {
         this.flashcardToData = flashcardToData;
     }
 
+    /**
+     * Construct a new BasicShuffle shuffler.
+     * @param deck The Deck that the flashcardToData mapping will be constructed from, with default values.
+     */
     public BasicShuffle(Deck deck) {
         this.flashcardToData = new HashMap<>();
         for (Flashcard card : deck.getFlashcards()) {
@@ -23,6 +27,9 @@ public class BasicShuffle extends CardShuffler {
         this.deckCopy = new ArrayList<>(this.flashcardToData.keySet().stream().toList());
     }
 
+    /**
+     * Randomly shuffles this shuffler's deckCopy to a random order.
+     */
     public void shuffleCards() {
         Collections.shuffle(this.deckCopy);
     }
