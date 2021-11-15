@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Account {
+public class Account implements DataBaseGateway{
     private String username;
     private final String password;
     private final List<Deck> decks;
@@ -22,7 +22,7 @@ public class Account {
     public Account(String username, String password) {
         this.username = username;
         this.password = password;
-        this.decks = new ArrayList<>();
+        this.decks = getDecksFromDB();
         this.decksToSessions = new HashMap<>();
     }
 

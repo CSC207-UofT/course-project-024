@@ -1,6 +1,7 @@
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
 
@@ -14,7 +15,7 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
     public SmartShuffle(Map<Flashcard, FlashcardData> flashcardToData) {
         this.flashcardToData = flashcardToData;
         // This turns an ImmutableList, which ToList returns, to a LinkedList.
-        this.deckCopy = new LinkedList<>(this.flashcardToData.keySet().stream().toList());
+        this.deckCopy = new LinkedList<>(this.flashcardToData.keySet().stream().collect(Collectors.toList()));
     }
 
     /**
@@ -28,7 +29,7 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
             this.flashcardToData.put(card, new FlashcardData(0));
         }
 
-        this.deckCopy = new LinkedList<>(this.flashcardToData.keySet().stream().toList());
+        this.deckCopy = new LinkedList<>(this.flashcardToData.keySet().stream().collect(Collectors.toList()));
     }
 
     /**

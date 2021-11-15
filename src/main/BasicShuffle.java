@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class BasicShuffle extends CardShuffler {
 
@@ -11,7 +12,7 @@ public class BasicShuffle extends CardShuffler {
      */
     public BasicShuffle(Map<Flashcard, FlashcardData> flashcardToData) {
         // This turns an ImmutableList, which ToList returns, to an ArrayList. Don't ask me why.
-        this.deckCopy = new ArrayList<>(flashcardToData.keySet().stream().toList());
+        this.deckCopy = new ArrayList<>(new ArrayList<>(flashcardToData.keySet()));
         this.flashcardToData = flashcardToData;
     }
 
@@ -24,7 +25,7 @@ public class BasicShuffle extends CardShuffler {
         for (Flashcard card : deck.getFlashcards()) {
             this.flashcardToData.put(card, new FlashcardData(0));
         }
-        this.deckCopy = new ArrayList<>(this.flashcardToData.keySet().stream().toList());
+        this.deckCopy = new ArrayList<>(new ArrayList<>(this.flashcardToData.keySet()));
     }
 
     /**

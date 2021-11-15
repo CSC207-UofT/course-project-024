@@ -177,7 +177,7 @@ public interface DataBaseGateway {
                 // Obtain the id of the deck we will add the card to
                 String id = deck_id.getString("deck_id");
                 // Insert the card into the correct deck in the database with the given information
-                PreparedStatement pstmt = connection().prepareStatement("INSERT INTO cards (deck_id, front, back, image) VALUES (?, ?, ?)");
+                PreparedStatement pstmt = connection().prepareStatement("INSERT INTO cards (deck_id, front, back) VALUES (?, ?, ?)");
                 pstmt.setString(1, id);
                 pstmt.setString(2, front);
                 pstmt.setString(3, back);
