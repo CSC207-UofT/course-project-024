@@ -1,4 +1,6 @@
-package FlashcardProgram;
+package Main;
+
+import FlashcardProgram.FlashcardSystem;
 
 public class Main {
     public static void main(String[] args) {
@@ -7,5 +9,6 @@ public class Main {
         // TODO: properly use modules instead of this hack for JavaFX
         //LearningSessionUI.main(args);
         UI.MainUI.main(args);
+
     }
 }

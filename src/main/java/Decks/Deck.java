@@ -1,4 +1,6 @@
-package FlashcardProgram;
+package Decks;
+
+import Flashcards.Flashcard;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,5 +1,9 @@
 package FlashcardProgram;
 
+import Flashcards.Flashcard;
+import Sessions.SessionController;
+import Sessions.StudySession;
+
 import java.util.Scanner;
 
 /**
@@ -49,7 +53,7 @@ public class SessionPresenter {
      * @param card The flashcard whose front is displayed.
      */
     private void displayFlashcardFront(Flashcard card) {
-        System.out.println("Front: " + card.getFront());
+        System.out.println("Front: " + card.getFront().getText());
     }
 
     /**
@@ -59,15 +63,6 @@ public class SessionPresenter {
      */
     private void displayFlashcardBack(Flashcard card) {
         System.out.println("Back: " + card.getBack());
-    }
-
-    /**
-     * Get the user's keyboard input.
-     *
-     * @return The user's keyboard input as a String.
-     */
-    private String getUserInput() {
-        return input.next();
     }
 
     /**

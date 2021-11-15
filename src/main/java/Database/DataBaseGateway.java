@@ -1,14 +1,13 @@
-package FlashcardProgram;
+package Database;
 
-import jdk.jshell.EvalException;
+import Accounts.Account;
+import Decks.Deck;
+import Decks.DeckInteractor;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 
 
 public interface DataBaseGateway {

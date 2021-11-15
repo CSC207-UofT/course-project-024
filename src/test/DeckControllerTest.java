@@ -2,10 +2,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import FlashcardProgram.Deck;
-import FlashcardProgram.DeckController;
-import FlashcardProgram.Account;
-import FlashcardProgram.AccountInteractor;
+import Decks.Deck;
+import Decks.DeckController;
+import Accounts.Account;
+import Accounts.AccountInteractor;
 
 public class DeckControllerTest {
     DeckController deckController;
@@ -15,8 +15,8 @@ public class DeckControllerTest {
     @BeforeEach
     void setUp() {
         deckController = new DeckController();
-        deck = deckController.createDeck(account, "Deck Name");
         account = AccountInteractor.createAccount("user1", "pass1");
+        deck = deckController.createDeck(account, "Deck Name");
     }
 
     @Test
@@ -48,6 +48,7 @@ public class DeckControllerTest {
 
     @Test
     void deleteDeck() {
+        deckController.deleteDeck(account, deck);
         assertFalse(account.getDecks().contains(deck));
     }
 }

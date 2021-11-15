@@ -1,4 +1,4 @@
-package FlashcardProgram;
+package UI;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;

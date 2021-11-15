@@ -1,4 +1,4 @@
-package FlashcardProgram;
+package Flashcards;
 
 import java.awt.*;
 
