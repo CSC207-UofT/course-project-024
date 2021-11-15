@@ -31,7 +31,7 @@ public class WorstToBestShuffle extends CardShuffler {
 
     /**
      * Set this shuffler's deckCopy to deck.
-     * @param deck
+     * @param deck The deck that will be copied to this WorstToBestShuffler's copyDeck
      */
     public void setDeck(Deck deck){
         this.deckCopy = deck.copyDeck();
@@ -39,7 +39,7 @@ public class WorstToBestShuffle extends CardShuffler {
 
     /**
      * Return the chosen flashcard of this card shuffle algorithm.
-     * @return A Flashcard
+     * @return A Flashcard (the chosen one)
      */
     @Override
     public Flashcard returnChosenFlashcard() {
@@ -56,6 +56,8 @@ public class WorstToBestShuffle extends CardShuffler {
                 this.deckCopy.getFlashcards().add(flashcard);
             }
         }
+
         this.deckCopy.getFlashcards().removeIf(card -> !this.flashcardToData.containsKey(card));
+
     }
 }

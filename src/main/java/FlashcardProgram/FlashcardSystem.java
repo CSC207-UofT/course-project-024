@@ -55,7 +55,7 @@ public class FlashcardSystem{
         //TODO: change format to (0) Back (1) Card 1 (2) Card 2 ....
         List<Flashcard> flashcards = deck.getFlashcards();
         for (int i=0; i<flashcards.size(); i++) {
-            System.out.println("("+i+") Card "+ flashcards.get(i).getFront());
+            System.out.println("("+i+") Card "+ flashcards.get(i).getFront().getText());
         }
         String x = scanner.nextLine();
         //TODO: handle NumberFormatException

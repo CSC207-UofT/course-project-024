@@ -6,22 +6,21 @@ import Flashcards.Flashcard;
 
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 
 public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
 
     private final LinkedList<Flashcard> deckCopy;
     private Flashcard lastFlashcardShown;
 
-    /**
-     * Constructs a new SmartShuffle shuffler using a preexisting map.
-     * @param flashcardToData A mapping from Flashcard to FlashcardData taken from this shuffler's StudySession.
-     */
-    public SmartShuffle(Map<Flashcard, FlashcardData> flashcardToData) {
-        this.flashcardToData = flashcardToData;
-        // This turns an ImmutableList, which ToList returns, to a LinkedList.
-        this.deckCopy = new LinkedList<>(this.flashcardToData.keySet().stream().toList());
-    }
+//    /**
+//     * Constructs a new SmartShuffle shuffler using a preexisting map.
+//     * @param flashcardToData A mapping from Flashcard to FlashcardData taken from this shuffler's StudySession.
+//     */
+//    public SmartShuffle(Map<Flashcard, FlashcardData> flashcardToData) {
+//        this.flashcardToData = flashcardToData;
+//        // This turns an ImmutableList, which ToList returns, to a LinkedList.
+//        this.deckCopy = new LinkedList<>(this.flashcardToData.keySet().stream().toList());
+//    }
 
     /**
      * Constructs a new SmartShuffle shuffler, initializing an empty mapping using deck.
@@ -58,17 +57,14 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
             }
         }
 
-        for (Flashcard card : this.deckCopy) {
-            if (!this.flashcardToData.containsKey(card)) {
-                this.deckCopy.remove(card);
-            }
-        }
+        this.deckCopy.removeIf(card -> !this.flashcardToData.containsKey(card));
     }
 
 
     public LinkedList<Flashcard> getDeckCopy() {
         return this.deckCopy;
     }
+
 
     /**
      * Updates this shuffler's deckCopy to order it after the FlashcardData objects are updated in this.flashcardToData.

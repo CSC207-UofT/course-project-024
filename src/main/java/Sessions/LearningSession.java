@@ -12,5 +12,4 @@ public class LearningSession extends StudySession {
         super(deck, new SmartShuffle(deck));
         this.deck = deck;
     }
-
 }

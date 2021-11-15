@@ -16,10 +16,10 @@ public abstract class StudySession {
     protected CardShuffler cardShuffler;
 
     /**
-     * Constructs a study session with given deck, name and cardshuffler
-     * @param deck
-     * @param name
-     * @param cardShuffler
+     * Constructs a new StudySession with the given deck, name, and cardShuffler
+     * @param deck The deck that this StudySession will be based upon
+     * @param name The string name of this StudySession
+     * @param cardShuffler The CardShuffler that this StudySession will use to get Flashcards
      */
     public StudySession(Deck deck, String name, CardShuffler cardShuffler) {
         this.deck = deck;
@@ -28,9 +28,9 @@ public abstract class StudySession {
     }
 
     /**
-     * Constructs a study session with given deck and cardshuffler
-     * @param deck
-     * @param cardShuffler
+     * Constructs a StudySession with given deck and cardShuffler
+     * @param deck The deck that this StudySession will be based upon
+     * @param cardShuffler The CardShuffler that this StudySession will use to get Flashcards
      */
     public StudySession(Deck deck, CardShuffler cardShuffler) {
         this.deck = deck;
@@ -38,28 +38,28 @@ public abstract class StudySession {
         this.cardShuffler = cardShuffler;
     }
 
+    /**
+     * Returns this StudySession's CardShuffler.
+     * @return This StudySession's CardShuffler
+     */
+    public CardShuffler getCardShuffler() {
+        return this.cardShuffler;
+    }
+
      /**
-     * Returns this StudySession's CardShuffler's flashcardToData
-     * @return Map<Flashcard, FlashcardData>
+     * Returns this StudySession's CardShuffler's flashcardToData mapping.
+     * @return This StudySession's CardShuffler's flashcardToData mapping.
      */
     public Map<Flashcard, FlashcardData> getFlashcardToData(){
         return this.cardShuffler.getFlashcardToData();
     }
     
     /**
-     * Returns the next card given by this StudySession's CardShuffler
-     * @return Flashcard
+     * Returns the next card given by this StudySession's CardShuffler.
+     * @return A Flashcard chosen by this StudySession's CardShuffler
      */
     public Flashcard getNextCard() {
         return cardShuffler.returnChosenFlashcard();
-    }
-    
-    /**
-     * Sets the CardShuffler for this StudySession
-     * @param cardShuffler
-     */
-    public void setCardShuffler(CardShuffler cardShuffler){
-        this.cardShuffler = cardShuffler;
     }
 
     /**
