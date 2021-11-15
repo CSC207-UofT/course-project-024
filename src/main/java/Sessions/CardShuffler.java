@@ -9,9 +9,9 @@ public abstract class CardShuffler {
 
     protected Map<Flashcard, FlashcardData> flashcardToData;
 
-    abstract Flashcard returnChosenFlashcard();
+    public abstract Flashcard returnChosenFlashcard();
 
-    abstract void updateDeckContext();
+    public abstract void updateDeckContext();
 
     protected Map<Flashcard, FlashcardData> getFlashcardToData() {
         return this.flashcardToData;
