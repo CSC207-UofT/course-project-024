@@ -34,7 +34,7 @@ public class DeckController implements DataBaseGateway{
 
     public void addCard(Account account, Deck deck, String frontText, Image frontImage, String back) {
         DeckInteractor.addFlashcard(deck, frontText, frontImage, back);
-//        addCardToDeckInDB(account, deck.getName(), frontText, back, );
+        addCardToDeckInDB(account, deck.getName(), frontText, back);
         updateSessionsOfDeck(account, deck);
     }
 

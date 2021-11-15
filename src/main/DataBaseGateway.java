@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -80,9 +81,10 @@ public interface DataBaseGateway {
             while (decks.next()){
                 Deck newDeck = DeckInteractor.createDeck(decks.getString("deck_name"));
                 ResultSet correspondingCards = createStatement().executeQuery("SELECT * FROM cards WHERE deck_id = '" + decks.getString("deck_id") + "'");
-//                while (correspondingCards.next()){
-//                    DeckInteractor.addFlashcard(newDeck, correspondingCards.getString("front"), correspondingCards.getString("back"), );
-//                }
+                BufferedImage image = new BufferedImage(1, 1, 1);
+                while (correspondingCards.next()){
+                    DeckInteractor.addFlashcard(newDeck, correspondingCards.getString("front"), image, correspondingCards.getString("back"));
+                }
                 deckList.add(newDeck);
             }
             return deckList;
@@ -96,13 +98,10 @@ public interface DataBaseGateway {
     default void addDeckToDB(Account account, String deck_name){
         try {
             // Construct a MySQL insert statement that will populate a row of the deck table with the name of the deck, and the account it belongs to
-            PreparedStatement pstmt = connection().prepareStatement("INSERT INTO decks (account_id, deck_name) VALUES (?, ?)");
-            pstmt.setString(1, account.getUsername());
-            pstmt.setString(2, deck_name);
+            PreparedStatement pstmt = connection().prepareStatement("INSERT INTO decks (deck_name) VALUES (?)");
+            pstmt.setString(1, deck_name);
             // Execute the insert statement
             pstmt.execute();
-
-//            createStatement().execute ("INSERT INTO " + table + "(" + column + ") VALUES ('" + Value + "')");
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -130,16 +129,15 @@ public interface DataBaseGateway {
     default void deleteCardInDB(Account account, String deck_name, String front, String back){
         try{
             // Obtain a table of the deck id of the deck that holds the card we want to delete
-            ResultSet corresponding_deck_id = connection().createStatement().executeQuery("SELECT deck_id FROM decks WHERE deck_name ='" + deck_name + "' AND account_id = '" + account.getUsername() + "'");
+            ResultSet corresponding_deck_id = connection().createStatement().executeQuery("SELECT deck_id FROM decks WHERE deck_name ='" + deck_name + "'");
             while (corresponding_deck_id.next()) {
                 // Obtain the deck id of the deck containing the card we want to delete
                 String deck_id = corresponding_deck_id.getString("deck_id");
                 // Prepare a MySQL statement to delete the desired card
-                PreparedStatement pstmt = connection().prepareStatement("DELETE FROM cards WHERE deck_id=(?) AND front=(?) AND back=(?) and account_id=(?)");
+                PreparedStatement pstmt = connection().prepareStatement("DELETE FROM cards WHERE deck_id=(?) AND front=(?) AND back=(?)");
                 pstmt.setString(1, deck_id);
                 pstmt.setString(2, front);
                 pstmt.setString(3, back);
-                pstmt.setString(4, account.getUsername());
                 // Execute the prepared statement
                 pstmt.execute();
             }
@@ -152,14 +150,13 @@ public interface DataBaseGateway {
     default void deleteDeckInDB(Account account, String deck_name){
         try{
             // Obtain a table containing the deck we want to delete
-            ResultSet corresponding_deck_id = connection().createStatement().executeQuery("SELECT deck_id FROM decks WHERE deck_name ='" + deck_name + "' AND account_id ='" + account.getUsername() + "'");
+            ResultSet corresponding_deck_id = connection().createStatement().executeQuery("SELECT deck_id FROM decks WHERE deck_name ='" + deck_name + "'");
             while (corresponding_deck_id.next()) {
                 // Obtain the id of the deck we want to delete
                 String deck_id = corresponding_deck_id.getString("deck_id");
                 // Delete the deck that has the deck id that was just retrieved
-                PreparedStatement pstmt = connection().prepareStatement("DELETE FROM deck WHERE deck_id = (?) AND account_id = (?)");
+                PreparedStatement pstmt = connection().prepareStatement("DELETE FROM deck WHERE deck_id = (?)");
                 pstmt.setString(1, deck_id);
-                pstmt.setString(2, account.getUsername());
                 pstmt.execute();
                 // Delete all the cards that belong to the deck that was just deleted
                 PreparedStatement pstmt2 = connection().prepareStatement("DELETE FROM cards WHERE deck_id = (?) ");
@@ -172,20 +169,20 @@ public interface DataBaseGateway {
     }
 
     // Add a new card to a deck in the database
-    default void addCardToDeckInDB (Account account, String deck_name, String front, String back, String file_path){
+    default void addCardToDeckInDB (Account account, String deck_name, String front, String back){
         try {
             // Obtain a table of the deck that will hold the card we want to add
-            ResultSet deck_id = createStatement().executeQuery("SELECT * FROM decks WHERE deck_name = '" + deck_name + "' AND account_id='" + account.getUsername() + "'");
+            ResultSet deck_id = createStatement().executeQuery("SELECT * FROM decks WHERE deck_name = '" + deck_name + "'");
             while (deck_id.next()){
                 // Obtain the id of the deck we will add the card to
                 String id = deck_id.getString("deck_id");
                 // Insert the card into the correct deck in the database with the given information
-                PreparedStatement pstmt = connection().prepareStatement("INSERT INTO cards (deck_id, front, back, image) VALUES (?, ?, ?, ?)");
+                PreparedStatement pstmt = connection().prepareStatement("INSERT INTO cards (deck_id, front, back, image) VALUES (?, ?, ?)");
                 pstmt.setString(1, id);
                 pstmt.setString(2, front);
                 pstmt.setString(3, back);
-                InputStream in = new FileInputStream(file_path);
-                pstmt.setBlob(4, in);
+//                InputStream in = new FileInputStream(file_path);
+//                pstmt.setBlob(4, in);
                 pstmt.execute();
             }
         } catch (Exception e){
