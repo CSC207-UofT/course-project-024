@@ -12,16 +12,6 @@ public class BasicShuffle extends CardShuffler {
     ArrayList<Flashcard> deckCopy;
 
     /**
-     * Construct a new BasicShuffle card shuffler.
-     * @param flashcardToData A mapping from Flashcard to FlashcardData taken from this shuffler's StudySession.
-     */
-    public BasicShuffle(Map<Flashcard, FlashcardData> flashcardToData) {
-        // This turns an ImmutableList, which ToList returns, to an ArrayList. Don't ask me why.
-        this.deckCopy = new ArrayList<>(flashcardToData.keySet().stream().toList());
-        this.flashcardToData = flashcardToData;
-    }
-
-    /**
      * Construct a new BasicShuffle shuffler.
      * @param deck The Deck that the flashcardToData mapping will be constructed from, with default values.
      */
@@ -30,7 +20,8 @@ public class BasicShuffle extends CardShuffler {
         for (Flashcard card : deck.getFlashcards()) {
             this.flashcardToData.put(card, new FlashcardData(0));
         }
-        this.deckCopy = new ArrayList<>(this.flashcardToData.keySet().stream().toList());
+        this.deckCopy = new ArrayList<>();
+        this.deckCopy.addAll(this.flashcardToData.keySet());
     }
 
     /**

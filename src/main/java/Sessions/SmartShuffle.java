@@ -32,8 +32,8 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
         for (Flashcard card : deck.getFlashcards()) {
             this.flashcardToData.put(card, new FlashcardData(0));
         }
-
-        this.deckCopy = new LinkedList<>(this.flashcardToData.keySet().stream().toList());
+        this.deckCopy = new LinkedList<>();
+        this.deckCopy.addAll(this.flashcardToData.keySet());
     }
 
     /**
