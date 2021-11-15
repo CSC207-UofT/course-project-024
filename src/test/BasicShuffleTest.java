@@ -5,7 +5,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BasicShufflerTest {
+class BasicShufflerTest {
     BasicShuffle basicShuffler;
     Deck deck;
 
