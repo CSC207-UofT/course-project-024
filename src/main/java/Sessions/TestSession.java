@@ -1,3 +1,7 @@
+package Sessions;
+
+import Decks.Deck;
+
 public class TestSession extends StudySession {
 
     private int length;

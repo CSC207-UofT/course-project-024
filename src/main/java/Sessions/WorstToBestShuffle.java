@@ -1,8 +1,9 @@
-package FlashcardProgram;
+package Sessions;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
+import Decks.Deck;
+import Flashcards.FlashcardData;
+import Flashcards.Flashcard;
+
 import java.util.Map;
 
 public class WorstToBestShuffle extends CardShuffler {

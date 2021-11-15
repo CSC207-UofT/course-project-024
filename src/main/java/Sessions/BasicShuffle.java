@@ -1,4 +1,8 @@
-package FlashcardProgram;
+package Sessions;
+
+import Decks.Deck;
+import Flashcards.FlashcardData;
+import Flashcards.Flashcard;
 
 import java.util.*;
 
@@ -70,10 +74,6 @@ public class BasicShuffle extends CardShuffler {
             }
         }
 
-        for (Flashcard card : this.deckCopy) {
-            if (!this.flashcardToData.containsKey(card)) {
-                this.deckCopy.remove(card);
-            }
-        }
+        this.deckCopy.removeIf(card -> !this.flashcardToData.containsKey(card));
     }
 }

@@ -1,4 +1,4 @@
-package FlashcardProgram;
+package Flashcards;
 
 public class FlashcardData {
     private int proficiency;

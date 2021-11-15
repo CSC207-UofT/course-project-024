@@ -1,4 +1,4 @@
-package FlashcardProgram;
+package Sessions;
 
 public interface UpdatingShuffler {
     /**

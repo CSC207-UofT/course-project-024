@@ -1,4 +1,7 @@
-package FlashcardProgram;
+package Sessions;
+
+import Decks.Deck;
+
 public class LearningSession extends StudySession {
 
     /**

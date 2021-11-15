@@ -1,4 +1,7 @@
-package FlashcardProgram;
+package Sessions;
+
+import Flashcards.FlashcardData;
+import Flashcards.Flashcard;
 
 import java.util.Map;
 

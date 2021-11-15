@@ -1,6 +1,8 @@
-package FlashcardProgram;
+package Sessions;
 
-import FlashcardProgram.UpdatingShuffler;
+import Decks.Deck;
+import Flashcards.FlashcardData;
+import Flashcards.Flashcard;
 
 import java.util.HashMap;
 import java.util.LinkedList;

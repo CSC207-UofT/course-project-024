@@ -1,5 +1,13 @@
 package FlashcardProgram;
 
+import Accounts.Account;
+import Accounts.AccountInteractor;
+import Decks.Deck;
+import Decks.DeckController;
+import Flashcards.Flashcard;
+import Sessions.SessionController;
+import Sessions.StudySession;
+
 import java.util.*;
 
 public class FlashcardSystem{

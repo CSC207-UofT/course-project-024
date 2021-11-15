@@ -1,6 +1,9 @@
-package FlashcardProgram;
+package Sessions;
 
-import java.util.HashMap;
+import Decks.Deck;
+import Flashcards.FlashcardData;
+import Flashcards.Flashcard;
+
 import java.util.Map;
 
 /**
@@ -8,7 +11,6 @@ import java.util.Map;
  */
 public abstract class StudySession {
     protected Deck deck;
-
     protected String name;
     // cardshuffler holds the strategy in how we choose the next card
     protected CardShuffler cardShuffler;
@@ -22,7 +24,7 @@ public abstract class StudySession {
     public StudySession(Deck deck, String name, CardShuffler cardShuffler) {
         this.deck = deck;
         this.name = name;
-        setCardShuffler(cardShuffler);
+        this.cardShuffler = cardShuffler;
     }
 
     /**
@@ -58,6 +60,12 @@ public abstract class StudySession {
      */
     public void setCardShuffler(CardShuffler cardShuffler){
         this.cardShuffler = cardShuffler;
+    }
 
+    /**
+     * Updates this StudySession's CardShuffler to make it up-to-date with any changes to its FlashcardToData mapping.
+     */
+    public void updateDeckContext() {
+        this.cardShuffler.updateDeckContext();
     }
 }

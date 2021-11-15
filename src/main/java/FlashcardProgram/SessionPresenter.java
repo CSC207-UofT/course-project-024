@@ -1,5 +1,9 @@
 package FlashcardProgram;
 
+import Flashcards.Flashcard;
+import Sessions.SessionController;
+import Sessions.StudySession;
+
 import java.util.Scanner;
 
 /**
