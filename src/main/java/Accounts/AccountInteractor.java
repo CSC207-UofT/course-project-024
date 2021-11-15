@@ -10,6 +10,8 @@ import java.util.Map;
 
 public class AccountInteractor {
 
+    private AccountInteractor() {}
+
     /**
      * Create and return a new user account.
      * @param username This account's identifying username.
@@ -18,6 +20,15 @@ public class AccountInteractor {
      */
     public static Account createAccount(String username, String password){
         return new Account(username, password);
+    }
+
+    /**
+     * Change this account's username to the given username.
+     * @param account The target account
+     * @param newUsername The new username of the account
+     */
+    public static void changeUsername(Account account, String newUsername) {
+        account.setUsername(newUsername);
     }
 
     /**

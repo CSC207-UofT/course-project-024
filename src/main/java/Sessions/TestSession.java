@@ -4,7 +4,7 @@ import Decks.Deck;
 
 public class TestSession extends StudySession {
 
-    private int length;
+    private final int length;
     private int numCorrect = 0; // the number of times the user guessed the back of the card correctly
 
     /**

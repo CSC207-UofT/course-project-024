@@ -8,15 +8,8 @@ import java.util.Map;
 
 public class WorstToBestShuffle extends CardShuffler {
 
-    int index = 0;
     Deck deckCopy;
     Map<Flashcard, FlashcardData> proficiencies;
-
-    /**
-     * Construct a new WorstToBestShuffle card shuffler.
-     */
-    public WorstToBestShuffle() {
-    }
 
     /**
      * Shuffle cards from worst to best proficiency.
@@ -63,12 +56,6 @@ public class WorstToBestShuffle extends CardShuffler {
                 this.deckCopy.getFlashcards().add(flashcard);
             }
         }
-
-        for (Flashcard card : this.deckCopy.getFlashcards()) {
-            if (!this.flashcardToData.containsKey(card)) {
-                this.deckCopy.getFlashcards().remove(card);
-            }
-        }
-
+        this.deckCopy.getFlashcards().removeIf(card -> !this.flashcardToData.containsKey(card));
     }
 }

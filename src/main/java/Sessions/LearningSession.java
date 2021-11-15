@@ -13,12 +13,4 @@ public class LearningSession extends StudySession {
         this.deck = deck;
     }
 
-    /**
-     * Updates this LearningSession's CardShuffler's FlashcardData.
-     * @param wasCorrect Whether the user got the flashcard correct.
-     */
-    public void updateFlashcardData(boolean wasCorrect) {
-        this.cardShuffler.updateDeckContext();
-    }
-
 }
