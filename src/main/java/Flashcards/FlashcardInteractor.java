@@ -3,6 +3,9 @@ package Flashcards;
 import java.awt.*;
 
 public class FlashcardInteractor {
+
+    private FlashcardInteractor() {}
+
     /**
      * Construct and return a new Flashcard.
      * @param frontText The text of the front of the new Flashcard to be returned (possibly null)

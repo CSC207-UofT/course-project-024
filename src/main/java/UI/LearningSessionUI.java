@@ -86,7 +86,7 @@ public class LearningSessionUI extends Application {
         StackPane right = getRightBar(e -> System.out.println("Getting next card..."));
         Region left = new Region();
         left.prefWidthProperty().bind(right.widthProperty());
-        HBox bottom = getBottomBarBackDisabled(window);
+        HBox bottom = getBottomBarBackDisabled();
 
 
         layout.setTop(top);
@@ -111,7 +111,7 @@ public class LearningSessionUI extends Application {
         StackPane right = getRightBar(e -> System.out.println("Getting next card..."));
         Region left = new Region();
         left.prefWidthProperty().bind(right.widthProperty());
-        HBox bottom = getBottomBarBackDisabled(window);
+        HBox bottom = getBottomBarBackDisabled();
 
         layout.setTop(top);
         layout.setCenter(center);
@@ -222,7 +222,7 @@ public class LearningSessionUI extends Application {
         return bottom;
     }
 
-    private HBox getBottomBarBackDisabled(Stage window) {
+    private HBox getBottomBarBackDisabled() {
         Button yesBtn = getButton("YES");
         yesBtn.setDisable(true);
         Button noBtn = getButton("NO");

@@ -52,6 +52,16 @@ public class SessionController {
     }
 
     /**
+     * Delete the specified StudySession from the specified account.
+     * @param session The StudySession to be deleted
+     * @param deck The deck which the session is based on
+     * @param account The target account
+     */
+    public void deleteSession(StudySession session, Deck deck, Account account) {
+        AccountInteractor.deleteSessionFromAccount(account, deck, session);
+    }
+
+    /**
      * Return the next card that should be shown to the user in the specified StudySession.
      * @param session The StudySession which will provide cards to the user
      * @return a Flashcard

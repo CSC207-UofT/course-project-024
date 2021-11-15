@@ -45,16 +45,6 @@ public class DeckController implements DataBaseGateway {
     }
 
     /**
-     * Adds or deletes flashcards in the flashcard-to-data mapping of each StudySession to match the current state of
-     * the specified deck. Should be called when a card is added or deleted from a deck.
-     * @param account The target account
-     * @param deck The deck which has had cards added or deleted
-     */
-    public void updateSessionsOfDeck(Account account, Deck deck) {
-        AccountInteractor.updateSessionsOfDeck(account, deck);
-    }
-
-    /**
      * Delete a flashcard from the specified deck. Also deletes the card from the database.
      * @param account The target account
      * @param deck The deck which owns the flashcard
@@ -63,7 +53,7 @@ public class DeckController implements DataBaseGateway {
     public void deleteCard(Account account, Deck deck, Flashcard flashcard){
         DeckInteractor.deleteFlashcard(deck, flashcard);
         deleteCardInDB(account, deck.getName(), flashcard.getFront().getText(), flashcard.getBack());
-        updateSessionsOfDeck(account, deck);
+        AccountInteractor.updateSessionsOfDeck(account, deck);
     }
 
     /**
@@ -77,7 +67,7 @@ public class DeckController implements DataBaseGateway {
     public void addCard(Account account, Deck deck, String frontText, Image frontImage, String back) {
         DeckInteractor.addFlashcard(deck, frontText, frontImage, back);
 //        addCardToDeckInDB(account, deck.getName(), frontText, back, );
-        updateSessionsOfDeck(account, deck);
+        AccountInteractor.updateSessionsOfDeck(account, deck);
     }
 
 
