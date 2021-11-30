@@ -11,21 +11,8 @@ import java.util.Map;
  */
 public abstract class StudySession {
     protected Deck deck;
-    protected String name;
     // cardshuffler holds the strategy in how we choose the next card
     protected CardShuffler cardShuffler;
-
-    /**
-     * Constructs a new StudySession with the given deck, name, and cardShuffler
-     * @param deck The deck that this StudySession will be based upon
-     * @param name The string name of this StudySession
-     * @param cardShuffler The CardShuffler that this StudySession will use to get Flashcards
-     */
-    public StudySession(Deck deck, String name, CardShuffler cardShuffler) {
-        this.deck = deck;
-        this.name = name;
-        this.cardShuffler = cardShuffler;
-    }
 
     /**
      * Constructs a StudySession with given deck and cardShuffler
@@ -34,7 +21,6 @@ public abstract class StudySession {
      */
     public StudySession(Deck deck, CardShuffler cardShuffler) {
         this.deck = deck;
-        this.name = "Untitled";
         this.cardShuffler = cardShuffler;
     }
 
@@ -44,6 +30,14 @@ public abstract class StudySession {
      */
     public CardShuffler getCardShuffler() {
         return this.cardShuffler;
+    }
+
+    /**
+     * Returns this StudySession's deck.
+     * @return This StudySession's deck
+     */
+    public Deck getDeck() {
+        return this.deck;
     }
 
      /**
