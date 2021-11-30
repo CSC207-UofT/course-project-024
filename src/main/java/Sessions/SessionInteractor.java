@@ -4,11 +4,6 @@ import Decks.Deck;
 import Decks.DeckDTO;
 import Decks.DeckInteractor;
 import Flashcards.*;
-import Sessions.LearningSession;
-import Sessions.PracticeSession;
-import Sessions.StudySession;
-import Sessions.UpdatingShuffler;
-import jdk.incubator.vector.VectorOperators;
 
 import java.util.*;
 

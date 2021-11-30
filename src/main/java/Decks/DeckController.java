@@ -1,12 +1,9 @@
 package Decks;
 
-import Accounts.Account;
 import Accounts.AccountDTO;
 import Accounts.AccountInteractor;
 import Database.DataBaseGateway;
-import Flashcards.Flashcard;
 import Flashcards.FlashcardDTO;
-import Flashcards.FlashcardInteractor;
 
 import java.awt.*;
 import java.util.ArrayList;

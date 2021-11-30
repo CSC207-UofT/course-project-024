@@ -1,6 +1,5 @@
 package Sessions;
 
-import Decks.Deck;
 import Decks.DeckDTO;
 
 public abstract class StudySessionDTO {

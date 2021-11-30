@@ -133,7 +133,6 @@ public class Account {
      * @param session The session which will be deleted from this account
      */
     public void deleteSession(Deck deck, StudySession session) {
-
         this.decksToSessions.get(deck).remove(session);
     }
 }

@@ -1,8 +1,6 @@
 package Sessions;
 
-import Flashcards.Flashcard;
 import Flashcards.FlashcardDTO;
-import Flashcards.FlashcardData;
 import Flashcards.FlashcardDataDTO;
 
 import java.util.List;

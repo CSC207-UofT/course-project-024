@@ -1,10 +1,7 @@
 package Decks;
 
-import Flashcards.Flashcard;
 import Flashcards.FlashcardDTO;
-import Flashcards.FlashcardInteractor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DeckDTO {

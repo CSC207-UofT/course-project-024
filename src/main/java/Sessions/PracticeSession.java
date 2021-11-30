@@ -1,8 +1,6 @@
 package Sessions;
 
 import Decks.Deck;
-import Sessions.BasicShuffle;
-import Sessions.StudySession;
 
 public class PracticeSession extends StudySession {
     /**

@@ -1,10 +1,7 @@
 package Sessions;
-import Accounts.Account;
+
 import Accounts.AccountInteractor;
-import Decks.Deck;
 import Decks.DeckDTO;
-import Decks.DeckInteractor;
-import Flashcards.Flashcard;
 import Flashcards.FlashcardDTO;
 
 import java.util.List;
