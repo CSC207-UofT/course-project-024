@@ -1,6 +1,7 @@
 package Decks;
 
 import Flashcards.Flashcard;
+import Sessions.Observable;
 
 import java.Sessions.Observable;
 import java.Sessions.Observer;
@@ -11,7 +12,7 @@ public class Deck implements Observable {
     private List<Observer> observers;
     private String name;
     private final List<Flashcard> flashcards;
-    private final List<Flashcard> flashcardsLastState;
+    private List<Flashcard> flashcardsLastState;
 
     /**
      * Create a new deck with the given name and starting flashcards.
@@ -97,6 +98,7 @@ public class Deck implements Observable {
         if (flashcards.equals(flashcardsLastState)){
             return false;
         }
+        flashcardsLastState = flashcards;
         return true;
     }
 

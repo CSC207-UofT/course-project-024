@@ -1,4 +1,4 @@
-package java.Sessions;
+package Sessions;
 
 public interface Observable {
     void addObserver(Observer observer);
