@@ -1,12 +1,12 @@
 package FlashcardProgram;
 
-import Accounts.Account;
+import Accounts.AccountDTO;
 import Accounts.AccountInteractor;
-import Decks.Deck;
 import Decks.DeckController;
-import Flashcards.Flashcard;
+import Decks.DeckDTO;
+import Flashcards.FlashcardDTO;
 import Sessions.SessionController;
-import Sessions.StudySession;
+import Sessions.StudySessionDTO;
 
 import java.util.*;
 
@@ -15,7 +15,11 @@ public class FlashcardSystem{
     private final SessionController sessionController = new SessionController();
     private final SessionPresenter sessionPresenter = new SessionPresenter();
     private final Scanner scanner = new Scanner(System.in);
-    private final Account account = AccountInteractor.createAccount("User", "Pass");
+    private final AccountDTO account = AccountInteractor.createAccount("User", "Pass");
+
+    public FlashcardSystem() {
+        AccountInteractor.login(account, "Pass");
+    }
 
     public void displayMainMenu() {
         String select;
@@ -40,9 +44,9 @@ public class FlashcardSystem{
 
     }
 
-    private Deck displayDecks() {
+    private DeckDTO displayDecks() {
         //TODO: change format to (0) Back (1) Deck 1 (2) Deck 2 ....
-        List<Deck> decks = account.getDecks();
+        List<DeckDTO> decks = AccountInteractor.getCurrentAccount().getDecks();
         for (int i=0; i<decks.size(); i++) {
             System.out.println("("+i+") Deck "+ decks.get(i).getName());
         }
@@ -51,33 +55,37 @@ public class FlashcardSystem{
         return decks.get(Integer.parseInt(x));
     }
 
-    private Flashcard displayCards(Deck deck) {
+    private int displayCards() {
         //TODO: change format to (0) Back (1) Card 1 (2) Card 2 ....
-        List<Flashcard> flashcards = deck.getFlashcards();
+        List<FlashcardDTO> flashcards = deckController.getCurrentDeck().getFlashcards();
         for (int i=0; i<flashcards.size(); i++) {
-            System.out.println("("+i+") Card "+ flashcards.get(i).getFront().getText());
+            System.out.println("("+i+") Card "+ flashcards.get(i).getFrontText());
         }
         String x = scanner.nextLine();
         //TODO: handle NumberFormatException
-        return flashcards.get(Integer.parseInt(x));
+        return Integer.parseInt(x);
     }
 
     private void displaySelectDeckToStudyMenu() {
         System.out.println("Which deck would you like to study?");
-        Deck deck = displayDecks();
-        StudySession session = displaySelectSessionMenu(deck);
+        DeckDTO deck = displayDecks();
+        AccountInteractor.selectDeck(deck);
+        StudySessionDTO session = displaySelectSessionMenu();
+        AccountInteractor.selectSession(deckController.getCurrentDeck(), session);
         sessionPresenter.displaySession(session, "-1");
     }
 
-    private StudySession displaySelectSessionMenu(Deck deck) {
+    private StudySessionDTO displaySelectSessionMenu() {
         System.out.println("Which session would you like to study?");
         System.out.println("(0) Practice (1) Learning");
         String select = scanner.nextLine();
         //TODO: check for invalid input
         if (select.equals("0")) {
-            return sessionController.getPracticeSession(deck, account);
+            sessionController.startPracticeSession(deckController.getCurrentDeck());
+            return sessionController.getCurrentSession();
         } else if (select.equals("1")) {
-            return sessionController.getLearningSession(deck, account);
+            sessionController.startLearningSession(deckController.getCurrentDeck());
+            return sessionController.getCurrentSession();
         }
         // TODO: remove once invalid input is properly handled
         return null;
@@ -86,12 +94,13 @@ public class FlashcardSystem{
     private void displayCreateDeckMenu() {
         System.out.println("Name of New Deck:");
         String name = scanner.nextLine();
-        deckController.createDeck(account, name);
+        deckController.createDeck(name);
     }
 
     private void displayEditDeckMenu() {
         System.out.println("Which deck would you like to edit?");
-        Deck deck = displayDecks();
+        DeckDTO deck = displayDecks();
+        AccountInteractor.selectDeck(deck);
         System.out.println("(0) Back (1) Add a Card (2) Select Card for Edit (3) Rename Deck (4) Delete Deck");
         String select = scanner.nextLine();
         //TODO: check for invalid input
@@ -100,13 +109,13 @@ public class FlashcardSystem{
                 displayMainMenu();
                 break;
             case "1":
-                displayAddCardMenu(deck);
+                displayAddCardMenu();
                 break;
             case "2":
-                displayEditCardMenu(deck);
+                displayEditCardMenu();
                 break;
             case "3":
-                displayRenameDeckMenu(deck);
+                displayRenameDeckMenu();
                 break;
             case "4":
                 //TODO: delete deck
@@ -114,23 +123,24 @@ public class FlashcardSystem{
         }
     }
 
-    private void displayRenameDeckMenu(Deck deck) {
+    private void displayRenameDeckMenu() {
         System.out.println("New Name for Deck:");
         String name = scanner.nextLine();
-        deckController.renameDeck(deck, name);
+        deckController.renameCurrentDeck(name);
     }
 
-    private void displayAddCardMenu(Deck deck) {
+    private void displayAddCardMenu() {
         System.out.println("Front of card:");
         String frontInput = scanner.nextLine();
         System.out.println("Back of card:");
         String back = scanner.nextLine();
-        deckController.addCard(account, deck, frontInput, null, back);
+        deckController.addCard(frontInput, null, back);
     }
 
-    private void displayEditCardMenu(Deck deck) {
+    private void displayEditCardMenu() {
         System.out.println("Which card would you like to edit?");
-        Flashcard card = displayCards(deck);
+        int index = displayCards();
+        deckController.selectFlashcard(index);
         System.out.println("(0) Back (1) Edit Front (2) Edit Back (3) Delete");
         String select = scanner.nextLine();
         //TODO: check for invalid input
@@ -145,7 +155,7 @@ public class FlashcardSystem{
                 //TODO: edit front
                 break;
             case "3":
-                deckController.deleteCard(account, deck, card);
+                deckController.deleteCard(index);
                 break;
         }
     }

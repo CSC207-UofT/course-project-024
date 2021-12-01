@@ -2,14 +2,14 @@ package Decks;
 
 import Accounts.AccountDTO;
 import Accounts.AccountInteractor;
-import Database.DataBaseGateway;
+//import Database.DataBaseGateway;
 import Flashcards.FlashcardDTO;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeckController implements DataBaseGateway {
+public class DeckController { //implements DataBaseGateway {
 
     public DeckController() {}
 
@@ -23,10 +23,9 @@ public class DeckController implements DataBaseGateway {
 
     /**
      * Provide relevant interactors with the ability to use the flashcard at this index.
-     * @param flashcardDTO The selected flashcard which will be worked on.
+     * @param index The index of the selected flashcard which will be worked on in the current deck.
      */
-    public void selectFlashcard(FlashcardDTO flashcardDTO) {
-        int index = getCurrentDeck().getFlashcards().indexOf(flashcardDTO);
+    public void selectFlashcard(int index) {
         DeckInteractor.selectFlashcard(index);
     }
 
@@ -43,7 +42,7 @@ public class DeckController implements DataBaseGateway {
             return false;
         }
         AccountInteractor.addDeckToCurrentAccount(deckDTO);
-        addDeckToDB(account, name);
+        //addDeckToDB(account, name);
         return true;
     }
 
@@ -53,7 +52,7 @@ public class DeckController implements DataBaseGateway {
      */
     public void deleteDeck(DeckDTO deckDTO) {
         AccountInteractor.deleteDeckFromCurrentAccount(deckDTO);
-        deleteDeckInDB(account, deck.getName());
+        //deleteDeckInDB(account, deck.getName());
     }
 
     /**
@@ -67,14 +66,13 @@ public class DeckController implements DataBaseGateway {
 
     /**
      * Delete a flashcard from the current deck. Also deletes the card from the database.
-     * @param flashcardDTO The flashcard to be deleted
+     * @param index The index of the flashcard to be deleted in the current deck
      */
-    public void deleteCard(FlashcardDTO flashcardDTO) {
-        int index = getCurrentDeck().getFlashcards().indexOf(flashcardDTO);
+    public void deleteCard(int index) {
         DeckInteractor.deleteFlashcardFromCurrentDeck(index);
         AccountInteractor.updateSessionsOfDeckInCurrentAccount(getCurrentDeck());
 
-        deleteCardInDB(account, deck.getName(), flashcard.getFront().getText(), flashcard.getBack());
+        //deleteCardInDB(account, deck.getName(), flashcard.getFront().getText(), flashcard.getBack());
     }
 
     /**

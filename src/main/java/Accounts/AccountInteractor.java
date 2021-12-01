@@ -130,6 +130,21 @@ public class AccountInteractor {
     }
 
     /**
+     * Get the StudySessions linked to the given deck.
+     * @param deckDTO the deck whose sessions will be fetched
+     * @return a List of StudySessionDTOs
+     */
+    public static List<StudySessionDTO> getSessionsOfDeck(DeckDTO deckDTO) {
+        Deck deck = findDeckInCurrentAccountFromDTO(deckDTO);
+        List<StudySession> sessions = currentAccount.getDecksToSessions().get(deck);
+        List<StudySessionDTO> sessionDTOs = new ArrayList<>();
+        for (StudySession s : sessions) {
+            sessionDTOs.add(SessionInteractor.convertSessionToDTO(s));
+        }
+        return sessionDTOs;
+    }
+
+    /**
      * Adds or deletes flashcards in the flashcard-to-data mapping of each StudySession to match the current state of
      * the specified deck. Should be called when a card is added or deleted from a deck.
      * @param deckDTO The deck which has had cards added or deleted

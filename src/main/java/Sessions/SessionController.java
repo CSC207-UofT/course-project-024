@@ -25,7 +25,7 @@ public class SessionController {
      * @param deckDTO The deck which this PracticeSession is based on
      */
     public void startPracticeSession(DeckDTO deckDTO) {
-        List<StudySessionDTO> sessions = AccountInteractor.getCurrentAccount().getDecksToSessions().get(deckDTO);
+        List<StudySessionDTO> sessions = AccountInteractor.getSessionsOfDeck(deckDTO);
         StudySessionDTO existingSession = getExistingSameSession(sessions, PracticeSessionDTO.class);
         // if session already exists, resume it, else, create a new session
         if (existingSession == null) {
@@ -43,7 +43,7 @@ public class SessionController {
      * @param deckDTO The deck which this LearningSession is based on
      */
     public void startLearningSession(DeckDTO deckDTO) {
-        List<StudySessionDTO> sessions = AccountInteractor.getCurrentAccount().getDecksToSessions().get(deckDTO);
+        List<StudySessionDTO> sessions = AccountInteractor.getSessionsOfDeck(deckDTO);
         StudySessionDTO existingSession = getExistingSameSession(sessions, LearningSessionDTO.class);
         // if session already exists, resume it, else, create a new session
         if (existingSession == null) {
