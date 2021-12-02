@@ -10,6 +10,14 @@ public class LearningSession extends StudySession {
      */
     public LearningSession(Deck deck) {
         super(deck, new SmartShuffle(deck));
-        this.deck = deck;
+    }
+
+    /**
+     * Construct a new LearningSession
+     * @param deck A deck that will be bound to this LearningSession.
+     * @param cardShuffler The card shuffler algorithm used by this session.
+     */
+    public LearningSession(Deck deck, CardShuffler cardShuffler) {
+        super(deck, cardShuffler);
     }
 }
