@@ -102,6 +102,7 @@ public interface DataBaseGateway {
             pstmt.setString(1, deck_name);
             // Execute the insert statement
             pstmt.execute();
+            pstmt.close();
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -111,15 +112,15 @@ public interface DataBaseGateway {
     default void updateRowInDB(String table, String column, String oldValue, String newValue){
         try{
             // create and populate a MySQL update statement to fit the function parameters
-            PreparedStatement pstmt = connection().prepareStatement("UPDATE (?) SET (?) = (?) WHERE (?) = (?)");
-            pstmt.setString(1, table);
-            pstmt.setString(2, column);
-            pstmt.setString(3, newValue);
-            pstmt.setString(4, column);
-            pstmt.setString(5, oldValue);
-//            createStatement().executeUpdate("UPDATE "+ table + " SET " + column +" ='"+ newValue + "' WHERE " + column +" = '" + oldValue + "'");
+//            PreparedStatement pstmt = connection().prepareStatement("UPDATE (?) SET (?) = (?) WHERE (?) = (?)");
+//            pstmt.setString(1, table);
+//            pstmt.setString(2, column);
+//            pstmt.setString(3, newValue);
+//            pstmt.setString(4, column);
+//            pstmt.setString(5, oldValue);
+            createStatement().executeUpdate("UPDATE "+ table + " SET " + column +" ='"+ newValue + "' WHERE " + column +" = '" + oldValue + "'");
             // Execute the prepared statement
-            pstmt.execute();
+//            pstmt.execute();
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -140,6 +141,7 @@ public interface DataBaseGateway {
                 pstmt.setString(3, back);
                 // Execute the prepared statement
                 pstmt.execute();
+                pstmt.close();
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -158,10 +160,12 @@ public interface DataBaseGateway {
                 PreparedStatement pstmt = connection().prepareStatement("DELETE FROM deck WHERE deck_id = (?)");
                 pstmt.setString(1, deck_id);
                 pstmt.execute();
+                pstmt.close();
                 // Delete all the cards that belong to the deck that was just deleted
                 PreparedStatement pstmt2 = connection().prepareStatement("DELETE FROM cards WHERE deck_id = (?) ");
                 pstmt2.setString(1, deck_id);
                 pstmt2.execute();
+                pstmt2.close();
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -184,6 +188,7 @@ public interface DataBaseGateway {
 //                InputStream in = new FileInputStream(file_path);
 //                pstmt.setBlob(4, in);
                 pstmt.execute();
+                pstmt.close();
             }
         } catch (Exception e){
             e.printStackTrace();

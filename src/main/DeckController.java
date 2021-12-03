@@ -29,13 +29,13 @@ public class DeckController implements DataBaseGateway{
     public void deleteCard(Account account, Deck deck, Flashcard flashcard){
         DeckInteractor.deleteFlashcard(deck, flashcard);
         deleteCardInDB(account, deck.getName(), flashcard.getFront().getText(), flashcard.getBack());
-        updateSessionsOfDeck(account, deck);
+//        updateSessionsOfDeck(account, deck);
     }
 
     public void addCard(Account account, Deck deck, String frontText, Image frontImage, String back) {
         DeckInteractor.addFlashcard(deck, frontText, frontImage, back);
         addCardToDeckInDB(account, deck.getName(), frontText, back);
-        updateSessionsOfDeck(account, deck);
+//        updateSessionsOfDeck(account, deck);
     }
 
 
