@@ -2,7 +2,6 @@ package UI;
 
 import Accounts.AccountInteractor;
 import Flashcards.FlashcardDTO;
-import Decks.DeckInteractor;
 import Decks.DeckController;
 import Decks.DeckDTO;
 import Accounts.AccountDTO;
@@ -63,9 +62,10 @@ public class MainUI {
 
     protected void setCurrentDeck() {
         String select = deckSelect.getValue();
+        System.out.println(select);
         for (DeckDTO d : AccountInteractor.getCurrentAccount().getDecks()) {
             if (select.equals(d.getName())) {
-                DeckInteractor.setCurrentDeck(DeckInteractor.convertDTOToDeck(d));
+                AccountInteractor.selectDeck(d);
             }
         }
     }
@@ -77,8 +77,8 @@ public class MainUI {
     void initialize() {
         //TODO: convert this testing code to actual integration with accounts
         try {
-            System.out.println(DeckInteractor.getCurrentDeck().getName()+" deck has cards: "+
-                    DeckInteractor.getCurrentDeck().getFlashcards());
+            System.out.println(deckController.getCurrentDeck().getName()+" deck has cards: "+
+                    deckController.getCurrentDeck().getFlashcards());
             System.out.println("---------------");
         }
         catch(Exception e){
@@ -92,6 +92,7 @@ public class MainUI {
             AccountInteractor.addDeckToCurrentAccount(deck1);
             AccountInteractor.addDeckToCurrentAccount(deck2);
             AccountInteractor.addDeckToCurrentAccount(deck3);
+            AccountInteractor.selectDeck(deck1);
         }
         setDecks();
     }
@@ -129,6 +130,7 @@ public class MainUI {
         deckController.createDeck(deckName.getText());
         System.out.println(deckName.getText()+" Deck created");
         onBackButtonClick(e);
+        setDecks();
     }
 
     /**
@@ -243,6 +245,7 @@ public class MainUI {
         deckController.addCard(cardFrontText.getText(), cardImage, cardBackText.getText());
         System.out.println("Cards in current deck: "+deckController.getCurrentDeck().getFlashcards());
         onBackButtonClick(e);
+        setDecks();
     }
 
     @FXML
@@ -302,6 +305,11 @@ public class MainUI {
      */
     @FXML
     protected void onLogoutButtonClick() {
-        Platform.exit();
+        //Platform.exit();
+        System.out.println("UN: "+AccountInteractor.getCurrentAccount().getUsername());
+        System.out.println("DECKS: ");
+        for (DeckDTO d : AccountInteractor.getCurrentAccount().getDecks()) {
+            System.out.println(d.getName() + ": " + d.getFlashcards());
+        }
     }
 }
