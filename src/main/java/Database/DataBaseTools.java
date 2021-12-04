@@ -24,18 +24,18 @@ interface DatabaseTools {
     public ArrayList<DeckDTO> getDecksFromDB();
 
     // Method to add a new deck into the database
-    public void addDeckToDB(Account account, String deck_name);
+    public void addDeckToDB(String deck_name);
 
     // Method to update a single column of a single row in any table
     public void updateRowInDB(String table, String column, String oldValue, String newValue);
 
     // Method to delete a specific card that belongs to a specific deck, belonging to a specific account
-    public void deleteCardInDB(Account account, String deck_name, String front, String back);
+    public void deleteCardInDB(String deck_name, String front, String back);
 
     // Method to delete a whole deck and its corresponding cards
-    public void deleteDeckInDB(Account account, String deck_name);
+    public void deleteDeckInDB(String deck_name);
 
     // Add a new card to a deck in the database
-    public void addCardToDeckInDB (Account account, String deck_name, String front, String back, Image image);
+    public void addCardToDeckInDB (String deck_name, String front, String back, Image image);
 
 }

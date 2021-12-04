@@ -47,9 +47,7 @@ public class DatabaseGateway implements DatabaseTools {
 //        }
 //    }
 
-    public Boolean authenticateAccount(){
 
-    }
 
     public Statement createStatement() {
         try {
@@ -62,7 +60,7 @@ public class DatabaseGateway implements DatabaseTools {
         }
     }
 
-    public static Connection connection(){
+    public  Connection connection(){
         try{
             String url = "jdbc:mysql://b7da4dd8912b8e:3620922e@us-cdbr-east-04.cleardb.com/heroku_ee9e4fde75342a4?reconnect=true";
             return DriverManager.getConnection(url, "b7da4dd8912b8e", "3620922e");
@@ -72,13 +70,30 @@ public class DatabaseGateway implements DatabaseTools {
         }
     }
 
-    public InputStream imageToInputStream(Image image) throws IOException {
-        BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null),    BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2 = bufferedImage.createGraphics();
-        g2.drawImage(image, null, null);
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-        ImageIO.write(bufferedImage, "jpg", outStream);
-        return new ByteArrayInputStream(outStream.toByteArray());
+    public Boolean authenticateAccount(String username, String password){
+        try {
+            ResultSet account = createStatement().executeQuery("Select * FROM accounts WHERE username = '" + username +"'");
+            String correctPassword = account.getString("password");
+            return (correctPassword == password);
+
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public InputStream imageToInputStream(Image image){
+        try {
+            BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
+            Graphics2D g2 = bufferedImage.createGraphics();
+            g2.drawImage(image, null, null);
+            ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "jpg", outStream);
+            return new ByteArrayInputStream(outStream.toByteArray());
+        } catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
@@ -106,7 +121,7 @@ public class DatabaseGateway implements DatabaseTools {
         }
     }
 
-    public static void addDeckToDB(String deck_name){
+    public void addDeckToDB(String deck_name){
         try {
             PreparedStatement pstmt = connection().prepareStatement("INSERT INTO decks (account_id, deck_name) VALUES (?, ?)");
             pstmt.setString(1, AccountInteractor.getCurrentAccount().getUsername());
@@ -151,27 +166,28 @@ public class DatabaseGateway implements DatabaseTools {
         }
     }
 
-    public void deleteDeckInDB(Account account, String deck_name){
+    public void deleteDeckInDB(String deck_name){
         try{
             ResultSet corresponding_deck_id = connection().createStatement().executeQuery("SELECT deck_id FROM decks WHERE deck_name ='" + deck_name + "' AND account_id ='" + account.getUsername() + "'");
             while (corresponding_deck_id.next()) {
                 String deck_id = corresponding_deck_id.getString("deck_id");
                 PreparedStatement pstmt = connection().prepareStatement("DELETE FROM deck WHERE deck_id = (?) AND account_id = (?)");
                 pstmt.setString(1, deck_id);
-                pstmt.setString(2, account.getUsername());
+                pstmt.setString(2, AccountInteractor.getCurrentAccount().getUsername());
             }
         } catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    public void addCardToDeckInDB (String deck_name, String front, String back, Image image){
+    public void addCardToDeckInDB(String deck_name, String front, String back, Image image){
         try {
-            ResultSet deck_id = createStatement().executeQuery("SELECT * FROM decks WHERE deck_name = '" + deck_name + "'");
+            String currentUsername = AccountInteractor.getCurrentAccount().getUsername();
+            ResultSet deck_id = createStatement().executeQuery("SELECT * FROM decks WHERE deck_name = '" + deck_name + "' AND account_id = '" + currentUsername+"'");
             while (deck_id.next()){
                 String id = deck_id.getString("deck_id");
                 PreparedStatement pstmt = connection().prepareStatement("INSERT INTO cards (account_id, deck_id, front, back, image) VALUES (?, ?, ?, ?, ?)");
-                pstmt.setString(1, AccountInteractor.getCurrentAccount().getUsername());
+                pstmt.setString(1, currentUsername);
                 pstmt.setString(2, id);
                 pstmt.setString(3, front);
                 pstmt.setString(4, back);
