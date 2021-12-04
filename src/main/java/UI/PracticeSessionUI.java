@@ -1,6 +1,6 @@
 package UI;
 
-import Sessions.SessionController;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -12,71 +12,31 @@ import javafx.scene.layout.*; // Panes, etc.
 import javafx.scene.input.MouseEvent;
 import javafx.event.EventHandler;
 
-public class LearningSessionUI extends StudySessionUI {
-
-    SessionController sessionController = new SessionController();
+public class PracticeSessionUI extends StudySessionUI {
 
     @Override
     public void start(Stage window) throws Exception {
         window.setTitle(APPLICATION_TITLE);
 
-        setNewCardScene(window);
+        setFrontScene(window);
 
         window.show();
     }
 
     /**
-     * Sets the current scene for when the user requests a new card to be shown.
-     * This scene shows the front of the requested flashcard and allows the user to request to view the back.
-     */
-    public void setNewCardScene(Stage window) {
-        BorderPane layout = new BorderPane();
-
-        BorderPane top = getTopBar();
-        StackPane center = getFlippableFlashcardFront(e -> setFirstFlipScene(window));
-        HBox bottom = getBottomBarFront();
-
-        layout.setTop(top);
-        layout.setCenter(center);
-        layout.setBottom(bottom);
-
-        Scene newCardScene = new Scene(layout, WINDOW_LENGTH, WINDOW_HEIGHT);
-        window.setScene(newCardScene);
-    }
-
-    /**
-     * Sets the current scene for when the user requests a card to be flipped to the back for the first time.
-     * This scene shows the back of the requested flashcard and allows the user to self-select if their guess of the
-     * back was correct, and when selected, changes the scene to setFlippedBackScene().
-     */
-    public void setFirstFlipScene(Stage window) {
-        BorderPane layout = new BorderPane();
-
-        BorderPane top = getTopBar();
-        StackPane center = getFlashcardBack();
-        HBox bottom = getBottomBarBackInteractable(window);
-
-        layout.setTop(top);
-        layout.setCenter(center);
-        layout.setBottom(bottom);
-        Scene firstFlipScene = new Scene(layout, WINDOW_LENGTH, WINDOW_HEIGHT);
-        window.setScene(firstFlipScene);
-    }
-
-    /**
-     * Sets the current scene for when the user requests a card's back to be shown after having already viewed it once.
+     * Sets the current scene for when the user requests a card's back.
      * Allows the user to request to view the next card.
      */
-    public void setFlippedBackScene(Stage window) {
+    public void setBackScene(Stage window) {
         BorderPane layout = new BorderPane();
 
         BorderPane top = getTopBar();
-        StackPane center = getFlippableFlashcardBack(e -> setFlippedFrontScene(window));
+        StackPane center = getFlippableFlashcardBack(e -> setFrontScene(window));
         // TODO: implement
         StackPane right = getRightBar(e -> System.out.println("Getting next card..."));
         Region left = new Region();
         left.prefWidthProperty().bind(right.widthProperty());
-        HBox bottom = getBottomBarBackDisabled();
+        HBox bottom = getBottomBarBack();
 
 
         layout.setTop(top);
@@ -89,19 +49,19 @@ public class LearningSessionUI extends StudySessionUI {
     }
 
     /**
-     * Sets the current scene for when the user requests a card's front to be shown after having already viewed it once.
+     * Sets the current scene for when the user requests a card's front to be shown.
      * Allows the user to request to view the next card.
      */
-    public void setFlippedFrontScene(Stage window) {
+    public void setFrontScene(Stage window) {
         BorderPane layout = new BorderPane();
 
         BorderPane top = getTopBar();
-        StackPane center = getFlippableFlashcardFront(e -> setFlippedBackScene(window));
+        StackPane center = getFlippableFlashcardFront(e -> setBackScene(window));
         // TODO: implement
         StackPane right = getRightBar(e -> System.out.println("Getting next card..."));
         Region left = new Region();
         left.prefWidthProperty().bind(right.widthProperty());
-        HBox bottom = getBottomBarBackDisabled();
+        HBox bottom = getBottomBarFront();
 
         layout.setTop(top);
         layout.setCenter(center);
@@ -144,41 +104,14 @@ public class LearningSessionUI extends StudySessionUI {
         return bottom;
     }
 
-    private HBox getBottomBarBackInteractable(Stage window) {
-        Button yesBtn = getButton("YES");
-        yesBtn.setOnMouseClicked(e -> {
-            // TODO: handle YES
-            // sessionController.postAnswerUpdate(true);
-            setFlippedBackScene(window);
-        });
-        Button noBtn = getButton("NO");
-        noBtn.setOnMouseClicked(e -> {
-            // TODO: handle NO
-            // sessionController.postAnswerUpdate(false);
-            setFlippedBackScene(window);
-        });
+    private HBox getBottomBarBack() {
         HBox bottom = new HBox();
         bottom.setAlignment(Pos.CENTER);
         bottom.setSpacing(10);
         bottom.setPadding(new Insets(10, 10, 40, 10));
-        Label bottomLabel = new Label("Did you guess the back correctly?");
+        Label bottomLabel = new Label("Click the flashcard to see the front!");
         bottomLabel.setFont(Font.font(20));
-        bottom.getChildren().addAll(bottomLabel, yesBtn, noBtn);
-        return bottom;
-    }
-
-    private HBox getBottomBarBackDisabled() {
-        Button yesBtn = getButton("YES");
-        yesBtn.setDisable(true);
-        Button noBtn = getButton("NO");
-        noBtn.setDisable(true);
-        HBox bottom = new HBox();
-        bottom.setAlignment(Pos.CENTER);
-        bottom.setSpacing(10);
-        bottom.setPadding(new Insets(10, 10, 40, 10));
-        Label bottomLabel = new Label("Did you guess the back correctly?");
-        bottomLabel.setFont(Font.font(20));
-        bottom.getChildren().addAll(bottomLabel, yesBtn, noBtn);
+        bottom.getChildren().add(bottomLabel);
         return bottom;
     }
 
