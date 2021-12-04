@@ -6,6 +6,9 @@ import Flashcards.Flashcard;
 
 import java.util.*;
 
+/**
+ * A strategy on how to shuffle and select cards. BasicShuffle's strategy is randomization
+ */
 public class BasicShuffle extends CardShuffler {
 
     private int index;

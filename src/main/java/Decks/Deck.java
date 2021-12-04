@@ -1,13 +1,18 @@
 package Decks;
 
 import Flashcards.Flashcard;
+import Sessions.Observable;
 
+import java.Sessions.Observable;
+import java.Sessions.Observer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Deck{
+public class Deck implements Observable {
+    private List<Observer> observers;
     private String name;
     private final List<Flashcard> flashcards;
+    private List<Flashcard> flashcardsLastState;
 
     /**
      * Create a new deck with the given name and starting flashcards.
@@ -17,6 +22,7 @@ public class Deck{
     public Deck(String name, List<Flashcard> flashcards){
         this.name = name;
         this.flashcards = flashcards;
+        this.flashcardsLastState = flashcards;
     }
 
     /**
@@ -26,6 +32,7 @@ public class Deck{
     public Deck(String name){
         this.name = name;
         this.flashcards = new ArrayList<>();
+        this.flashcardsLastState = flashcards;
     }
 
     /**
@@ -75,4 +82,32 @@ public class Deck{
         return new Deck(this.name, copiedFlashcards);
     }
 
+    @Override
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+
+    }
+
+    @Override
+    public void deleteObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public boolean hasChanged() {
+        if (flashcards.equals(flashcardsLastState)){
+            return false;
+        }
+        flashcardsLastState = flashcards;
+        return true;
+    }
+
+    @Override
+    public void notifyObservers() {
+        if (hasChanged()){
+            for (Observer observer: observers){
+                observer.update();
+            }
+        }
+    }
 }
