@@ -1,13 +1,8 @@
 package Accounts;
 
-import Decks.Deck;
 import Decks.DeckDTO;
-import Decks.DeckInteractor;
-import Sessions.SessionInteractor;
-import Sessions.StudySession;
 import Sessions.StudySessionDTO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AccountController {
@@ -21,7 +16,7 @@ public class AccountController {
      * @return whether login was successful
      */
     public static boolean login(AccountDTO accountDTO, String attemptedPassword) {
-        AccountInteractor.login(accountDTO, attemptedPassword);
+        return AccountInteractor.login(accountDTO, attemptedPassword);
     }
 
     /**

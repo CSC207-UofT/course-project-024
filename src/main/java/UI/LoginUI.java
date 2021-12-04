@@ -1,5 +1,6 @@
 package UI;
 
+import Accounts.AccountController;
 import Accounts.AccountDTO;
 import Accounts.AccountInteractor;
 import javafx.application.Application;
@@ -14,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class LoginUI extends Application {
@@ -77,12 +79,18 @@ public class LoginUI extends Application {
             // TODO: Retrieve AccountDTO from Database controller and replace this hack
             boolean success = AccountInteractor.login(AccountInteractor.createAccount("test", "test"), passwordField.getText());
 
+            // Search database for any account that matches the inputted username. If that is success, then
+            // login. Else, show Alert Box of no matching username. If that goes through, but the password
+            // doesn't match, then send an Alert Box that the password is incorrect.
+            // boolean success = AccountController.login();
             //TODO: If success, close window and launch main menu
             // If not success, show alert box of login failure
+            // TODO: Alert box for not finding an account with that username
             if (success) {
                 System.out.println("Logged in");
             } else {
                 System.out.println("Rejected");
+                displayAlertBox("Login Error", "Wrong password, please check your input and try again.");
             }
         });
 
@@ -90,7 +98,7 @@ public class LoginUI extends Application {
             AccountDTO newAccount = AccountInteractor.createAccount(usernameField.getText(), passwordField.getText());
 
             //TODO: Make sure that an account with that same username doesn't already exist, and that
-            // the username and password fields are non-empty
+            // the username and password fields are non-empty. If so, create an AlertBox
 
             AccountInteractor.login(newAccount, passwordField.getText());
 
@@ -158,6 +166,34 @@ public class LoginUI extends Application {
         usernameField.setPromptText("Enter your username");
         usernameField.setPadding(new Insets(5));
         return usernameField;
+    }
+
+    private void displayAlertBox(String title, String alertMessage) {
+        Stage window = new Stage();
+
+        window.setTitle(title);
+
+        window.initModality(Modality.APPLICATION_MODAL);
+
+        Label msg = new Label(alertMessage);
+
+        Button confirmationBtn = new Button("OK");
+
+        confirmationBtn.setOnMouseClicked(e -> window.close());
+
+        VBox layout = new VBox();
+
+        layout.setSpacing(10);
+
+        layout.getChildren().addAll(msg, confirmationBtn);
+
+        layout.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(layout, 500, 100);
+
+        window.setScene(scene);
+
+        window.showAndWait();
     }
 
 
