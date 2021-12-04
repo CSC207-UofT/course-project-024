@@ -4,7 +4,6 @@ import Decks.Deck;
 import Flashcards.FlashcardData;
 import Flashcards.Flashcard;
 
-import java.Sessions.Observer;
 import java.util.Map;
 
 /**

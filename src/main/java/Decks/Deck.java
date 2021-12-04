@@ -2,9 +2,8 @@ package Decks;
 
 import Flashcards.Flashcard;
 import Sessions.Observable;
+import Sessions.Observer;
 
-import java.Sessions.Observable;
-import java.Sessions.Observer;
 import java.util.ArrayList;
 import java.util.List;
 
