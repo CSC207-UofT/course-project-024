@@ -7,6 +7,7 @@ import Decks.DeckController;
 import Decks.DeckDTO;
 import Accounts.AccountDTO;
 
+import Flashcards.FlashcardInteractor;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -52,12 +53,21 @@ public class MainUI {
      */
     @FXML
     protected void setDecks() {
-        List<DeckDTO> decks = account.getDecks();
+        List<DeckDTO> decks = AccountInteractor.getCurrentAccount().getDecks();
         for (DeckDTO d : decks) {
             deckNames.add(d.getName());
         }
         deckObservableList.setAll(deckNames);
         deckSelect.setItems(deckObservableList);
+    }
+
+    protected void setCurrentDeck() {
+        String select = deckSelect.getValue();
+        for (DeckDTO d : AccountInteractor.getCurrentAccount().getDecks()) {
+            if (select.equals(d.getName())) {
+                DeckInteractor.setCurrentDeck(DeckInteractor.convertDTOToDeck(d));
+            }
+        }
     }
 
     /**
@@ -67,32 +77,21 @@ public class MainUI {
     void initialize() {
         //TODO: convert this testing code to actual integration with accounts
         try {
-            System.out.println(AccountInteractor.getCurrentAccount());
+            System.out.println(DeckInteractor.getCurrentDeck().getName()+" deck has cards: "+
+                    DeckInteractor.getCurrentDeck().getFlashcards());
+            System.out.println("---------------");
         }
         catch(Exception e){
             List<FlashcardDTO> cards = new ArrayList<>();
+            cards.add(FlashcardInteractor.createFlashcard("front",null,"back"));
             DeckDTO deck1 = new DeckDTO("test", cards);
-            DeckDTO deck2 = new DeckDTO("boop", cards);
+            DeckDTO deck2 = new DeckDTO("boot", cards);
             DeckDTO deck3 = new DeckDTO("room", cards);
-            List<DeckDTO> decks = new ArrayList<>();
-            decks.add(deck1);
-            decks.add(deck2);
-            decks.add(deck3);
-            //issue: addDeckToCurrentAccount does not currently add decks?
+
             AccountInteractor.login(account, account.getPassword());
-            System.out.println(AccountInteractor.getCurrentAccount().getUsername());
             AccountInteractor.addDeckToCurrentAccount(deck1);
-            System.out.println(account.getDecks());
             AccountInteractor.addDeckToCurrentAccount(deck2);
             AccountInteractor.addDeckToCurrentAccount(deck3);
-
-            //methodology for getting current deck; replace test string with deckSelect.getText()
-            for (DeckDTO d : decks) {
-                if ("test".equals(d.getName())) {
-                    DeckInteractor.setCurrentDeck(DeckInteractor.convertDTOToDeck(d));
-                }
-            }
-            System.out.println(deckController.getCurrentDeck().getName());
         }
         setDecks();
     }
@@ -118,6 +117,7 @@ public class MainUI {
         popUp.setY(stage.getY()+20);
 
         popUp.show();
+        setDecks();
     }
 
     /**
@@ -127,8 +127,7 @@ public class MainUI {
     @FXML
     protected void onCreateDeckSubmit(ActionEvent e) {
         deckController.createDeck(deckName.getText());
-        System.out.println("Deck created");
-        System.out.println("Decks in current account: "+account.getDecks());
+        System.out.println(deckName.getText()+" Deck created");
         onBackButtonClick(e);
     }
 
@@ -240,6 +239,7 @@ public class MainUI {
      */
     @FXML
     protected void onAddCardSubmit (ActionEvent e) {
+        setCurrentDeck();
         deckController.addCard(cardFrontText.getText(), cardImage, cardBackText.getText());
         System.out.println("Cards in current deck: "+deckController.getCurrentDeck().getFlashcards());
         onBackButtonClick(e);
@@ -254,13 +254,16 @@ public class MainUI {
     /**
      * Renames the current deck
      * @param e action event on click
-     * @throws IOException
+     * @throws IOException if main menu is not found
      */
     @FXML
     protected void onRenameDeckButtonClick (ActionEvent e) throws IOException {
+        setCurrentDeck();
+        System.out.println("Current deck is: "+deckController.getCurrentDeck().getName());
         deckController.renameCurrentDeck(newDeckName.getText());
         System.out.println("Deck name changed to: "+deckController.getCurrentDeck().getName());
         onMainMenuButtonClick(e);
+        setDecks();
     }
 
     @FXML
