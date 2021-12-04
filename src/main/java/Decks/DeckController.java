@@ -3,6 +3,7 @@ package Decks;
 import Accounts.AccountDTO;
 import Accounts.AccountInteractor;
 //import Database.DataBaseGateway;
+import Database.DatabaseGateway;
 import Flashcards.FlashcardDTO;
 
 import java.awt.*;
@@ -42,7 +43,7 @@ public class DeckController { //implements DataBaseGateway {
             return false;
         }
         AccountInteractor.addDeckToCurrentAccount(deckDTO);
-        //addDeckToDB(account, name);
+        DatabaseGateway.addDeckToDB(name);
         return true;
     }
 
@@ -84,7 +85,7 @@ public class DeckController { //implements DataBaseGateway {
     public void addCard(String frontText, Image frontImage, String back) {
         DeckInteractor.addFlashcardToCurrentDeck(frontText, frontImage, back);
         AccountInteractor.updateSessionsOfDeckInCurrentAccount(getCurrentDeck());
-//        addCardToDeckInDB(account, deck.getName(), frontText, back, );
+        DatabaseGateway.addCardToDeckInDB(DeckInteractor.getCurrentDeck().getName(), frontText, back, frontImage);
     }
 
     private boolean hasUniqueName(DeckDTO deckDTO, AccountDTO accountDTO) {
