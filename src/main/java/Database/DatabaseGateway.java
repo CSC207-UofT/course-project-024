@@ -48,7 +48,11 @@ public class DatabaseGateway implements DatabaseTools {
 //    }
 
 
-
+    /**
+     * Create a connection with the database.
+     * Return a statement using the connection that can be executed to modify the database
+     * @return Statement object to be used to modify the database
+     */
     public Statement createStatement() {
         try {
             String url = "jdbc:mysql://b7da4dd8912b8e:3620922e@us-cdbr-east-04.cleardb.com/heroku_ee9e4fde75342a4?reconnect=true";
@@ -60,6 +64,10 @@ public class DatabaseGateway implements DatabaseTools {
         }
     }
 
+    /**
+     * Create a connection with the database.
+     * @return connection object that is connected to the database
+     */
     public  Connection connection(){
         try{
             String url = "jdbc:mysql://b7da4dd8912b8e:3620922e@us-cdbr-east-04.cleardb.com/heroku_ee9e4fde75342a4?reconnect=true";
@@ -70,18 +78,31 @@ public class DatabaseGateway implements DatabaseTools {
         }
     }
 
+    /**
+     * Attempts to match am accounts username to their password. Basic form of account authentication
+     * @param username Username given as input by the user
+     * @param password Password given as input by the user
+     * @return Whether or not this username-password pair exists in the database
+     */
     public Boolean authenticateAccount(String username, String password){
         try {
             ResultSet account = createStatement().executeQuery("Select * FROM accounts WHERE username = '" + username +"'");
-            String correctPassword = account.getString("password");
-            return (correctPassword == password);
-
+            while(account.next()) {
+                String correctPassword = account.getString("password");
+                return (correctPassword.equals(password));
+            } return null;
         } catch (Exception e){
             e.printStackTrace();
             return null;
         }
     }
 
+    /**
+     * Convert an image to an InputStream object.
+     * This will be used to store images from flashcards into the database as BLOBs
+     * @param image Image object to be converted and stored into database
+     * @return InputStream object that was built using the information from the image
+     */
     public InputStream imageToInputStream(Image image){
         try {
             BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
@@ -97,7 +118,11 @@ public class DatabaseGateway implements DatabaseTools {
     }
 
 
-
+    /**
+     * Generate a list of all the decks belonging to the current account.
+     * This method is mainly used to initialize an instance of the program
+     * @return ArrayList of DeckDTOs that will then be added to the current accounts deck list
+     */
     public ArrayList<DeckDTO> getDecksFromDB(){
         try {
             ArrayList<DeckDTO> deckList = new ArrayList<>();
@@ -121,6 +146,11 @@ public class DatabaseGateway implements DatabaseTools {
         }
     }
 
+    /**
+     * Add a deck to the database.
+     * This method is called when a new deck is created and it needs to be stored for persistence
+     * @param deck_name Name of the deck that will be added
+     */
     public void addDeckToDB(String deck_name){
         try {
             PreparedStatement pstmt = connection().prepareStatement("INSERT INTO decks (account_id, deck_name) VALUES (?, ?)");
@@ -133,6 +163,13 @@ public class DatabaseGateway implements DatabaseTools {
         }
     }
 
+    /**
+     * Update a single field of some row in the database
+     * @param table Name of the table where the row belongs
+     * @param column Name of the field we want to update
+     * @param oldValue Previous value of the field we want to update
+     * @param newValue New value of the field we want to update
+     */
     public void updateRowInDB(String table, String column, String oldValue, String newValue){
         try{
             PreparedStatement pstmt = connection().prepareStatement("UPDATE (?) SET (?) = (?) WHERE (?) = (?)");
@@ -148,7 +185,12 @@ public class DatabaseGateway implements DatabaseTools {
             e.printStackTrace();
         }
     }
-
+    /**
+     * Delete a card in the database
+     * @param deck_name Name of the deck that the card we want to delete belongs to
+     * @param front Front text of the card we want to delete
+     * @param back Back text of the card we want to delete
+     */
     public void deleteCardInDB(String deck_name, String front, String back){
         try{
             ResultSet corresponding_deck_id = connection().createStatement().executeQuery("SELECT deck_id FROM decks WHERE deck_name ='" + deck_name + "'");
@@ -166,6 +208,11 @@ public class DatabaseGateway implements DatabaseTools {
         }
     }
 
+    /**
+     * Delete a whole deck from the databse.
+     * When we delete a deck, we must also delete all its cards
+     * @param deck_name Name of the deck we want to delete
+     */
     public void deleteDeckInDB(String deck_name){
         try{
             ResultSet corresponding_deck_id = connection().createStatement().executeQuery("SELECT deck_id FROM decks WHERE deck_name ='" + deck_name + "' AND account_id ='" + account.getUsername() + "'");
@@ -180,6 +227,13 @@ public class DatabaseGateway implements DatabaseTools {
         }
     }
 
+    /**
+     * Add a card to a deck of the users choice to the databse
+     * @param deck_name Name of the deck we want to add the card to
+     * @param front Front text of the card we want to add
+     * @param back Back text of the card we want to add
+     * @param image Optional image that the card holds on the back
+     */
     public void addCardToDeckInDB(String deck_name, String front, String back, Image image){
         try {
             String currentUsername = AccountInteractor.getCurrentAccount().getUsername();
