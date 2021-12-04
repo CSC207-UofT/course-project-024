@@ -48,7 +48,7 @@ interface DatabaseTools {
      * This method is called when a new deck is created and it needs to be stored for persistence
      * @param deck_name Name of the deck that will be added
      */
-    public void addDeckToDB(String deck_name);
+    public void addDeckToDB(String accountUsername, String deck_name);
 
     /**
      * Update a single field of some row in the database
@@ -65,14 +65,14 @@ interface DatabaseTools {
      * @param front Front text of the card we want to delete
      * @param back Back text of the card we want to delete
      */
-    public void deleteCardInDB(String deck_name, String front, String back);
+    public void deleteCardInDB(String accountUsername, String deck_name, String front, String back);
 
     /**
      * Delete a whole deck from the databse.
      * When we delete a deck, we must also delete all its cards
      * @param deck_name Name of the deck we want to delete
      */
-    public void deleteDeckInDB(String deck_name);
+    public void deleteDeckInDB(String accountUsername, String deck_name);
 
     /**
      * Add a card to a deck of the users choice to the databse
@@ -81,6 +81,6 @@ interface DatabaseTools {
      * @param back Back text of the card we want to add
      * @param image Optional image that the card holds on the back
      */
-    public void addCardToDeckInDB (String deck_name, String front, String back, Image image);
+    public void addCardToDeckInDB (String accountUsername, String deck_name, String front, String back, Image image);
 
 }

@@ -83,21 +83,22 @@ public class DatabaseGateway implements DatabaseTools {
      * Attempts to match am accounts username to their password. Basic form of account authentication
      * @param username Username given as input by the user
      * @param password Password given as input by the user
-     * @return Whether or not this username-password pair exists in the database
+     * @return Whether this username-password pair exists in the database
      */
     public Boolean authenticateAccount(String username, String password){
         try {
             ResultSet account = createStatement().executeQuery("Select * FROM accounts WHERE username = '" + username +"'");
             while(account.next()) {
                 String correctPassword = account.getString("password");
-                return (correctPassword.equals(password));
-            } return null;
+                if (correctPassword.equals(password)){
+                    return true;
+                }
+            } return false;
         } catch (Exception e){
             e.printStackTrace();
             return null;
         }
     }
-
 
 
     /**
@@ -157,10 +158,10 @@ public class DatabaseGateway implements DatabaseTools {
      * This method is called when a new deck is created and it needs to be stored for persistence
      * @param deck_name Name of the deck that will be added
      */
-    public void addDeckToDB(String deck_name){
+    public void addDeckToDB(String accountUsername, String deck_name){
         try {
             PreparedStatement pstmt = connection().prepareStatement("INSERT INTO decks (account_id, deck_name) VALUES (?, ?)");
-            pstmt.setString(1, AccountInteractor.getCurrentAccount().getUsername());
+            pstmt.setString(1, accountUsername);
             pstmt.setString(2, deck_name);
             pstmt.execute();
 
@@ -197,7 +198,7 @@ public class DatabaseGateway implements DatabaseTools {
      * @param front Front text of the card we want to delete
      * @param back Back text of the card we want to delete
      */
-    public void deleteCardInDB(String deck_name, String front, String back){
+    public void deleteCardInDB(String accountUsername, String deck_name, String front, String back){
         try{
             ResultSet corresponding_deck_id = connection().createStatement().executeQuery("SELECT deck_id FROM decks WHERE deck_name ='" + deck_name + "'");
             while (corresponding_deck_id.next()) {
@@ -206,7 +207,7 @@ public class DatabaseGateway implements DatabaseTools {
                 pstmt.setString(1, deck_id);
                 pstmt.setString(2, front);
                 pstmt.setString(3, back);
-                pstmt.setString(4, AccountInteractor.getCurrentAccount().getUsername());
+                pstmt.setString(4, accountUsername);
                 pstmt.execute();
             }
         } catch (Exception e){
@@ -219,14 +220,14 @@ public class DatabaseGateway implements DatabaseTools {
      * When we delete a deck, we must also delete all its cards
      * @param deck_name Name of the deck we want to delete
      */
-    public void deleteDeckInDB(String deck_name){
+    public void deleteDeckInDB(String accountUsername, String deck_name){
         try{
             ResultSet corresponding_deck_id = connection().createStatement().executeQuery("SELECT deck_id FROM decks WHERE deck_name ='" + deck_name + "' AND account_id ='" + account.getUsername() + "'");
             while (corresponding_deck_id.next()) {
                 String deck_id = corresponding_deck_id.getString("deck_id");
                 PreparedStatement pstmt = connection().prepareStatement("DELETE FROM deck WHERE deck_id = (?) AND account_id = (?)");
                 pstmt.setString(1, deck_id);
-                pstmt.setString(2, AccountInteractor.getCurrentAccount().getUsername());
+                pstmt.setString(2, accountUsername);
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -240,14 +241,13 @@ public class DatabaseGateway implements DatabaseTools {
      * @param back Back text of the card we want to add
      * @param image Optional image that the card holds on the back
      */
-    public void addCardToDeckInDB(String deck_name, String front, String back, Image image){
+    public void addCardToDeckInDB(String accountUsername, String deck_name, String front, String back, Image image){
         try {
-            String currentUsername = AccountInteractor.getCurrentAccount().getUsername();
-            ResultSet deck_id = createStatement().executeQuery("SELECT * FROM decks WHERE deck_name = '" + deck_name + "' AND account_id = '" + currentUsername+"'");
+            ResultSet deck_id = createStatement().executeQuery("SELECT * FROM decks WHERE deck_name = '" + deck_name + "' AND account_id = '" + accountUsername+"'");
             while (deck_id.next()){
                 String id = deck_id.getString("deck_id");
                 PreparedStatement pstmt = connection().prepareStatement("INSERT INTO cards (account_id, deck_id, front, back, image) VALUES (?, ?, ?, ?, ?)");
-                pstmt.setString(1, currentUsername);
+                pstmt.setString(1, accountUsername);
                 pstmt.setString(2, id);
                 pstmt.setString(3, front);
                 pstmt.setString(4, back);
