@@ -6,6 +6,9 @@ import Flashcards.Flashcard;
 
 import java.util.Map;
 
+/**
+ * A strategy on how to shuffle and select cards. BasicShuffle's strategy is to order deck by ascending proficiency of the user
+ */
 public class WorstToBestShuffle extends CardShuffler {
 
     Deck deckCopy;
