@@ -6,6 +6,7 @@ import Flashcards.Flashcard;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * A strategy on how to shuffle and select cards. SmartShuffle's strategy //TODO
@@ -15,15 +16,15 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
     private final LinkedList<Flashcard> deckCopy;
     private Flashcard lastFlashcardShown;
 
-//    /**
-//     * Constructs a new SmartShuffle shuffler using a preexisting map.
-//     * @param flashcardToData A mapping from Flashcard to FlashcardData taken from this shuffler's StudySession.
-//     */
-//    public SmartShuffle(Map<Flashcard, FlashcardData> flashcardToData) {
-//        this.flashcardToData = flashcardToData;
-//        // This turns an ImmutableList, which ToList returns, to a LinkedList.
-//        this.deckCopy = new LinkedList<>(this.flashcardToData.keySet().stream().toList());
-//    }
+    /**
+     * Constructs a new SmartShuffle shuffler using a preexisting map.
+     * @param flashcardToData A mapping from Flashcard to FlashcardData taken from this shuffler's StudySession.
+     */
+    public SmartShuffle(Map<Flashcard, FlashcardData> flashcardToData) {
+        this.flashcardToData = flashcardToData;
+        // This turns an ImmutableList, which ToList returns, to a LinkedList.
+        this.deckCopy = new LinkedList<>(this.flashcardToData.keySet().stream().toList());
+    }
 
     /**
      * Constructs a new SmartShuffle shuffler, initializing an empty mapping using deck.
@@ -37,6 +38,20 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
         }
 
         this.deckCopy = new LinkedList<>(this.flashcardToData.keySet().stream().toList());
+    }
+
+    /**
+     * Constructs a new SmartShuffle shuffler using a preexisting map.
+     * @param flashcardToData A mapping from Flashcard to FlashcardData taken from this shuffler's StudySession.
+     * @param deckCopy A list of flashcards which were copied from the original deck
+     * @param lastFlashcardShown The last flashcard shown to the user
+     */
+    public SmartShuffle(Map<Flashcard, FlashcardData> flashcardToData, LinkedList<Flashcard> deckCopy,
+                        Flashcard lastFlashcardShown) {
+        this.flashcardToData = flashcardToData;
+        // This turns an ImmutableList, which ToList returns, to a LinkedList.
+        this.deckCopy = deckCopy;
+        this.lastFlashcardShown = lastFlashcardShown;
     }
 
     /**
@@ -66,6 +81,10 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
 
     public LinkedList<Flashcard> getDeckCopy() {
         return this.deckCopy;
+    }
+
+    public Flashcard getLastFlashcardShown() {
+        return this.lastFlashcardShown;
     }
 
 

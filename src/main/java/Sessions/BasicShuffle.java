@@ -11,8 +11,8 @@ import java.util.*;
  */
 public class BasicShuffle extends CardShuffler {
 
-    int index = 0;
-    ArrayList<Flashcard> deckCopy;
+    private int index;
+    private List<Flashcard> deckCopy;
 
     /**
      * Construct a new BasicShuffle card shuffler.
@@ -20,6 +20,7 @@ public class BasicShuffle extends CardShuffler {
      */
     public BasicShuffle(Map<Flashcard, FlashcardData> flashcardToData) {
         // This turns an ImmutableList, which ToList returns, to an ArrayList. Don't ask me why.
+        this.index = 0;
         this.deckCopy = new ArrayList<>(flashcardToData.keySet().stream().toList());
         this.flashcardToData = flashcardToData;
     }
@@ -37,10 +38,30 @@ public class BasicShuffle extends CardShuffler {
     }
 
     /**
+     * Construct a new BasicShuffle shuffler.
+     * @param flashcardToData A mapping from Flashcard to FlashcardData taken from this shuffler's StudySession.
+     * @param deckCopy A list of flashcards which were copied from the original deck
+     * @param index The index of the deck where the next card will be pulled from.
+     */
+    public BasicShuffle(Map<Flashcard, FlashcardData> flashcardToData, List<Flashcard> deckCopy, int index) {
+        this.index = index;
+        this.flashcardToData = flashcardToData;
+        this.deckCopy = deckCopy;
+    }
+
+    /**
      * Randomly shuffles this shuffler's deckCopy to a random order.
      */
     public void shuffleCards() {
         Collections.shuffle(this.deckCopy);
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public List<Flashcard> getDeckCopy() {
+        return deckCopy;
     }
 
     /**

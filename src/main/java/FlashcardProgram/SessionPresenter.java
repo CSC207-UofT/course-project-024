@@ -1,8 +1,8 @@
 package FlashcardProgram;
 
-import Flashcards.Flashcard;
+import Flashcards.FlashcardDTO;
 import Sessions.SessionController;
-import Sessions.StudySession;
+import Sessions.StudySessionDTO;
 
 import java.util.Scanner;
 
@@ -25,21 +25,22 @@ public class SessionPresenter {
      * @param session The current StudySession for which we are displaying cards.
      * @param exitChar The String that the user types when they want to exit the StudySession.
      */
-    public void displaySession(StudySession session, String exitChar) {
-        Flashcard card;
+    public void displaySession(StudySessionDTO session, String exitChar) {
+        FlashcardDTO card;
         String userInput;
+        // We assume that the session was already started properly by the previous controller...
         System.out.println("Beginning session...");
         do {
             System.out.println("Retrieving new card...");
-            card = sessionController.getNextCard(session);
+            card = sessionController.getNextCard();
             displayFlashcardFront(card);
             String answer = getUserInput("Please input anything to see the back.");
             displayFlashcardBack(card);
             if (card.getBack().equalsIgnoreCase(answer)) {
-                sessionController.postAnswerUpdate(session, true);
+                sessionController.postAnswerUpdate(true);
                 System.out.println("You got the answer right!");
             } else {
-                sessionController.postAnswerUpdate(session, false);
+                sessionController.postAnswerUpdate(false);
                 System.out.println("You got the answer wrong!");
             }
             userInput = getUserInput("Would you like to see another card? If not, please input \"" + exitChar + "\", " +
@@ -52,8 +53,8 @@ public class SessionPresenter {
      *
      * @param card The flashcard whose front is displayed.
      */
-    private void displayFlashcardFront(Flashcard card) {
-        System.out.println("Front: " + card.getFront().getText());
+    private void displayFlashcardFront(FlashcardDTO card) {
+        System.out.println("Front: " + card.getFrontText());
     }
 
     /**
@@ -61,7 +62,7 @@ public class SessionPresenter {
      *
      * @param card The flashcard whose back is displayed.
      */
-    private void displayFlashcardBack(Flashcard card) {
+    private void displayFlashcardBack(FlashcardDTO card) {
         System.out.println("Back: " + card.getBack());
     }
 

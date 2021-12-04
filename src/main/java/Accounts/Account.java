@@ -31,6 +31,19 @@ public class Account {
     }
 
     /**
+     * Create a new Account with the given username, password, and list of decks.
+     * @param username Username of the account
+     * @param password Password of the account
+     * @param decks Starting decks of the account
+     */
+    public Account(String username, String password, List<Deck> decks, Map<Deck, List<StudySession>> decksToSessions) {
+        this.username = username;
+        this.password = password;
+        this.decks = decks;
+        this.decksToSessions = decksToSessions;
+    }
+
+    /**
      * Create a new Account with the given username and password, and an empty list of decks.
      * @param username Username of the account
      * @param password Password of the account
@@ -55,6 +68,13 @@ public class Account {
      */
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    /**
+     * @return This account's password
+     */
+    public String getPassword() {
+        return password;
     }
 
     /**

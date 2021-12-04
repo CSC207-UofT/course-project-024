@@ -25,7 +25,7 @@ public abstract class StudySession implements Observer {
      * @param cardShuffler The CardShuffler that this StudySession will use to get Flashcards
      */
     public StudySession(Deck deck, String name, CardShuffler cardShuffler) {
-        this.deck = deck.copyDeck(); // TODO: depends on entity?
+        this.deck = deck.copyDeck(); 
         this.originalDeck = deck;
         this.name = name;
         this.cardShuffler = cardShuffler;
@@ -37,7 +37,7 @@ public abstract class StudySession implements Observer {
      * @param cardShuffler The CardShuffler that this StudySession will use to get Flashcards
      */
     public StudySession(Deck deck, CardShuffler cardShuffler) {
-        this.deck = deck.copyDeck(); // TODO: depends on entity?
+        this.deck = deck.copyDeck();
         this.originalDeck = deck;
         this.name = "Untitled";
         this.cardShuffler = cardShuffler;
@@ -49,6 +49,14 @@ public abstract class StudySession implements Observer {
      */
     public CardShuffler getCardShuffler() {
         return this.cardShuffler;
+    }
+
+    /**
+     * Returns this StudySession's deck.
+     * @return This StudySession's deck
+     */
+    public Deck getDeck() {
+        return this.deck;
     }
 
      /**
@@ -76,6 +84,6 @@ public abstract class StudySession implements Observer {
 
     @Override
     public void update(){
-        this.deck = originalDeck.copyDeck(); // TODO: same as other todos
+        this.deck = originalDeck.copyDeck();
     }
 }

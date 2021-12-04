@@ -1,8 +1,8 @@
 package Sessions;
-import Accounts.Account;
+
 import Accounts.AccountInteractor;
-import Decks.Deck;
-import Flashcards.Flashcard;
+import Decks.DeckDTO;
+import Flashcards.FlashcardDTO;
 
 import java.util.List;
 
@@ -10,75 +10,76 @@ public class SessionController {
 
     public SessionController() {}
 
+    /**
+     * Get a DTO representation of the selected StudySession.
+     * @return a DeckDTO
+     */
+    public StudySessionDTO getCurrentSession() {
+        return SessionInteractor.getCurrentSession();
+    }
+
     // TODO: createSession for every type
     /**
-     * Either get an existing PracticeSession or create a new one if a PracticeSession does not already exist in the
+     * Either start an existing PracticeSession or create a new one if a PracticeSession does not already exist in the
      * specified account.
-     * @param deck The deck which this PracticeSession is based on
-     * @param account The target account
-     * @return a PracticeSession
+     * @param deckDTO The deck which this PracticeSession is based on
      */
-    public StudySession getPracticeSession(Deck deck, Account account) {
-        List<StudySession> sessions = account.getDecksToSessions().get(deck);
-        StudySession existingSession = getExistingSameSession(sessions, PracticeSession.class);
+    public void startPracticeSession(DeckDTO deckDTO) {
+        List<StudySessionDTO> sessions = AccountInteractor.getSessionsOfDeck(deckDTO);
+        StudySessionDTO existingSession = getExistingSameSession(sessions, PracticeSessionDTO.class);
         // if session already exists, resume it, else, create a new session
         if (existingSession == null) {
-            StudySession newSession = SessionInteractor.createPracticeSession(deck);
-            AccountInteractor.addSessionToAccount(account, deck, newSession);
-            return newSession;
+            StudySessionDTO newSession = SessionInteractor.createPracticeSession(deckDTO);
+            AccountInteractor.addSessionToCurrentAccount(deckDTO, newSession);
+            AccountInteractor.selectSession(deckDTO, newSession);
         } else {
-            return existingSession;
+            AccountInteractor.selectSession(deckDTO, existingSession);
         }
     }
 
     /**
-     * Either get an existing LearningSession or create a new one if a LearningSession does not already exist in the
+     * Either start an existing LearningSession or create a new one if a LearningSession does not already exist in the
      * specified account.
-     * @param deck The deck which this LearningSession is based on
-     * @param account The target account
-     * @return a LearningSession
+     * @param deckDTO The deck which this LearningSession is based on
      */
-    public StudySession getLearningSession(Deck deck, Account account) {
-        List<StudySession> sessions = account.getDecksToSessions().get(deck);
-        StudySession existingSession = getExistingSameSession(sessions, LearningSession.class);
+    public void startLearningSession(DeckDTO deckDTO) {
+        List<StudySessionDTO> sessions = AccountInteractor.getSessionsOfDeck(deckDTO);
+        StudySessionDTO existingSession = getExistingSameSession(sessions, LearningSessionDTO.class);
         // if session already exists, resume it, else, create a new session
         if (existingSession == null) {
-            StudySession newSession = SessionInteractor.createLearningSession(deck);
-            AccountInteractor.addSessionToAccount(account, deck, newSession);
-            return newSession;
+            StudySessionDTO newSession = SessionInteractor.createLearningSession(deckDTO);
+            AccountInteractor.addSessionToCurrentAccount(deckDTO, newSession);
+            AccountInteractor.selectSession(deckDTO, newSession);
         } else {
-            return existingSession;
+            AccountInteractor.selectSession(deckDTO, existingSession);
         }
     }
 
     /**
      * Delete the specified StudySession from the specified account.
-     * @param session The StudySession to be deleted
-     * @param deck The deck which the session is based on
-     * @param account The target account
+     * @param deckDTO The deck which the session is based on
+     * @param sessionDTO The StudySession to be deleted
      */
-    public void deleteSession(StudySession session, Deck deck, Account account) {
-        AccountInteractor.deleteSessionFromAccount(account, deck, session);
+    public void deleteSession(DeckDTO deckDTO, StudySessionDTO sessionDTO) {
+        AccountInteractor.deleteSessionFromCurrentAccount(deckDTO, sessionDTO);
     }
 
     /**
      * Return the next card that should be shown to the user in the specified StudySession.
-     * @param session The StudySession which will provide cards to the user
-     * @return a Flashcard
+     * @return a FlashcardDTO
      */
-    public Flashcard getNextCard(StudySession session) {
+    public FlashcardDTO getNextCard() {
         // TODO: throw an exception if the deck is empty
-        return SessionInteractor.getNextCard(session);
+        return SessionInteractor.getNextCard();
     }
 
     /**
      * Update the StudySession's algorithmic metrics on the user's performance on the previous card guess.
      * This will influence what cards the StudySession will give to the user in the future.
-     * @param session The StudySession which is being run
      * @param wasCorrect Whether the user guessed the back of the flashcard correctly
      */
-    public void postAnswerUpdate(StudySession session, boolean wasCorrect) {
-        SessionInteractor.postAnswerUpdate(session, wasCorrect);
+    public void postAnswerUpdate(boolean wasCorrect) {
+        SessionInteractor.postAnswerUpdate(wasCorrect);
     }
 
     /**
@@ -88,8 +89,9 @@ public class SessionController {
      * @param sessionClass The desired type of StudySession
      * @return a StudySession of type sessionClass if it exists, otherwise, null
      */
-    private StudySession getExistingSameSession(List<StudySession> sessions, Class<? extends StudySession> sessionClass) {
-        for (StudySession session : sessions) {
+    private StudySessionDTO getExistingSameSession(List<StudySessionDTO> sessions,
+                                                   Class<? extends StudySessionDTO> sessionClass) {
+        for (StudySessionDTO session : sessions) {
             if (sessionClass.isInstance(session)) {
                 return session;
             }
