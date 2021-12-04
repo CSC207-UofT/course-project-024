@@ -4,11 +4,12 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.BorderPane?>
 
+<?import javafx.scene.control.TextField?>
 <BorderPane prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="UI.DeckUIController">
+            fx:controller="UI.MainUI">
     <top>
         <Label BorderPane.alignment="TOP_CENTER" text="Flashcards!"/>
     </top>
@@ -18,9 +19,10 @@
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
             </padding>
 
-            <MenuButton fx:id="deckSelect" text="Select Deck"/>
+            <ComboBox fx:id="deckSelect"/>
             <Button onAction="#onAddCardButtonClick" text="Add Card"/>
             <Button onAction="#onEditCardButtonClick" text="Edit Card"/>
+            <TextField fx:id="newDeckName"/>
             <Button onAction="#onRenameDeckButtonClick" text="Rename Deck"/>
             <Button onAction="#onDeleteDeckButtonClick" text="Delete Deck"/>
         </VBox>
