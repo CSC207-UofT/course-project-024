@@ -68,7 +68,7 @@ public class BasicShuffle extends CardShuffler {
     @Override
     public Flashcard returnChosenFlashcard() {
         Flashcard chosenFlashcard;
-        if (index == 0) {
+        if (index == 0 && index != this.deckCopy.size() - 1) {
             shuffleCards();
             chosenFlashcard = this.deckCopy.get(index);
             index += 1;
@@ -78,7 +78,6 @@ public class BasicShuffle extends CardShuffler {
         } else { // index == flashcardData.size() - 1
             chosenFlashcard = this.deckCopy.get(index);
             index = 0;
-
         }
         return chosenFlashcard;
 
