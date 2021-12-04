@@ -4,6 +4,7 @@ import Accounts.Account;
 import Accounts.AccountInteractor;
 import Decks.DeckDTO;
 import Decks.DeckInteractor;
+import Flashcards.FlashcardDTO;
 import org.jetbrains.annotations.NotNull;
 
 import javax.imageio.ImageIO;
@@ -97,6 +98,8 @@ public class DatabaseGateway implements DatabaseTools {
         }
     }
 
+
+
     /**
      * Convert an image to an InputStream object.
      * This will be used to store images from flashcards into the database as BLOBs
@@ -121,22 +124,25 @@ public class DatabaseGateway implements DatabaseTools {
     /**
      * Generate a list of all the decks belonging to the current account.
      * This method is mainly used to initialize an instance of the program
+     * @param accountUsername The username of the account that the returned decks will be assigned to
      * @return ArrayList of DeckDTOs that will then be added to the current accounts deck list
      */
-    public ArrayList<DeckDTO> getDecksFromDB(){
+    public ArrayList<DeckDTO> getDecksFromDB(String accountUsername){
         try {
             ArrayList<DeckDTO> deckList = new ArrayList<>();
-            String accountUsername = AccountInteractor.getCurrentAccount().getUsername();
             ResultSet decks = createStatement().executeQuery("Select * FROM decks WHERE account_id = '" + accountUsername +"'");
             while (decks.next()){
-                DeckDTO newDeck = DeckInteractor.createDeck(decks.getString("deck_name"));
                 ResultSet correspondingCards = createStatement().executeQuery("SELECT * FROM cards WHERE deck_id = '" + decks.getString("deck_id") + "'");
+                ArrayList<FlashcardDTO> flashcardList = new ArrayList<>();
                 while (correspondingCards.next()){
                     Blob imageBlob = correspondingCards.getBlob("Image");
                     InputStream in = imageBlob.getBinaryStream();
                     Image currentCardImage = ImageIO.read(in);
-                    DeckInteractor.addFlashcardToCurrentDeck(correspondingCards.getString("front"), currentCardImage, correspondingCards.getString("back"));
+                    FlashcardDTO newFlashcardDTO =  new FlashcardDTO(correspondingCards.getString("front"), currentCardImage, correspondingCards.getString("back"));
+                    flashcardList.add(newFlashcardDTO);
                 }
+                String newDeckName = decks.getString("deck_name");
+                DeckDTO newDeck = new DeckDTO(newDeckName, flashcardList);
                 deckList.add(newDeck);
             }
             return deckList;
@@ -245,7 +251,6 @@ public class DatabaseGateway implements DatabaseTools {
                 pstmt.setString(2, id);
                 pstmt.setString(3, front);
                 pstmt.setString(4, back);
-
                 InputStream in = imageToInputStream(image);
                 pstmt.setBlob(5, in);
                 pstmt.execute();
