@@ -29,7 +29,7 @@ public class SessionController {
         StudySessionDTO existingSession = getExistingSameSession(sessions, sessionClass);
         // if session already exists, resume it, else, create a new session
         if (existingSession == null) {
-            StudySessionDTO newSession = SessionInteractor.createPracticeSession(deckDTO);
+            StudySessionDTO newSession = SessionInteractor.createSession(deckDTO, sessionClass);
             AccountInteractor.addSessionToCurrentAccount(deckDTO, newSession);
             AccountInteractor.selectSession(deckDTO, newSession);
         } else {
