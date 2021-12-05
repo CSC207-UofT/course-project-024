@@ -1,17 +1,15 @@
 package Database;
 
-import Accounts.Account;
-import Decks.Deck;
-import Decks.DeckDTO;
-import Decks.DeckInteractor;
 
+import Decks.DeckDTO;
 import java.awt.*;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 
-// A collection of methods that interact with the database on behalf of the program
+
+/** Interface containing all the (unimplemented) basic tools required to interact with the database
+ * in the context of this program
+ */
 interface DatabaseTools {
 
     /**
@@ -19,13 +17,13 @@ interface DatabaseTools {
      * Return a statement using the connection that can be executed to modify the database
      * @return Statement object to be used to modify the database
      */
-    public Statement createStatement();
+    Statement createStatement();
 
     /**
      * Create a connection with the database.
      * @return connection object that is connected to the database
      */
-    public Connection connection();
+    Connection connection();
 
     /**
      * Attempts to match am accounts username to their password. Basic form of account authentication
@@ -33,7 +31,7 @@ interface DatabaseTools {
      * @param password Password given as input by the user
      * @return Whether or not this username-password pair exists in the database
      */
-    public Boolean authenticateAccount(String username, String password);
+    Boolean authenticateAccount(String username, String password);
 
     /**
      * Generate a list of all the decks belonging to the current account.
@@ -41,14 +39,15 @@ interface DatabaseTools {
      * @param accountUsername The username of the account that the returned decks will be assigned to
      * @return ArrayList of DeckDTOs that will then be added to the current accounts deck list
      */
-    public ArrayList<DeckDTO> getDecksFromDB(String accountUsername);
+    ArrayList<DeckDTO> getDecksFromDB(String accountUsername);
 
     /**
      * Add a deck to the database.
      * This method is called when a new deck is created and it needs to be stored for persistence
+     * @param accountUsername Username of the account that this deck will belong to
      * @param deck_name Name of the deck that will be added
      */
-    public void addDeckToDB(String accountUsername, String deck_name);
+    void addDeckToDB(String accountUsername, String deck_name);
 
     /**
      * Update a single field of some row in the database
@@ -57,30 +56,33 @@ interface DatabaseTools {
      * @param oldValue Previous value of the field we want to update
      * @param newValue New value of the field we want to update
      */
-    public void updateRowInDB(String table, String column, String oldValue, String newValue);
+    void updateRowInDB(String table, String column, String oldValue, String newValue);
 
     /**
      * Delete a card in the database
+     * @param accountUsername Username of the account that the card we want to delete belongs to
      * @param deck_name Name of the deck that the card we want to delete belongs to
      * @param front Front text of the card we want to delete
      * @param back Back text of the card we want to delete
      */
-    public void deleteCardInDB(String accountUsername, String deck_name, String front, String back);
+    void deleteCardInDB(String accountUsername, String deck_name, String front, String back);
 
     /**
-     * Delete a whole deck from the databse.
+     * Delete a whole deck from the database.
      * When we delete a deck, we must also delete all its cards
+     * @param accountUsername Username of the account that the deck we want to delete belongs to
      * @param deck_name Name of the deck we want to delete
      */
-    public void deleteDeckInDB(String accountUsername, String deck_name);
+    void deleteDeckInDB(String accountUsername, String deck_name);
 
     /**
-     * Add a card to a deck of the users choice to the databse
+     * Add a card to a deck of the users choice to the database
+     * @param accountUsername User name of the account that the added card will belong to
      * @param deck_name Name of the deck we want to add the card to
      * @param front Front text of the card we want to add
      * @param back Back text of the card we want to add
      * @param image Optional image that the card holds on the back
      */
-    public void addCardToDeckInDB (String accountUsername, String deck_name, String front, String back, Image image);
+    void addCardToDeckInDB (String accountUsername, String deck_name, String front, String back, Image image);
 
 }

@@ -156,6 +156,7 @@ public class DatabaseGateway implements DatabaseTools {
     /**
      * Add a deck to the database.
      * This method is called when a new deck is created and it needs to be stored for persistence
+     * @param accountUsername Username of the account that this deck will belong to
      * @param deck_name Name of the deck that will be added
      */
     public void addDeckToDB(String accountUsername, String deck_name){
@@ -192,8 +193,10 @@ public class DatabaseGateway implements DatabaseTools {
             e.printStackTrace();
         }
     }
+
     /**
      * Delete a card in the database
+     * @param accountUsername Username of the account that the card we want to delete belongs to
      * @param deck_name Name of the deck that the card we want to delete belongs to
      * @param front Front text of the card we want to delete
      * @param back Back text of the card we want to delete
@@ -216,8 +219,9 @@ public class DatabaseGateway implements DatabaseTools {
     }
 
     /**
-     * Delete a whole deck from the databse.
+     * Delete a whole deck from the database.
      * When we delete a deck, we must also delete all its cards
+     * @param accountUsername Username of the account that the deck we want to delete belongs to
      * @param deck_name Name of the deck we want to delete
      */
     public void deleteDeckInDB(String accountUsername, String deck_name){
@@ -235,7 +239,8 @@ public class DatabaseGateway implements DatabaseTools {
     }
 
     /**
-     * Add a card to a deck of the users choice to the databse
+     * Add a card to a deck of the users choice to the database
+     * @param accountUsername User name of the account that the added card will belong to
      * @param deck_name Name of the deck we want to add the card to
      * @param front Front text of the card we want to add
      * @param back Back text of the card we want to add
