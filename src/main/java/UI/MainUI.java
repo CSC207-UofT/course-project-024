@@ -10,6 +10,7 @@ import Flashcards.FlashcardInteractor;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,8 +18,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
-
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
@@ -27,6 +30,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.*;
 import java.io.IOException;
@@ -46,13 +50,16 @@ public class MainUI {
 
     @FXML private TextField cardFrontText;
     @FXML private TextField cardBackText;
-    private Image cardImage;
+    private BufferedImage cardImage;
     @FXML private TextField newDeckName;
 
     @FXML private StackPane currentFrontView;
     @FXML private StackPane currentBackView;
     @FXML private TextField currentFrontText;
     @FXML private TextField currentBackText;
+
+    @FXML private Button renameDeckButton;
+    @FXML private Button deleteDeckButton;
 
     /**
      * updates decks names list of decks on the current account
@@ -79,21 +86,33 @@ public class MainUI {
     }
 
     protected void setCardView() {
-        //TODO: add image
         FlashcardDTO card = FlashcardInteractor.getCurrentFlashcard();
         String frontText = card.getFrontText();
-        Image frontImage = card.getFrontImage();
         String backText = card.getBack();
         currentFrontView.getChildren().clear();
         currentBackView.getChildren().clear();
-        currentFrontView.getChildren().add(new Text(frontText));
-        currentBackView.getChildren().add(new Text(backText));
+        if (card.getFrontImage() != null) {
+            Image frontImage = SwingFXUtils.toFXImage((BufferedImage) card.getFrontImage(), null);
+            ImageView frontImageView = new ImageView(frontImage);
+            frontImageView.preserveRatioProperty();
+            frontImageView.fitWidthProperty().bind(currentFrontView.widthProperty());
+            frontImageView.fitHeightProperty().bind(currentFrontView.heightProperty());
+            currentFrontView.getChildren().add(frontImageView);
+        }
+        Label frontTextView = new Label(frontText);
+        frontTextView.setWrapText(true);
+        Label backTextView = new Label(backText);
+        backTextView.setWrapText(true);
+        currentFrontView.getChildren().add(frontTextView);
+        currentBackView.getChildren().add(backTextView);
         currentFrontText.setText(frontText);
         currentBackText.setText(backText);
     }
 
     @FXML
     protected void onDeckSelect(ActionEvent e) {
+        renameDeckButton.setDisable(false);
+        deleteDeckButton.setDisable(false);
         setCurrentDeck(deckSelect.getValue());
         List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();
         if (cards.size() > 0) {
@@ -148,8 +167,9 @@ public class MainUI {
         }
         catch(Exception e){
             List<FlashcardDTO> cards = new ArrayList<>();
-            cards.add(FlashcardInteractor.createFlashcard("front",null,"back"));
-            cards.add(FlashcardInteractor.createFlashcard("foo",null,"bar"));
+            Image img = new Image("file:img/Flag_of_Canada.svg.png",500, 500, true, true);
+            cards.add(FlashcardInteractor.createFlashcard("front",SwingFXUtils.fromFXImage(img,null),"back"));
+            cards.add(FlashcardInteractor.createFlashcard("foo",SwingFXUtils.fromFXImage(img, null),"bar"));
             DeckDTO deck1 = new DeckDTO("test", cards);
             DeckDTO deck2 = new DeckDTO("boot", cards);
             DeckDTO deck3 = new DeckDTO("room", cards);
@@ -294,7 +314,8 @@ public class MainUI {
         //TODO: add edit image functionality
         String newFrontText = currentFrontText.getText();
         String newBackText = currentBackText.getText();
-        FlashcardInteractor.editCurrentFlashcardFront(newFrontText,null);
+        FlashcardInteractor.editCurrentFlashcardFront(newFrontText,
+                FlashcardInteractor.getCurrentFlashcard().getFrontImage());
         FlashcardInteractor.editCurrentFlashcardBack(newBackText);
         setCardView();
     }

@@ -28,9 +28,9 @@
                   <TextField fx:id="cardBackText" layoutX="80.0" layoutY="129.0" maxWidth="100.0" promptText="Back Text..." />
                      <Button layoutX="89.0" layoutY="163.0" onAction="#onUploadFileButtonClick" text="Upload File..." />
                      <Button layoutX="97.0" layoutY="196.0" onAction="#onAddCardSubmit" text="Add Card" disable="${cardFrontText.text.empty || cardBackText.text.empty}"/>
-                     <TextField fx:id="newDeckName" layoutX="49.0" layoutY="244.0" maxWidth="200.0" promptText="New Name..."/>
-                     <Button layoutX="79.0" layoutY="278.0" onAction="#onRenameDeckButtonClick" text="Rename Deck" />
-                     <Button layoutX="83.0" layoutY="331.0" onAction="#onDeleteDeckButtonClick" text="Delete Deck" />
+                     <TextField fx:id="newDeckName" layoutX="49.0" layoutY="244.0" maxWidth="200.0" promptText="New Name..." />
+                     <Button fx:id="renameDeckButton" layoutX="79.0" layoutY="278.0" onAction="#onRenameDeckButtonClick" text="Rename Deck" disable="true" />
+                     <Button fx:id="deleteDeckButton" layoutX="83.0" layoutY="331.0" onAction="#onDeleteDeckButtonClick" text="Delete Deck" disable="true" />
                      <Button layoutX="167.0" layoutY="542.0" onAction="#onMainMenuButtonClick" text="Main Menu" />
                </children>
             </AnchorPane>
