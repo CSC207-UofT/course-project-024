@@ -5,7 +5,7 @@ import Accounts.AccountInteractor;
 //import Database.DataBaseGateway;
 import Flashcards.FlashcardDTO;
 
-import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,10 +23,10 @@ public class DeckController { //implements DataBaseGateway {
 
     /**
      * Provide relevant interactors with the ability to use the flashcard at this index.
-     * @param index The index of the selected flashcard which will be worked on in the current deck.
+     * @param flashcardDTO The selected flashcard which will be worked on in the current deck.
      */
-    public void selectFlashcard(int index) {
-        DeckInteractor.selectFlashcard(index);
+    public void selectFlashcard(FlashcardDTO flashcardDTO) {
+        DeckInteractor.selectFlashcard(flashcardDTO);
     }
 
     /**
@@ -66,24 +66,30 @@ public class DeckController { //implements DataBaseGateway {
 
     /**
      * Delete a flashcard from the current deck. Also deletes the card from the database.
-     * @param index The index of the flashcard to be deleted in the current deck
+     * @param flashcardDTO The flashcard to be deleted in the current deck
      */
-    public void deleteCard(int index) {
-        DeckInteractor.deleteFlashcardFromCurrentDeck(index);
+    public void deleteCard(FlashcardDTO flashcardDTO) {
+        DeckInteractor.deleteFlashcardFromCurrentDeck(flashcardDTO);
         AccountInteractor.updateSessionsOfDeckInCurrentAccount(getCurrentDeck());
 
         //deleteCardInDB(account, deck.getName(), flashcard.getFront().getText(), flashcard.getBack());
     }
 
     /**
-     * Add a new flashcard to the specified deck. Also adds the card to the database.
+     * Add a new flashcard to the specified deck. Also adds the card to the database. Return whether the card
+     * was successfully created.
      * @param frontText The text on the front of the new flashcard (possibly null)
      * @param frontImage The image on the front of the new flashcard (possibly null)
      * @param back The text on the back of the new flashcard
+     * @return whether the card was successfully created.
      */
-    public void addCard(String frontText, Image frontImage, String back) {
+    public boolean addCard(String frontText, BufferedImage frontImage, String back) {
+        if (!hasUniqueName(frontText, getCurrentDeck())) {
+            return false;
+        }
         DeckInteractor.addFlashcardToCurrentDeck(frontText, frontImage, back);
         AccountInteractor.updateSessionsOfDeckInCurrentAccount(getCurrentDeck());
+        return true;
 //        addCardToDeckInDB(account, deck.getName(), frontText, back, );
     }
 
@@ -93,6 +99,14 @@ public class DeckController { //implements DataBaseGateway {
             existingDeckNames.add(d.getName());
         }
         return !existingDeckNames.contains(deckDTO.getName());
+    }
+
+    private boolean hasUniqueName(String frontText, DeckDTO deckDTO) {
+        List<String> existingFlashcardNames = new ArrayList<>();
+        for (FlashcardDTO f : deckDTO.getFlashcards()) {
+            existingFlashcardNames.add(f.getFrontText());
+        }
+        return !existingFlashcardNames.contains(frontText);
     }
 
 }
