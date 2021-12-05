@@ -22,12 +22,18 @@ public class SessionInteractor {
     }
 
     /**
-     * Return a new PracticeSession based on the specified deck.
+     * Return a new StudySession of the specified type based on the specified deck.
      * @param deckDTO The deck which this session will be based on
      * @return a new PracticeSession.
      */
-    public static StudySessionDTO createPracticeSession(DeckDTO deckDTO) {
-        return convertSessionToDTO(new PracticeSession(DeckInteractor.convertDTOToDeck(deckDTO)));
+    public static StudySessionDTO createSession(DeckDTO deckDTO, Class<? extends StudySessionDTO> sessionType) {
+        if (sessionType == PracticeSessionDTO.class) {
+            return convertSessionToDTO(new PracticeSession(DeckInteractor.convertDTOToDeck(deckDTO)));
+        } else if (sessionType == LearningSessionDTO.class) {
+            return convertSessionToDTO(new LearningSession(DeckInteractor.convertDTOToDeck(deckDTO)));
+        } else {
+            return convertSessionToDTO(new TestSession(DeckInteractor.convertDTOToDeck(deckDTO), 10));
+        }
     }
 
     /**
