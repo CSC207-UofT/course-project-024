@@ -63,9 +63,8 @@ interface DatabaseTools {
      * @param accountUsername Username of the account that the card we want to delete belongs to
      * @param deck_name Name of the deck that the card we want to delete belongs to
      * @param front Front text of the card we want to delete
-     * @param back Back text of the card we want to delete
      */
-    void deleteCardInDB(String accountUsername, String deck_name, String front, String back);
+    void deleteCardInDB(String accountUsername, String deck_name, String front);
 
     /**
      * Delete a whole deck from the database.

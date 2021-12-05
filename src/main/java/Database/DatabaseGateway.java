@@ -199,18 +199,16 @@ public class DatabaseGateway implements DatabaseTools {
      * @param accountUsername Username of the account that the card we want to delete belongs to
      * @param deck_name Name of the deck that the card we want to delete belongs to
      * @param front Front text of the card we want to delete
-     * @param back Back text of the card we want to delete
      */
-    public void deleteCardInDB(String accountUsername, String deck_name, String front, String back){
+    public void deleteCardInDB(String accountUsername, String deck_name, String front){
         try{
             ResultSet corresponding_deck_id = connection().createStatement().executeQuery("SELECT deck_id FROM decks WHERE deck_name ='" + deck_name + "'");
             while (corresponding_deck_id.next()) {
                 String deck_id = corresponding_deck_id.getString("deck_id");
-                PreparedStatement pstmt = connection().prepareStatement("DELETE FROM cards WHERE deck_id=(?) AND front=(?) AND back=(?) and account_id=(?)");
+                PreparedStatement pstmt = connection().prepareStatement("DELETE FROM cards WHERE deck_id=(?) AND front=(?) AND account_id=(?)");
                 pstmt.setString(1, deck_id);
                 pstmt.setString(2, front);
-                pstmt.setString(3, back);
-                pstmt.setString(4, accountUsername);
+                pstmt.setString(3, accountUsername);
                 pstmt.execute();
             }
         } catch (Exception e){
