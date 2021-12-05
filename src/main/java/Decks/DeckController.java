@@ -74,7 +74,7 @@ public class DeckController {
         DeckInteractor.deleteFlashcardFromCurrentDeck(index);
         AccountInteractor.updateSessionsOfDeckInCurrentAccount(getCurrentDeck());
 
-        DBgateway.deleteCardInDB(AccountInteractor.getCurrentAccount().getUsername(), DeckInteractor.getCurrentDeck().getName(),);
+        DBgateway.deleteCardInDB(AccountInteractor.getCurrentAccount().getUsername(), DeckInteractor.getCurrentDeck().getName(), );
     }
 
     /**
