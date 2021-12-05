@@ -43,8 +43,11 @@ public class MainUI {
     private final List<String> deckNames = new ArrayList<>();
     private final ObservableList<String> deckObservableList = FXCollections.observableArrayList();
 
-    @FXML private Label cardCount;
+    @FXML private ComboBox<String> sessionDeckSelect = new ComboBox<>();
+    @FXML private ComboBox<String> sessionTypeSelect = new ComboBox<>();
+    @FXML private Button startSessionButton;
 
+    @FXML private Label cardCount;
     @FXML private TextField cardFrontText;
     @FXML private TextField cardBackText;
     private BufferedImage cardImage;
@@ -67,6 +70,14 @@ public class MainUI {
         }
         deckObservableList.setAll(deckNames);
         deckSelect.setItems(deckObservableList);
+        sessionDeckSelect.setItems(deckObservableList);
+    }
+
+    /**
+     * Sets session types to choose from to start a session
+     */
+    public void setSessionTypes() {
+        sessionTypeSelect.setItems((FXCollections.observableArrayList("Learning", "Practice", "Study", "Test")));
     }
 
     /**
@@ -113,10 +124,9 @@ public class MainUI {
     /**
      * Enables deck modification buttons and initializes cards of the current deck
      * once a deck is chosen
-     * @param e action event on click
      */
     @FXML
-    protected void onDeckSelect(ActionEvent e) {
+    protected void onDeckSelect() {
         renameDeckButton.setDisable(false);
         deleteDeckButton.setDisable(false);
         setCurrentDeck(deckSelect.getValue());
@@ -148,10 +158,9 @@ public class MainUI {
      * Sets the current flashcard to the next flashcard in the deck and updates
      * the flashcard display. If the current flashcard is the last flashcard in
      * the deck, set the current flashcard to the first card of the deck instead.
-     * @param e action event on click
      */
     @FXML
-    protected void onNextCardButtonClick (ActionEvent e) {
+    protected void onNextCardButtonClick () {
         int index = getCurrentCardIndex();
         List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();
         if (index == cards.size() - 1) {
@@ -168,10 +177,9 @@ public class MainUI {
      * Sets the current flashcard to the previous flashcard in the deck and updates
      * the flashcard display. If the current flashcard is the first flashcard in
      * the deck, set the current flashcard to the last card of the deck instead.
-     * @param e action event on click
      */
     @FXML
-    protected void onPreviousCardButtonClick (ActionEvent e) {
+    protected void onPreviousCardButtonClick () {
         int index = getCurrentCardIndex();
         List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();
         if (index == 0) {
@@ -190,8 +198,7 @@ public class MainUI {
     void initialize() {
         //TODO: convert this testing code to actual integration with accounts
         try {
-            System.out.println("Current deck: "+deckController.getCurrentDeck().getName());
-            System.out.println("---------------");
+            deckController.getCurrentDeck().getName();
         }
         catch(Exception e){
             List<FlashcardDTO> cards = new ArrayList<>();
@@ -208,6 +215,7 @@ public class MainUI {
             AccountInteractor.addDeckToCurrentAccount(deck3);
         }
         setDecks();
+        setSessionTypes();
     }
 
     /**
@@ -217,7 +225,8 @@ public class MainUI {
      */
     @FXML
     protected void onCreateDeckButtonClick(ActionEvent e) throws IOException {
-        Parent createDeckParent = FXMLLoader.load(getClass().getResource("/create-deck-view.fxml"));
+        Parent createDeckParent = FXMLLoader.load(
+                Objects.requireNonNull(getClass().getResource("/create-deck-view.fxml")));
         Scene createDeckScene = new Scene(createDeckParent);
 
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -241,7 +250,6 @@ public class MainUI {
     @FXML
     protected void onCreateDeckSubmit(ActionEvent e) {
         deckController.createDeck(deckName.getText());
-        System.out.println(deckName.getText()+" Deck created");
         onBackButtonClick(e);
         setCurrentDeck(deckName.getText());
     }
@@ -253,7 +261,8 @@ public class MainUI {
      */
     @FXML
     protected void onStudyDeckButtonClick(ActionEvent e) throws IOException {
-        Parent studyDeckParent = FXMLLoader.load(getClass().getResource("/study-deck-view.fxml"));
+        Parent studyDeckParent = FXMLLoader.load(
+                Objects.requireNonNull(getClass().getResource("/study-deck-view.fxml")));
         Scene studyDeckScene = new Scene(studyDeckParent);
 
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -269,11 +278,22 @@ public class MainUI {
         popUp.show();
     }
 
+    @FXML
+    protected void onSessionOptionSelected() {
+        if (sessionTypeSelect.getValue() != null && sessionDeckSelect.getValue() != null) {
+            startSessionButton.setDisable(false);
+        }
+    }
+
     /**
      * Opens study session application
      */
     @FXML
     protected void onStartSessionSubmit() {
+        //gets current deck
+        setCurrentDeck(sessionDeckSelect.getValue());
+        //gets type of session to start
+        String sessionType = sessionTypeSelect.getValue();
         Platform.runLater(
                 () -> {
                     try {
@@ -292,7 +312,8 @@ public class MainUI {
      */
     @FXML
     protected void onEditDeckButtonClick(ActionEvent e) throws IOException {
-        Parent editDeckParent = FXMLLoader.load(getClass().getResource("/edit-deck-view.fxml"));
+        Parent editDeckParent = FXMLLoader.load(
+                Objects.requireNonNull(getClass().getResource("/edit-deck-view.fxml")));
         Scene editDeckScene = new Scene(editDeckParent);
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         stage.setScene(editDeckScene);
@@ -325,10 +346,9 @@ public class MainUI {
 
     /**
      * Creates a new flashcard with the given parameters and adds them to the current deck
-     * @param e action event on click
      */
     @FXML
-    protected void onAddCardSubmit (ActionEvent e) {
+    protected void onAddCardSubmit () {
         //add card to current deck
         deckController.addCard(cardFrontText.getText(), cardImage, cardBackText.getText());
         //reset values
@@ -340,15 +360,13 @@ public class MainUI {
         deckController.selectFlashcard(newCardIndex);
         updateCardCount(newCardIndex);
         setCardView();
-        System.out.println("Card added");
     }
 
     /**
      * Updates current flashcard with new front and back text
-     * @param e action event on click
      */
     @FXML
-    protected void onEditCardButtonClick (ActionEvent e) {
+    protected void onEditCardButtonClick () {
         BufferedImage newCardImage;
         if (cardImage != null) {
             newCardImage = cardImage;
@@ -370,9 +388,7 @@ public class MainUI {
      */
     @FXML
     protected void onRenameDeckButtonClick (ActionEvent e) throws IOException {
-        System.out.println("Current deck is: "+deckController.getCurrentDeck().getName());
         deckController.renameCurrentDeck(newDeckName.getText());
-        System.out.println("Deck name changed to: "+deckController.getCurrentDeck().getName());
         onMainMenuButtonClick(e);
     }
 
@@ -384,7 +400,6 @@ public class MainUI {
     @FXML
     protected void onDeleteDeckButtonClick (ActionEvent e) throws IOException {
         deckController.deleteDeck(deckController.getCurrentDeck());
-        System.out.println("Deck removed");
         onMainMenuButtonClick(e);
     }
 
@@ -395,7 +410,8 @@ public class MainUI {
      */
     @FXML
     protected void onMainMenuButtonClick(ActionEvent e) throws IOException {
-        Parent mainMenuParent = FXMLLoader.load(getClass().getResource("/main-view.fxml"));
+        Parent mainMenuParent = FXMLLoader.load(
+                Objects.requireNonNull(getClass().getResource("/main-view.fxml")));
         Scene mainMenuScene = new Scene(mainMenuParent);
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         stage.setScene(mainMenuScene);
