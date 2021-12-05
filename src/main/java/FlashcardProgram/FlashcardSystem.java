@@ -142,7 +142,7 @@ public class FlashcardSystem{
     private void displayEditCardMenu() {
         System.out.println("Which card would you like to edit?");
         int index = displayCards();
-        deckController.selectFlashcard(index);
+        //deckController.selectFlashcard(index);
         System.out.println("(0) Back (1) Edit Front (2) Edit Back (3) Delete");
         String select = scanner.nextLine();
         //TODO: check for invalid input
@@ -157,7 +157,7 @@ public class FlashcardSystem{
                 //TODO: edit front
                 break;
             case "3":
-                deckController.deleteCard(index);
+                //deckController.deleteCard(index);
                 break;
         }
     }
