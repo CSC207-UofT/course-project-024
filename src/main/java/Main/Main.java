@@ -10,6 +10,5 @@ public class Main {
 //         LearningSessionUI.main(args);
 //         UI.MainUI.main(args);
         LoginUI.main(args);
-
     }
 }

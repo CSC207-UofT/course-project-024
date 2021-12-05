@@ -4,11 +4,13 @@ import java.awt.*;
 
 public class FlashcardDTO {
 
-    private final Flashcard.Front front;
+    private final String frontText;
+    private final Image frontImage;
     private final String back;
 
-    public FlashcardDTO(Flashcard.Front front, String back) {
-        this.front = front;
+    public FlashcardDTO(String frontText, Image frontImage, String back) {
+        this.frontText = frontText;
+        this.frontImage = frontImage;
         this.back = back;
     }
 
@@ -16,20 +18,20 @@ public class FlashcardDTO {
      * @return the String on the front of this Flashcard
      */
     public String getFrontText() {
-        return front.getText();
+        return frontText;
     }
 
     /**
      * @return the Image on the front of this Flashcard
      */
     public Image getFrontImage() {
-        return front.getImage();
+        return frontImage;
     }
 
     /**
      * @return the String on the back of this Flashcard
      */
     public String getBack() {
-        return this.back;
+        return back;
     }
 }
