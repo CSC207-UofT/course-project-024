@@ -5,6 +5,8 @@ import Accounts.AccountInteractor;
 import Decks.DeckController;
 import Decks.DeckDTO;
 import Flashcards.FlashcardDTO;
+import Sessions.LearningSessionDTO;
+import Sessions.PracticeSessionDTO;
 import Sessions.SessionController;
 import Sessions.StudySessionDTO;
 
@@ -81,10 +83,10 @@ public class FlashcardSystem{
         String select = scanner.nextLine();
         //TODO: check for invalid input
         if (select.equals("0")) {
-            sessionController.startPracticeSession(deckController.getCurrentDeck());
+            sessionController.startSession(deckController.getCurrentDeck(), PracticeSessionDTO.class);
             return sessionController.getCurrentSession();
         } else if (select.equals("1")) {
-            sessionController.startLearningSession(deckController.getCurrentDeck());
+            sessionController.startSession(deckController.getCurrentDeck(), LearningSessionDTO.class);
             return sessionController.getCurrentSession();
         }
         // TODO: remove once invalid input is properly handled

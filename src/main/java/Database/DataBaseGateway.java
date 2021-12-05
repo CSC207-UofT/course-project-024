@@ -1,7 +1,6 @@
 package Database;
 
 import Accounts.Account;
-import Decks.Deck;
 import Decks.DeckDTO;
 import Decks.DeckInteractor;
 

@@ -31,8 +31,7 @@ public class FlashcardInteractor {
      * @return The Flashcard with front and back specified in the args
      */
     public static FlashcardDTO createFlashcard(String frontText, Image frontImage, String back) {
-        Flashcard.Front front = new Flashcard.Front(frontText, frontImage);
-        return new FlashcardDTO(front, back);
+        return new FlashcardDTO(frontText, frontImage, back);
     }
 
     /**
@@ -59,7 +58,7 @@ public class FlashcardInteractor {
      * @return a FlashcardDTO
      */
     public static FlashcardDTO convertFlashcardToDTO(Flashcard flashcard) {
-        return new FlashcardDTO(flashcard.getFront(), flashcard.getBack());
+        return new FlashcardDTO(flashcard.getFront().getText(), flashcard.getFront().getImage(), flashcard.getBack());
     }
 
     /**

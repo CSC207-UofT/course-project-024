@@ -18,36 +18,18 @@ public class SessionController {
         return SessionInteractor.getCurrentSession();
     }
 
-    // TODO: createSession for every type
     /**
-     * Either start an existing PracticeSession or create a new one if a PracticeSession does not already exist in the
-     * specified account.
+     * Either start an existing StudySession or create a new one if the type of StudySession does not already exist in
+     * the specified account. This methods sets the "current session" to the selected session.
      * @param deckDTO The deck which this PracticeSession is based on
+     * @param sessionClass The type of session to be started
      */
-    public void startPracticeSession(DeckDTO deckDTO) {
+    public void startSession(DeckDTO deckDTO, Class<? extends StudySessionDTO> sessionClass) {
         List<StudySessionDTO> sessions = AccountInteractor.getSessionsOfDeck(deckDTO);
-        StudySessionDTO existingSession = getExistingSameSession(sessions, PracticeSessionDTO.class);
+        StudySessionDTO existingSession = getExistingSameSession(sessions, sessionClass);
         // if session already exists, resume it, else, create a new session
         if (existingSession == null) {
             StudySessionDTO newSession = SessionInteractor.createPracticeSession(deckDTO);
-            AccountInteractor.addSessionToCurrentAccount(deckDTO, newSession);
-            AccountInteractor.selectSession(deckDTO, newSession);
-        } else {
-            AccountInteractor.selectSession(deckDTO, existingSession);
-        }
-    }
-
-    /**
-     * Either start an existing LearningSession or create a new one if a LearningSession does not already exist in the
-     * specified account.
-     * @param deckDTO The deck which this LearningSession is based on
-     */
-    public void startLearningSession(DeckDTO deckDTO) {
-        List<StudySessionDTO> sessions = AccountInteractor.getSessionsOfDeck(deckDTO);
-        StudySessionDTO existingSession = getExistingSameSession(sessions, LearningSessionDTO.class);
-        // if session already exists, resume it, else, create a new session
-        if (existingSession == null) {
-            StudySessionDTO newSession = SessionInteractor.createLearningSession(deckDTO);
             AccountInteractor.addSessionToCurrentAccount(deckDTO, newSession);
             AccountInteractor.selectSession(deckDTO, newSession);
         } else {
