@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.BorderPane?>
 
 <BorderPane prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml"
-                fx:controller="UI.MainUIController">
+                fx:controller="UI.MainUI">
     <top>
         <Label BorderPane.alignment="TOP_CENTER" text="Flashcards!"/>
     </top>
@@ -20,6 +20,7 @@
             <Button onAction="#onStudyDeckButtonClick" text="Study Existing Deck"/>
             <Button onAction="#onEditDeckButtonClick" text="Edit Existing Deck"/>
             <Button onAction="#onLogoutButtonClick" text="Logout"/>
+            <Button onAction="#onDebugButtonClick" text="Debug"/>
         </VBox>
     </center>
 </BorderPane>
