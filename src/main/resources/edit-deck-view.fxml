@@ -12,13 +12,16 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <StackPane fx:id="currentFrontView" layoutX="55.0" layoutY="85.0" prefHeight="150.0" prefWidth="200.0" />
-                  <StackPane fx:id="currentBackView" layoutX="299.0" layoutY="85.0" prefHeight="150.0" prefWidth="200.0" />
-                     <Button layoutX="241.0" layoutY="291.0" onAction="#onEditCardButtonClick" text="Edit Card" />
-                  <TextField fx:id="currentBackText" layoutX="325.0" layoutY="256.0"/>
-                  <TextField fx:id="currentFrontText" layoutX="81.0" layoutY="256.0"/>
-                  <Button layoutX="462.0" layoutY="291.0" mnemonicParsing="false" onAction="#onNextCardButtonClick" text="Next" />
-                  <Button layoutX="23.0" layoutY="291.0" mnemonicParsing="false" onAction="#onPreviousCardButtonClick" text="Previous" />
+                  <StackPane fx:id="currentFrontImage" layoutX="51.0" layoutY="49.0" prefHeight="150.0" prefWidth="200.0" />
+                   <Button layoutX="442.0" layoutY="174.0" onAction="#onEditCardButtonClick" text="Save Edit" />
+                  <TextField fx:id="currentBackText" layoutX="357.0" layoutY="137.0" />
+                  <TextField fx:id="currentFrontText" layoutX="357.0" layoutY="89.0" />
+                  <Button layoutX="284.0" layoutY="225.0" mnemonicParsing="false" onAction="#onNextCardButtonClick" text="Next" />
+                  <Button layoutX="212.0" layoutY="225.0" mnemonicParsing="false" onAction="#onPreviousCardButtonClick" text="Previous" />
+                  <Button layoutX="308.0" layoutY="174.0" mnemonicParsing="false" onAction="#onUploadFileButtonClick" text="New File..." />
+                  <Label layoutX="311.0" layoutY="93.0" text="Front:" />
+                  <Label layoutX="313.0" layoutY="141.0" text="Back:" />
+                  <Label fx:id="cardCount" layoutX="416.0" layoutY="49.0" prefHeight="17.0" prefWidth="90.0" text="Flashcard 0 of 0" textAlignment="RIGHT" />
                </children></AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
@@ -27,10 +30,10 @@
                   <TextField fx:id="cardFrontText" layoutX="81.0" layoutY="98.0" maxWidth="100.0" promptText="Front Text..." />
                   <TextField fx:id="cardBackText" layoutX="80.0" layoutY="129.0" maxWidth="100.0" promptText="Back Text..." />
                      <Button layoutX="89.0" layoutY="163.0" onAction="#onUploadFileButtonClick" text="Upload File..." />
-                     <Button layoutX="97.0" layoutY="196.0" onAction="#onAddCardSubmit" text="Add Card" disable="${cardFrontText.text.empty || cardBackText.text.empty}"/>
+                     <Button disable="${cardFrontText.text.empty || cardBackText.text.empty}" layoutX="97.0" layoutY="196.0" onAction="#onAddCardSubmit" text="Add Card" />
                      <TextField fx:id="newDeckName" layoutX="49.0" layoutY="244.0" maxWidth="200.0" promptText="New Name..." />
-                     <Button fx:id="renameDeckButton" layoutX="79.0" layoutY="278.0" onAction="#onRenameDeckButtonClick" text="Rename Deck" disable="true" />
-                     <Button fx:id="deleteDeckButton" layoutX="83.0" layoutY="331.0" onAction="#onDeleteDeckButtonClick" text="Delete Deck" disable="true" />
+                     <Button fx:id="renameDeckButton" disable="true" layoutX="79.0" layoutY="278.0" onAction="#onRenameDeckButtonClick" text="Rename Deck" />
+                     <Button fx:id="deleteDeckButton" disable="true" layoutX="83.0" layoutY="331.0" onAction="#onDeleteDeckButtonClick" text="Delete Deck" />
                      <Button layoutX="167.0" layoutY="542.0" onAction="#onMainMenuButtonClick" text="Main Menu" />
                </children>
             </AnchorPane>

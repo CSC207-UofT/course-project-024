@@ -17,19 +17,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.Node;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.*;
@@ -48,13 +43,14 @@ public class MainUI {
     private final List<String> deckNames = new ArrayList<>();
     private final ObservableList<String> deckObservableList = FXCollections.observableArrayList();
 
+    @FXML private Label cardCount;
+
     @FXML private TextField cardFrontText;
     @FXML private TextField cardBackText;
     private BufferedImage cardImage;
     @FXML private TextField newDeckName;
 
-    @FXML private StackPane currentFrontView;
-    @FXML private StackPane currentBackView;
+    @FXML private StackPane currentFrontImage;
     @FXML private TextField currentFrontText;
     @FXML private TextField currentBackText;
 
@@ -62,7 +58,7 @@ public class MainUI {
     @FXML private Button deleteDeckButton;
 
     /**
-     * updates decks names list of decks on the current account
+     * updates list of deck names on the current account
      */
     protected void setDecks() {
         List<DeckDTO> decks = AccountInteractor.getCurrentAccount().getDecks();
@@ -85,30 +81,40 @@ public class MainUI {
         }
     }
 
+    /**
+     * Gets current flashcard and updates the display to the current flashcard
+     */
     protected void setCardView() {
+        ImageView frontImageView;
         FlashcardDTO card = FlashcardInteractor.getCurrentFlashcard();
         String frontText = card.getFrontText();
         String backText = card.getBack();
-        currentFrontView.getChildren().clear();
-        currentBackView.getChildren().clear();
+        currentFrontImage.getChildren().clear();
         if (card.getFrontImage() != null) {
             Image frontImage = SwingFXUtils.toFXImage((BufferedImage) card.getFrontImage(), null);
-            ImageView frontImageView = new ImageView(frontImage);
+            frontImageView = new ImageView(frontImage);
             frontImageView.preserveRatioProperty();
-            frontImageView.fitWidthProperty().bind(currentFrontView.widthProperty());
-            frontImageView.fitHeightProperty().bind(currentFrontView.heightProperty());
-            currentFrontView.getChildren().add(frontImageView);
+            frontImageView.fitWidthProperty().bind(currentFrontImage.widthProperty());
+            frontImageView.fitHeightProperty().bind(currentFrontImage.heightProperty());
+            currentFrontImage.getChildren().add(frontImageView);
         }
-        Label frontTextView = new Label(frontText);
-        frontTextView.setWrapText(true);
-        Label backTextView = new Label(backText);
-        backTextView.setWrapText(true);
-        currentFrontView.getChildren().add(frontTextView);
-        currentBackView.getChildren().add(backTextView);
         currentFrontText.setText(frontText);
         currentBackText.setText(backText);
     }
 
+    /**
+     * Updates card count
+     * @param index index of the current flashcard
+     */
+    protected void updateCardCount(int index) {
+        List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();
+        cardCount.setText("Flashcard "+(index+1)+" of "+cards.size());
+    }
+    /**
+     * Enables deck modification buttons and initializes cards of the current deck
+     * once a deck is chosen
+     * @param e action event on click
+     */
     @FXML
     protected void onDeckSelect(ActionEvent e) {
         renameDeckButton.setDisable(false);
@@ -117,10 +123,15 @@ public class MainUI {
         List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();
         if (cards.size() > 0) {
             deckController.selectFlashcard(0);
+            updateCardCount(0);
             setCardView();
         }
     }
 
+    /**
+     * Returns the index of the current flashcard in the current deck
+     * @return index of flashcard
+     */
     protected int getCurrentCardIndex() {
         int index = 0;
         List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();
@@ -132,26 +143,43 @@ public class MainUI {
         }
         return index;
     }
+
+    /**
+     * Sets the current flashcard to the next flashcard in the deck and updates
+     * the flashcard display. If the current flashcard is the last flashcard in
+     * the deck, set the current flashcard to the first card of the deck instead.
+     * @param e action event on click
+     */
     @FXML
     protected void onNextCardButtonClick (ActionEvent e) {
         int index = getCurrentCardIndex();
         List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();
         if (index == cards.size() - 1) {
             deckController.selectFlashcard(0);
+            updateCardCount(0);
         } else {
             deckController.selectFlashcard(index + 1);
+            updateCardCount(index+1);
         }
         setCardView();
     }
 
+    /**
+     * Sets the current flashcard to the previous flashcard in the deck and updates
+     * the flashcard display. If the current flashcard is the first flashcard in
+     * the deck, set the current flashcard to the last card of the deck instead.
+     * @param e action event on click
+     */
     @FXML
     protected void onPreviousCardButtonClick (ActionEvent e) {
         int index = getCurrentCardIndex();
         List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();
         if (index == 0) {
             deckController.selectFlashcard(cards.size() - 1);
+            updateCardCount(cards.size() - 1);
         } else {
             deckController.selectFlashcard(index - 1);
+            updateCardCount(index - 1);
         }
         setCardView();
     }
@@ -301,21 +329,36 @@ public class MainUI {
      */
     @FXML
     protected void onAddCardSubmit (ActionEvent e) {
+        //add card to current deck
         deckController.addCard(cardFrontText.getText(), cardImage, cardBackText.getText());
+        //reset values
         cardFrontText.setText("");
         cardBackText.setText("");
-        deckController.selectFlashcard(deckController.getCurrentDeck().getFlashcards().size()-1);
+        cardImage = null;
+        //update current flashcard view
+        int newCardIndex = deckController.getCurrentDeck().getFlashcards().size()-1;
+        deckController.selectFlashcard(newCardIndex);
+        updateCardCount(newCardIndex);
         setCardView();
         System.out.println("Card added");
     }
 
+    /**
+     * Updates current flashcard with new front and back text
+     * @param e action event on click
+     */
     @FXML
     protected void onEditCardButtonClick (ActionEvent e) {
-        //TODO: add edit image functionality
+        BufferedImage newCardImage;
+        if (cardImage != null) {
+            newCardImage = cardImage;
+            cardImage = null;
+        } else {
+            newCardImage = (BufferedImage) FlashcardInteractor.getCurrentFlashcard().getFrontImage();
+        }
         String newFrontText = currentFrontText.getText();
         String newBackText = currentBackText.getText();
-        FlashcardInteractor.editCurrentFlashcardFront(newFrontText,
-                FlashcardInteractor.getCurrentFlashcard().getFrontImage());
+        FlashcardInteractor.editCurrentFlashcardFront(newFrontText, newCardImage);
         FlashcardInteractor.editCurrentFlashcardBack(newBackText);
         setCardView();
     }
@@ -333,6 +376,11 @@ public class MainUI {
         onMainMenuButtonClick(e);
     }
 
+    /**
+     * Deletes the current deck and returns to the main menu
+     * @param e action event on click
+     * @throws IOException if main-view.fxml is not found
+     */
     @FXML
     protected void onDeleteDeckButtonClick (ActionEvent e) throws IOException {
         deckController.deleteDeck(deckController.getCurrentDeck());
