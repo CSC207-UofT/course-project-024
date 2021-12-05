@@ -107,7 +107,7 @@ public class DatabaseGateway implements DatabaseTools {
      * @param image Image object to be converted and stored into database
      * @return InputStream object that was built using the information from the image
      */
-    public InputStream imageToInputStream(Image image){
+    public InputStream imageToInputStream(BufferedImage image){
         try {
             BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
             Graphics2D g2 = bufferedImage.createGraphics();
@@ -138,7 +138,7 @@ public class DatabaseGateway implements DatabaseTools {
                 while (correspondingCards.next()){
                     Blob imageBlob = correspondingCards.getBlob("Image");
                     InputStream in = imageBlob.getBinaryStream();
-                    Image currentCardImage = ImageIO.read(in);
+                    BufferedImage currentCardImage = ImageIO.read(in);
                     FlashcardDTO newFlashcardDTO =  new FlashcardDTO(correspondingCards.getString("front"), currentCardImage, correspondingCards.getString("back"));
                     flashcardList.add(newFlashcardDTO);
                 }
@@ -246,7 +246,7 @@ public class DatabaseGateway implements DatabaseTools {
      * @param back Back text of the card we want to add
      * @param image Optional image that the card holds on the back
      */
-    public void addCardToDeckInDB(String accountUsername, String deck_name, String front, String back, Image image){
+    public void addCardToDeckInDB(String accountUsername, String deck_name, String front, String back, BufferedImage image){
         try {
             ResultSet deck_id = createStatement().executeQuery("SELECT * FROM decks WHERE deck_name = '" + deck_name + "' AND account_id = '" + accountUsername+"'");
             while (deck_id.next()){

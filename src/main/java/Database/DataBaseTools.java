@@ -2,7 +2,7 @@ package Database;
 
 
 import Decks.DeckDTO;
-import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -83,6 +83,6 @@ interface DatabaseTools {
      * @param back Back text of the card we want to add
      * @param image Optional image that the card holds on the back
      */
-    void addCardToDeckInDB (String accountUsername, String deck_name, String front, String back, Image image);
+    void addCardToDeckInDB (String accountUsername, String deck_name, String front, String back, BufferedImage image);
 
 }
