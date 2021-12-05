@@ -1,7 +1,7 @@
 package Database;
 
 import Accounts.Account;
-import Decks.Deck;
+import Decks.DeckDTO;
 import Decks.DeckInteractor;
 
 import java.io.FileInputStream;
@@ -72,15 +72,15 @@ public interface DataBaseGateway {
     }
     
     // Method that reconstructs all the decks in the same state as they were during the most recent instantiation of the program
-    default ArrayList<Deck> getDecksFromDB(){
+    default ArrayList<DeckDTO> getDecksFromDB(){
         try {
             // Create an ArrayList of decks that will be built up throughout the rest of the function
-            ArrayList<Deck> deckList = new ArrayList<>();
+            ArrayList<DeckDTO> deckList = new ArrayList<>();
             // Obtain a table of all of the decks in the database
             ResultSet decks = createStatement().executeQuery("Select * FROM decks");
             // Add flashcards to the decks that have the corresponding deck_id
             while (decks.next()){
-                Deck newDeck = DeckInteractor.createDeck(decks.getString("deck_name"));
+                DeckDTO newDeck = DeckInteractor.createDeck(decks.getString("deck_name"));
                 ResultSet correspondingCards = createStatement().executeQuery("SELECT * FROM cards WHERE deck_id = '" + decks.getString("deck_id") + "'");
                 while (correspondingCards.next()){
 
