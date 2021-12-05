@@ -20,11 +20,15 @@
             </padding>
 
             <ComboBox fx:id="deckSelect"/>
-            <Button onAction="#onAddCardButtonClick" text="Add Card"/>
+            <Label text="Card Front Text:"/><TextField fx:id="cardFrontText"/>
+            <Label text="Card Back Text:"/><TextField fx:id="cardBackText"/>
+            <Button onAction="#onUploadFileButtonClick" text="Upload File..."/>
+            <Button onAction="#onAddCardSubmit" text="Add Card"/>
             <Button onAction="#onEditCardButtonClick" text="Edit Card"/>
             <TextField fx:id="newDeckName"/>
             <Button onAction="#onRenameDeckButtonClick" text="Rename Deck"/>
             <Button onAction="#onDeleteDeckButtonClick" text="Delete Deck"/>
+            <Button onAction="#onMainMenuButtonClick" text="Main Menu"/>
         </VBox>
     </center>
 </BorderPane>

@@ -60,9 +60,7 @@ public class MainUI {
         deckSelect.setItems(deckObservableList);
     }
 
-    protected void setCurrentDeck() {
-        String select = deckSelect.getValue();
-        System.out.println(select);
+    protected void setCurrentDeck(String select) {
         for (DeckDTO d : AccountInteractor.getCurrentAccount().getDecks()) {
             if (select.equals(d.getName())) {
                 AccountInteractor.selectDeck(d);
@@ -92,7 +90,6 @@ public class MainUI {
             AccountInteractor.addDeckToCurrentAccount(deck1);
             AccountInteractor.addDeckToCurrentAccount(deck2);
             AccountInteractor.addDeckToCurrentAccount(deck3);
-            AccountInteractor.selectDeck(deck1);
         }
         setDecks();
     }
@@ -130,6 +127,7 @@ public class MainUI {
         deckController.createDeck(deckName.getText());
         System.out.println(deckName.getText()+" Deck created");
         onBackButtonClick(e);
+        setCurrentDeck(deckName.getText());
         setDecks();
     }
 
@@ -191,7 +189,7 @@ public class MainUI {
      * @param e action event on click
      * @throws IOException if add-card-view.fxml is not found
      */
-    @FXML
+    /*@FXML
     protected void onAddCardButtonClick (ActionEvent e) throws IOException {
         Parent addCardParent = FXMLLoader.load(getClass().getResource("/add-card-view.fxml"));
         Scene addCardScene = new Scene(addCardParent);
@@ -207,7 +205,7 @@ public class MainUI {
         popUp.setY(stage.getY()+20);
 
         popUp.show();
-    }
+    }*/
 
     /**
      * Gets image file for flashcard from user and displays the uploaded image
@@ -241,10 +239,9 @@ public class MainUI {
      */
     @FXML
     protected void onAddCardSubmit (ActionEvent e) {
-        setCurrentDeck();
+        setCurrentDeck(deckSelect.getValue());
         deckController.addCard(cardFrontText.getText(), cardImage, cardBackText.getText());
         System.out.println("Cards in current deck: "+deckController.getCurrentDeck().getFlashcards());
-        onBackButtonClick(e);
         setDecks();
     }
 
@@ -261,7 +258,7 @@ public class MainUI {
      */
     @FXML
     protected void onRenameDeckButtonClick (ActionEvent e) throws IOException {
-        setCurrentDeck();
+        setCurrentDeck(deckSelect.getValue());
         System.out.println("Current deck is: "+deckController.getCurrentDeck().getName());
         deckController.renameCurrentDeck(newDeckName.getText());
         System.out.println("Deck name changed to: "+deckController.getCurrentDeck().getName());
@@ -305,7 +302,14 @@ public class MainUI {
      */
     @FXML
     protected void onLogoutButtonClick() {
-        //Platform.exit();
+        Platform.exit();
+    }
+
+    /**
+     * Prints contents of current account to the console
+     */
+    @FXML
+    protected void onDebugButtonClick() {
         System.out.println("UN: "+AccountInteractor.getCurrentAccount().getUsername());
         System.out.println("DECKS: ");
         for (DeckDTO d : AccountInteractor.getCurrentAccount().getDecks()) {

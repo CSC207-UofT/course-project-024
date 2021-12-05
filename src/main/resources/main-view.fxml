@@ -20,6 +20,7 @@
             <Button onAction="#onStudyDeckButtonClick" text="Study Existing Deck"/>
             <Button onAction="#onEditDeckButtonClick" text="Edit Existing Deck"/>
             <Button onAction="#onLogoutButtonClick" text="Logout"/>
+            <Button onAction="#onDebugButtonClick" text="Debug"/>
         </VBox>
     </center>
 </BorderPane>
