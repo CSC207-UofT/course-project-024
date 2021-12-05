@@ -41,6 +41,14 @@ public class WorstToBestShuffle extends CardShuffler {
     }
 
     /**
+     * Get this shuffler's deckCopy
+     * @return deck
+     */
+    public Deck getDeckCopy() {
+        return deckCopy;
+    }
+
+    /**
      * Return the chosen flashcard of this card shuffle algorithm.
      * @return A Flashcard (the chosen one)
      */
