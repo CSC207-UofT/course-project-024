@@ -19,6 +19,9 @@ import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -46,11 +49,14 @@ public class MainUI {
     private Image cardImage;
     @FXML private TextField newDeckName;
 
+    @FXML private StackPane currentFrontView;
+    @FXML private StackPane currentBackView;
+    @FXML private TextField currentFrontText;
+    @FXML private TextField currentBackText;
 
     /**
      * updates decks names list of decks on the current account
      */
-    @FXML
     protected void setDecks() {
         List<DeckDTO> decks = AccountInteractor.getCurrentAccount().getDecks();
         for (DeckDTO d : decks) {
@@ -60,6 +66,10 @@ public class MainUI {
         deckSelect.setItems(deckObservableList);
     }
 
+    /**
+     * updates current deck
+     * @param select name of deck
+     */
     protected void setCurrentDeck(String select) {
         for (DeckDTO d : AccountInteractor.getCurrentAccount().getDecks()) {
             if (select.equals(d.getName())) {
@@ -68,6 +78,64 @@ public class MainUI {
         }
     }
 
+    protected void setCardView() {
+        //TODO: add image
+        FlashcardDTO card = FlashcardInteractor.getCurrentFlashcard();
+        String frontText = card.getFrontText();
+        Image frontImage = card.getFrontImage();
+        String backText = card.getBack();
+        currentFrontView.getChildren().clear();
+        currentBackView.getChildren().clear();
+        currentFrontView.getChildren().add(new Text(frontText));
+        currentBackView.getChildren().add(new Text(backText));
+        currentFrontText.setText(frontText);
+        currentBackText.setText(backText);
+    }
+
+    @FXML
+    protected void onDeckSelect(ActionEvent e) {
+        setCurrentDeck(deckSelect.getValue());
+        List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();
+        if (cards.size() > 0) {
+            deckController.selectFlashcard(0);
+            setCardView();
+        }
+    }
+
+    protected int getCurrentCardIndex() {
+        int index = 0;
+        List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();
+        FlashcardDTO currentCard = FlashcardInteractor.getCurrentFlashcard();
+        for (FlashcardDTO f : cards) {
+            if (f.getFrontText().equals(currentCard.getFrontText())) {
+                index = cards.indexOf(f);
+            }
+        }
+        return index;
+    }
+    @FXML
+    protected void onNextCardButtonClick (ActionEvent e) {
+        int index = getCurrentCardIndex();
+        List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();
+        if (index == cards.size() - 1) {
+            deckController.selectFlashcard(0);
+        } else {
+            deckController.selectFlashcard(index + 1);
+        }
+        setCardView();
+    }
+
+    @FXML
+    protected void onPreviousCardButtonClick (ActionEvent e) {
+        int index = getCurrentCardIndex();
+        List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();
+        if (index == 0) {
+            deckController.selectFlashcard(cards.size() - 1);
+        } else {
+            deckController.selectFlashcard(index - 1);
+        }
+        setCardView();
+    }
     /**
      * initializes main menu with the current account and its decks
      */
@@ -75,13 +143,13 @@ public class MainUI {
     void initialize() {
         //TODO: convert this testing code to actual integration with accounts
         try {
-            System.out.println(deckController.getCurrentDeck().getName()+" deck has cards: "+
-                    deckController.getCurrentDeck().getFlashcards());
+            System.out.println("Current deck: "+deckController.getCurrentDeck().getName());
             System.out.println("---------------");
         }
         catch(Exception e){
             List<FlashcardDTO> cards = new ArrayList<>();
             cards.add(FlashcardInteractor.createFlashcard("front",null,"back"));
+            cards.add(FlashcardInteractor.createFlashcard("foo",null,"bar"));
             DeckDTO deck1 = new DeckDTO("test", cards);
             DeckDTO deck2 = new DeckDTO("boot", cards);
             DeckDTO deck3 = new DeckDTO("room", cards);
@@ -128,7 +196,6 @@ public class MainUI {
         System.out.println(deckName.getText()+" Deck created");
         onBackButtonClick(e);
         setCurrentDeck(deckName.getText());
-        setDecks();
     }
 
     /**
@@ -185,29 +252,6 @@ public class MainUI {
     }
 
     /**
-     * Generates pop-up to add a new Flashcard
-     * @param e action event on click
-     * @throws IOException if add-card-view.fxml is not found
-     */
-    /*@FXML
-    protected void onAddCardButtonClick (ActionEvent e) throws IOException {
-        Parent addCardParent = FXMLLoader.load(getClass().getResource("/add-card-view.fxml"));
-        Scene addCardScene = new Scene(addCardParent);
-
-        Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        Stage popUp = new Stage();
-        popUp.setTitle("Add New Card");
-        popUp.setScene((addCardScene));
-
-        popUp.initModality(Modality.WINDOW_MODAL);
-        popUp.initOwner(stage);
-        popUp.setX(stage.getX()+20);
-        popUp.setY(stage.getY()+20);
-
-        popUp.show();
-    }*/
-
-    /**
      * Gets image file for flashcard from user and displays the uploaded image
      * @param e action event on click
      */
@@ -224,8 +268,6 @@ public class MainUI {
         File file = fileChooser.showOpenDialog(stage);
         if (file != null) {
             try {
-                //TODO: show uploaded image within the application instead
-                Desktop.getDesktop().open(file);
                 this.cardImage = ImageIO.read(file);
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -239,16 +281,22 @@ public class MainUI {
      */
     @FXML
     protected void onAddCardSubmit (ActionEvent e) {
-        setCurrentDeck(deckSelect.getValue());
         deckController.addCard(cardFrontText.getText(), cardImage, cardBackText.getText());
-        System.out.println("Cards in current deck: "+deckController.getCurrentDeck().getFlashcards());
-        setDecks();
+        cardFrontText.setText("");
+        cardBackText.setText("");
+        deckController.selectFlashcard(deckController.getCurrentDeck().getFlashcards().size()-1);
+        setCardView();
+        System.out.println("Card added");
     }
 
     @FXML
-    protected void onEditCardButtonClick (ActionEvent e) throws IOException {
-        //TODO: edit card
-        onMainMenuButtonClick(e);
+    protected void onEditCardButtonClick (ActionEvent e) {
+        //TODO: add edit image functionality
+        String newFrontText = currentFrontText.getText();
+        String newBackText = currentBackText.getText();
+        FlashcardInteractor.editCurrentFlashcardFront(newFrontText,null);
+        FlashcardInteractor.editCurrentFlashcardBack(newBackText);
+        setCardView();
     }
 
     /**
@@ -258,12 +306,10 @@ public class MainUI {
      */
     @FXML
     protected void onRenameDeckButtonClick (ActionEvent e) throws IOException {
-        setCurrentDeck(deckSelect.getValue());
         System.out.println("Current deck is: "+deckController.getCurrentDeck().getName());
         deckController.renameCurrentDeck(newDeckName.getText());
         System.out.println("Deck name changed to: "+deckController.getCurrentDeck().getName());
         onMainMenuButtonClick(e);
-        setDecks();
     }
 
     @FXML
@@ -313,7 +359,10 @@ public class MainUI {
         System.out.println("UN: "+AccountInteractor.getCurrentAccount().getUsername());
         System.out.println("DECKS: ");
         for (DeckDTO d : AccountInteractor.getCurrentAccount().getDecks()) {
-            System.out.println(d.getName() + ": " + d.getFlashcards());
+            System.out.println(d.getName() + ": " + d.getFlashcards().size());
+            for (FlashcardDTO f : d.getFlashcards()) {
+                System.out.println("> Card: "+f.getFrontText()+", "+f.getBack());
+            }
         }
     }
 }
