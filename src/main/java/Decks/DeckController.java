@@ -10,7 +10,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeckController { //implements DataBaseGateway {
+public class DeckController {
+    DatabaseGateway DBgateway = new DatabaseGateway();
 
     public DeckController() {}
 
@@ -43,7 +44,7 @@ public class DeckController { //implements DataBaseGateway {
             return false;
         }
         AccountInteractor.addDeckToCurrentAccount(deckDTO);
-        DatabaseGateway.addDeckToDB(name);
+        DBgateway.addDeckToDB(accountDTO.getUsername(), name);
         return true;
     }
 
@@ -53,7 +54,7 @@ public class DeckController { //implements DataBaseGateway {
      */
     public void deleteDeck(DeckDTO deckDTO) {
         AccountInteractor.deleteDeckFromCurrentAccount(deckDTO);
-        //deleteDeckInDB(account, deck.getName());
+        DBgateway.deleteDeckInDB(AccountInteractor.getCurrentAccount().getUsername(), deckDTO.getName());
     }
 
     /**
@@ -62,7 +63,7 @@ public class DeckController { //implements DataBaseGateway {
      */
     public void renameCurrentDeck(String newName) {
         DeckInteractor.renameCurrentDeck(newName);
-        //updateRowInDB("decks", "deck_name", deck.getName(), newName);
+        DBgateway.updateRowInDB("decks", "deck_name", DeckInteractor.getCurrentDeck().getName(), newName);
     }
 
     /**
@@ -73,7 +74,7 @@ public class DeckController { //implements DataBaseGateway {
         DeckInteractor.deleteFlashcardFromCurrentDeck(index);
         AccountInteractor.updateSessionsOfDeckInCurrentAccount(getCurrentDeck());
 
-        //deleteCardInDB(account, deck.getName(), flashcard.getFront().getText(), flashcard.getBack());
+        DBgateway.deleteCardInDB(AccountInteractor.getCurrentAccount().getUsername(), DeckInteractor.getCurrentDeck().getName(),);
     }
 
     /**
@@ -85,7 +86,7 @@ public class DeckController { //implements DataBaseGateway {
     public void addCard(String frontText, Image frontImage, String back) {
         DeckInteractor.addFlashcardToCurrentDeck(frontText, frontImage, back);
         AccountInteractor.updateSessionsOfDeckInCurrentAccount(getCurrentDeck());
-        DatabaseGateway.addCardToDeckInDB(DeckInteractor.getCurrentDeck().getName(), frontText, back, frontImage);
+        DBgateway.addCardToDeckInDB(AccountInteractor.getCurrentAccount().getUsername(), DeckInteractor.getCurrentDeck().getName(), frontText, back, frontImage);
     }
 
     private boolean hasUniqueName(DeckDTO deckDTO, AccountDTO accountDTO) {
