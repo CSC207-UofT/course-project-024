@@ -229,7 +229,7 @@ public class MainUI {
         currentFrontImage.getChildren().clear();
         //set flashcard image
         if (card.getFrontImage() != null) {
-            Image frontImage = SwingFXUtils.toFXImage((BufferedImage) card.getFrontImage(), null);
+            Image frontImage = SwingFXUtils.toFXImage(card.getFrontImage(), null);
             ImageView frontImageView = new ImageView(frontImage);
             frontImageView.preserveRatioProperty();
             frontImageView.fitWidthProperty().bind(currentFrontImage.widthProperty());
@@ -263,7 +263,7 @@ public class MainUI {
         setCurrentDeck(deckSelect.getValue());
         List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();
         if (cards.size() > 0) {
-            deckController.selectFlashcard(0);
+            deckController.selectFlashcard(cards.get(0));
             updateCardCount(0);
             setCardView();
         }
@@ -295,10 +295,10 @@ public class MainUI {
         int index = getCurrentCardIndex();
         List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();
         if (index == cards.size() - 1) {
-            deckController.selectFlashcard(0);
+            deckController.selectFlashcard(cards.get(0));
             updateCardCount(0);
         } else {
-            deckController.selectFlashcard(index + 1);
+            deckController.selectFlashcard(cards.get(index + 1));
             updateCardCount(index+1);
         }
         setCardView();
@@ -314,10 +314,10 @@ public class MainUI {
         int index = getCurrentCardIndex();
         List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();
         if (index == 0) {
-            deckController.selectFlashcard(cards.size() - 1);
+            deckController.selectFlashcard(cards.get(cards.size() - 1));
             updateCardCount(cards.size() - 1);
         } else {
-            deckController.selectFlashcard(index - 1);
+            deckController.selectFlashcard(cards.get(index - 1));
             updateCardCount(index - 1);
         }
         setCardView();
@@ -361,9 +361,9 @@ public class MainUI {
         cardBackText.setText("");
         cardImage = null;
         //update current flashcard view
-        int newCardIndex = deckController.getCurrentDeck().getFlashcards().size()-1;
-        deckController.selectFlashcard(newCardIndex);
-        updateCardCount(newCardIndex);
+        List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();
+        deckController.selectFlashcard(cards.get(cards.size()-1));
+        updateCardCount(cards.size()-1);
         setCardView();
     }
 
@@ -379,7 +379,7 @@ public class MainUI {
             //reset stored image
             cardImage = null;
         } else {
-            newCardImage = (BufferedImage) FlashcardInteractor.getCurrentFlashcard().getFrontImage();
+            newCardImage = FlashcardInteractor.getCurrentFlashcard().getFrontImage();
         }
         //update text
         String newFrontText = currentFrontText.getText();
