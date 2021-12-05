@@ -63,6 +63,10 @@ public class SessionInteractor {
     public static void postAnswerUpdate(boolean wasCorrect) {
         if (currentSession.getCardShuffler() instanceof UpdatingShuffler) {
             ((UpdatingShuffler) currentSession.getCardShuffler()).postAnswerFlashcardDataUpdate(wasCorrect);
+        } else if (currentSession instanceof TestSession testSession) {
+            if (wasCorrect) {
+                testSession.incrementNumCorrect();
+            }
         }
     }
 

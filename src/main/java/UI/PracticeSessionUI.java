@@ -1,6 +1,7 @@
 package UI;
 
-import javafx.application.Platform;
+import Flashcards.FlashcardDTO;
+import Sessions.SessionController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -9,10 +10,11 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.*; // Panes, etc.
-import javafx.scene.input.MouseEvent;
-import javafx.event.EventHandler;
 
 public class PracticeSessionUI extends StudySessionUI {
+
+    SessionController sessionController = new SessionController();
+    FlashcardDTO flashcard = sessionController.getNextCard();
 
     @Override
     public void start(Stage window) throws Exception {
@@ -33,7 +35,7 @@ public class PracticeSessionUI extends StudySessionUI {
         BorderPane top = getTopBar();
         StackPane center = getFlippableFlashcardBack(e -> setFrontScene(window));
         // TODO: implement
-        StackPane right = getRightBar(e -> System.out.println("Getting next card..."));
+        StackPane right = getRightBar(window);
         Region left = new Region();
         left.prefWidthProperty().bind(right.widthProperty());
         HBox bottom = getBottomBarBack();
@@ -58,7 +60,7 @@ public class PracticeSessionUI extends StudySessionUI {
         BorderPane top = getTopBar();
         StackPane center = getFlippableFlashcardFront(e -> setBackScene(window));
         // TODO: implement
-        StackPane right = getRightBar(e -> System.out.println("Getting next card..."));
+        StackPane right = getRightBar(window);
         Region left = new Region();
         left.prefWidthProperty().bind(right.widthProperty());
         HBox bottom = getBottomBarFront();
@@ -115,17 +117,20 @@ public class PracticeSessionUI extends StudySessionUI {
         return bottom;
     }
 
-    private StackPane getRightBar(EventHandler<MouseEvent> e) {
+    private StackPane getRightBar(Stage window) {
         StackPane rightBar = new StackPane();
         rightBar.setPadding(new Insets(0, 40, 0, 0));
-        Button nextBtn = getButton("Get another card");
-        nextBtn.setOnMouseClicked(e);
+        Button nextBtn = getButton();
+        nextBtn.setOnMouseClicked(e -> {
+            flashcard = sessionController.getNextCard();
+            setFrontScene(window);
+        });
         rightBar.getChildren().add(nextBtn);
         return rightBar;
     }
 
-    private Button getButton(String btnText) {
-        Button btn = new Button(btnText);
+    private Button getButton() {
+        Button btn = new Button("Get another card");
         btn.setMinSize(50, 50);
         return btn;
     }

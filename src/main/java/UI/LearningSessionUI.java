@@ -30,6 +30,7 @@ public class LearningSessionUI extends StudySessionUI {
      * This scene shows the front of the requested flashcard and allows the user to request to view the back.
      */
     public void setNewCardScene(Stage window) {
+        flashcard = sessionController.getNextCard();
         BorderPane layout = new BorderPane();
 
         BorderPane top = getTopBar();
@@ -73,7 +74,7 @@ public class LearningSessionUI extends StudySessionUI {
         BorderPane top = getTopBar();
         StackPane center = getFlippableFlashcardBack(e -> setFlippedFrontScene(window));
         // TODO: implement
-        StackPane right = getRightBar(e -> System.out.println("Getting next card..."));
+        StackPane right = getRightBar(e -> setNewCardScene(window));
         Region left = new Region();
         left.prefWidthProperty().bind(right.widthProperty());
         HBox bottom = getBottomBarBackDisabled();
@@ -98,7 +99,7 @@ public class LearningSessionUI extends StudySessionUI {
         BorderPane top = getTopBar();
         StackPane center = getFlippableFlashcardFront(e -> setFlippedBackScene(window));
         // TODO: implement
-        StackPane right = getRightBar(e -> System.out.println("Getting next card..."));
+        StackPane right = getRightBar(e -> setNewCardScene(window));
         Region left = new Region();
         left.prefWidthProperty().bind(right.widthProperty());
         HBox bottom = getBottomBarBackDisabled();
@@ -148,13 +149,13 @@ public class LearningSessionUI extends StudySessionUI {
         Button yesBtn = getButton("YES");
         yesBtn.setOnMouseClicked(e -> {
             // TODO: handle YES
-            // sessionController.postAnswerUpdate(true);
+            sessionController.postAnswerUpdate(true);
             setFlippedBackScene(window);
         });
         Button noBtn = getButton("NO");
         noBtn.setOnMouseClicked(e -> {
             // TODO: handle NO
-            // sessionController.postAnswerUpdate(false);
+            sessionController.postAnswerUpdate(false);
             setFlippedBackScene(window);
         });
         HBox bottom = new HBox();

@@ -1,6 +1,6 @@
 package Flashcards;
 
-import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 public class FlashcardInteractor {
 
@@ -30,7 +30,7 @@ public class FlashcardInteractor {
      * @param back The back of the new Flashcard to be returned
      * @return The Flashcard with front and back specified in the args
      */
-    public static FlashcardDTO createFlashcard(String frontText, Image frontImage, String back) {
+    public static FlashcardDTO createFlashcard(String frontText, BufferedImage frontImage, String back) {
         return new FlashcardDTO(frontText, frontImage, back);
     }
 
@@ -39,7 +39,7 @@ public class FlashcardInteractor {
      * @param frontText The new text of the front of the Flashcard (possibly null)
      * @param frontImage The new image of the front of the Flashcard (possibly null)
      */
-    public static void editCurrentFlashcardFront(String frontText, Image frontImage) {
+    public static void editCurrentFlashcardFront(String frontText, BufferedImage frontImage) {
         Flashcard.Front front = new Flashcard.Front(frontText, frontImage);
         currentFlashcard.setFront(front);
     }

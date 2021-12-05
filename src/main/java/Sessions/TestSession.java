@@ -1,6 +1,7 @@
 package Sessions;
 
 import Decks.Deck;
+import Flashcards.Flashcard;
 
 public class TestSession extends StudySession {
 
@@ -37,6 +38,12 @@ public class TestSession extends StudySession {
      */
     public int getNumCorrect() {
         return this.numCorrect;
+    }
+
+    @Override
+    public Flashcard getNextCard() {
+        this.cardsSeen++;
+        return cardShuffler.returnChosenFlashcard();
     }
 
     /**

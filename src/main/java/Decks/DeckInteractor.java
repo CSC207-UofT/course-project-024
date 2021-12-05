@@ -4,7 +4,7 @@ import Flashcards.Flashcard;
 import Flashcards.FlashcardDTO;
 import Flashcards.FlashcardInteractor;
 
-import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,7 +69,7 @@ public class DeckInteractor {
      * @param frontImage The image on the front of the new flashcard (possibly null)
      * @param back The text on the back of the new flashcard
      */
-    public static void addFlashcardToCurrentDeck(String frontText, Image frontImage, String back) {
+    public static void addFlashcardToCurrentDeck(String frontText, BufferedImage frontImage, String back) {
         FlashcardDTO newFlashcard = FlashcardInteractor.createFlashcard(frontText, frontImage, back);
         currentDeck.addFlashcard(FlashcardInteractor.convertDTOToFlashcard(newFlashcard));
     }

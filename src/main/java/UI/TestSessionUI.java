@@ -1,5 +1,7 @@
 package UI;
 
+import Sessions.SessionController;
+import Sessions.TestSessionDTO;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -15,8 +17,10 @@ import javafx.event.EventHandler;
 
 public class TestSessionUI extends StudySessionUI {
 
+    SessionController sessionController = new SessionController();
+    boolean wasCorrect;
+
     private final TextField userInputField = new TextField();
-    private String userInput = "";
 
     @Override
     public void start(Stage window) throws Exception {
@@ -32,16 +36,18 @@ public class TestSessionUI extends StudySessionUI {
      * This scene shows the front of the requested flashcard and allows the user to request to view the back.
      */
     public void setNewCardScene(Stage window) {
+        flashcard = sessionController.getNextCard();
+
         BorderPane layout = new BorderPane();
 
         BorderPane top = getTopBar();
         StackPane center = getFlashcardFront();
         StackPane left = getLeftBar();
-        // TODO: implement
-        StackPane right = getRightBar(
+        StackPane right = getGenericRightBar(
                 "Confirm guess",
                 e -> {
-                    userInput = userInputField.getText();
+                    wasCorrect = userInputField.getText().equals(flashcard.getBack());
+                    sessionController.postAnswerUpdate(wasCorrect);
                     setBackScene(window);
                 }
         );
@@ -67,9 +73,8 @@ public class TestSessionUI extends StudySessionUI {
 
         BorderPane top = getTopBar();
         StackPane center = getFlippableFlashcardBack(e -> setFlippedFrontScene(window));
-        // TODO: implement
         StackPane left = getLeftBar();
-        StackPane right = getRightBar("Get another card", e -> System.out.println("Getting next card..."));
+        StackPane right = getRightBar(window);
         right.prefWidthProperty().bind(left.widthProperty());
         HBox bottom = getBottomBarShowResult();
 
@@ -92,9 +97,8 @@ public class TestSessionUI extends StudySessionUI {
 
         BorderPane top = getTopBar();
         StackPane center = getFlippableFlashcardFront(e -> setBackScene(window));
-        // TODO: implement
         StackPane left = getLeftBar();
-        StackPane right = getRightBar("Get another card", e -> System.out.println("Getting next card..."));
+        StackPane right = getRightBar(window);
         right.prefWidthProperty().bind(left.widthProperty());
         HBox bottom = getBottomBarShowResult();
 
@@ -111,14 +115,18 @@ public class TestSessionUI extends StudySessionUI {
      * Display a pop-up with the user's performance at the test.
      */
     public void displayEndOfTestResults() {
-        // TODO: implement
+        TestSessionDTO testSessionDTO = (TestSessionDTO) sessionController.getCurrentSession();
+        int numCorrect = testSessionDTO.getNumCorrect();
+        int totalCards = testSessionDTO.getCardsSeen();
+        int percentage = (int) (((float) numCorrect * 100 / totalCards));
         displayAlertBox(
-                "Test Finished",
-                "Good job! You got" + "" + " / " + "" + " cards correct! That's " + "" + "%!"
+                "Good job! You got" + numCorrect + " / " + totalCards + " cards correct! " +
+                        "That's " + percentage + "%!"
         );
     }
 
     private BorderPane getTopBar() {
+        TestSessionDTO testSessionDTO = (TestSessionDTO) sessionController.getCurrentSession();
         BorderPane top = new BorderPane();
         HBox leftBox = new HBox();
         HBox midBox = new HBox();
@@ -142,7 +150,7 @@ public class TestSessionUI extends StudySessionUI {
         // TODO: implement
         logoutBtn.setOnMouseClicked(e -> System.out.println("Logging out..."));
         // TODO: implement
-        Label cardCountLabel = new Label("Card: " + "1" + " / " + "10");
+        Label cardCountLabel = new Label("Card: " + testSessionDTO.getCardsSeen() + " / " + testSessionDTO.getLength());
         cardCountLabel.setFont(Font.font(20));
         leftBox.getChildren().add(exitBtn);
         midBox.getChildren().add(cardCountLabel);
@@ -170,8 +178,7 @@ public class TestSessionUI extends StudySessionUI {
         bottom.setSpacing(10);
         bottom.setPadding(new Insets(10, 10, 40, 10));
         Label bottomLabel = new Label();
-        // TODO: implement
-        if (userInput.equalsIgnoreCase("Canada")) {
+        if (wasCorrect) {
             bottomLabel.setText("You guessed right!");
         } else {
             bottomLabel.setText("Sorry, that's not it. Better luck next time!");
@@ -181,7 +188,7 @@ public class TestSessionUI extends StudySessionUI {
         return bottom;
     }
 
-    private StackPane getRightBar(String btnText, EventHandler<MouseEvent> e) {
+    private StackPane getGenericRightBar(String btnText, EventHandler<MouseEvent> e) {
         StackPane rightBar = new StackPane();
         rightBar.setPadding(new Insets(0, 40, 0, 0));
         Button rightBtn = getButton(btnText);
@@ -191,10 +198,11 @@ public class TestSessionUI extends StudySessionUI {
     }
 
     private StackPane getLeftBar() {
+        TestSessionDTO testSessionDTO = (TestSessionDTO) sessionController.getCurrentSession();
         StackPane leftBar = new StackPane();
         leftBar.setPadding(new Insets(0, 0, 0, 30));
-        // TODO: implement
-        Label numCorrectLabel = new Label("Correct guesses: " + "0" + " / " + "10");
+        Label numCorrectLabel = new Label("Correct guesses: " + testSessionDTO.getNumCorrect() + " / " +
+                testSessionDTO.getLength());
         numCorrectLabel.setFont(Font.font(15));
         leftBar.getChildren().add(numCorrectLabel);
         return leftBar;
@@ -206,9 +214,9 @@ public class TestSessionUI extends StudySessionUI {
         return btn;
     }
 
-    private void displayAlertBox(String title, String msg) {
+    private void displayAlertBox(String msg) {
         Stage alertWindow = new Stage();
-        alertWindow.setTitle(title);
+        alertWindow.setTitle("Test Finished");
         alertWindow.initModality(Modality.APPLICATION_MODAL);
 
         Label label = new Label(msg);
@@ -225,6 +233,20 @@ public class TestSessionUI extends StudySessionUI {
         alertWindow.setScene(scene);
 
         alertWindow.showAndWait();
+    }
+
+    private StackPane getRightBar(Stage window) {
+        TestSessionDTO testSessionDTO = (TestSessionDTO) sessionController.getCurrentSession();
+        StackPane rightBar;
+        if (testSessionDTO.getCardsSeen() == testSessionDTO.getLength()) {
+            rightBar = getGenericRightBar("Finish", e -> {
+                displayEndOfTestResults();
+                window.close();
+            });
+        } else {
+            rightBar = getGenericRightBar("Get another card", e -> setNewCardScene(window));
+        }
+        return rightBar;
     }
 
     // TODO: DO NOT RUN! JavaFX requires use of modules, so for now, run main from Main.java until properly implemented

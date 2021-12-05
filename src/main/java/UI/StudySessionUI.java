@@ -1,11 +1,12 @@
 package UI;
 
+import Flashcards.FlashcardDTO;
 import javafx.application.Application;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
@@ -22,6 +23,8 @@ public abstract class StudySessionUI extends Application {
     public static final int FLASHCARD_LENGTH = 325;
     public static final int FLASHCARD_HEIGHT = 450;
 
+    FlashcardDTO flashcard;
+
     /**
      * Get a StackPane filled with elements representing the front of the flashcard.
      * @return a StackPane
@@ -29,14 +32,14 @@ public abstract class StudySessionUI extends Application {
     protected StackPane getFlashcardFront() {
         StackPane center = new StackPane();
         Rectangle flashcardBorder = getFlashcardBorder();
-        ImageView frontImage = new ImageView(
-                new Image("file:img/Flag_of_Canada.svg.png", 500, 500, true, true)
-        );
-        resizeImageViewToFit(frontImage);
-        Label flashcardContent = new Label(
-                "Which country's flag is this? RANDOM STUFF TO DEMONSTRATE TEXT WRAPPING AHHHHHHHHHHHHHHHHHHHHH",
-                frontImage
-        );
+        Label flashcardContent;
+        if (flashcard.getFrontImage() != null) {
+            ImageView frontImage = new ImageView(SwingFXUtils.toFXImage(flashcard.getFrontImage(), null));
+            resizeImageViewToFit(frontImage);
+            flashcardContent = new Label(flashcard.getFrontText(), frontImage);
+        } else {
+            flashcardContent = new Label(flashcard.getFrontText());
+        }
         StackPane flashcardInterior = getFlashcardInterior(flashcardContent);
 
         center.getChildren().addAll(flashcardBorder, flashcardInterior);
@@ -50,7 +53,7 @@ public abstract class StudySessionUI extends Application {
     protected StackPane getFlashcardBack() {
         StackPane center = new StackPane();
         Rectangle flashcardBorder = getFlashcardBorder();
-        Label flashcardContent = new Label("It's Canada. Yay!");
+        Label flashcardContent = new Label(flashcard.getBack());
         StackPane flashcardInterior = getFlashcardInterior(flashcardContent);
 
         center.getChildren().addAll(flashcardBorder, flashcardInterior);

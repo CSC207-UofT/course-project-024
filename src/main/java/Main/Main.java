@@ -11,8 +11,8 @@ public class Main {
 //        fs.displayMainMenu();
         // TODO: properly use modules instead of this hack for JavaFX
         // TestSessionUI.main(args);
-        PracticeSessionUI.main(args);
-        // LearningSessionUI.main(args);
+        // PracticeSessionUI.main(args);
+        LearningSessionUI.main(args);
         // UI.MainUI.main(args);
     }
 }
