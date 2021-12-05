@@ -18,12 +18,18 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class LoginUI extends Application {
 
     public static final int WINDOW_LENGTH = 1000;
     public static final int WINDOW_HEIGHT = 600;
     public static final String APPLICATION_TITLE = "Flashcards";
 
+    /**
+     * Starts the login UI.
+     * @param window A stage
+     */
     @Override
     public void start(Stage window) throws Exception {
         window.setTitle(APPLICATION_TITLE);
@@ -31,10 +37,12 @@ public class LoginUI extends Application {
         setLoginScene(window);
 
         window.show();
-
-
     }
 
+    /**
+     * Initializes the login window.
+     * @param window A stage supplied by JavaFX.
+     */
     private void setLoginScene(Stage window) {
         BorderPane layout = new BorderPane();
 
@@ -77,7 +85,7 @@ public class LoginUI extends Application {
             // TODO: Remove references to AccountInteractor and replace with AccountController
 
             // TODO: Retrieve AccountDTO from Database controller and replace this hack
-            boolean success = AccountInteractor.login(AccountInteractor.createAccount("test", "test"), passwordField.getText());
+            boolean success = AccountController.login(AccountInteractor.createAccount("test", "test"), passwordField.getText());
 
             // Search database for any account that matches the inputted username. If that is success, then
             // login. Else, show Alert Box of no matching username. If that goes through, but the password
@@ -88,21 +96,30 @@ public class LoginUI extends Application {
             // TODO: Alert box for not finding an account with that username
             if (success) {
                 System.out.println("Logged in");
+                try {
+                    // use the login function from AccountController. That will set the currentAccount
+                    new MainUI().start(new Stage());
+                    window.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             } else {
                 System.out.println("Rejected");
-                displayAlertBox("Login Error", "Wrong password, please check your input and try again.");
+                displayAlertBox("Login Error", "No account found, please check your input and try again.");
             }
         });
 
         createAccountBtn.setOnMouseClicked(e -> {
-            AccountDTO newAccount = AccountInteractor.createAccount(usernameField.getText(), passwordField.getText());
-
             //TODO: Make sure that an account with that same username doesn't already exist, and that
             // the username and password fields are non-empty. If so, create an AlertBox
 
-            AccountInteractor.login(newAccount, passwordField.getText());
+            if (usernameField.getText().isBlank() || passwordField.getText().isBlank()) {
+                displayAlertBox("Invalid Credentials", "Error: Cannot create an account with a blank username or password.");
+            }
 
-            System.out.println("New account created");
+            AccountDTO newAccount = AccountController.createAccount(usernameField.getText(), passwordField.getText());
+
+            AccountInteractor.login(newAccount, passwordField.getText());
         });
 
         mainFieldsBox.getChildren().addAll(openingText, openingText2, usernameBox, passwordBox, buttonsBox);
@@ -115,6 +132,10 @@ public class LoginUI extends Application {
 
     }
 
+    /**
+     * Helper method that creates the HBox where the buttons go.
+     * @return an HBox
+     */
     private HBox createButtonsBox() {
         HBox buttonsBox = new HBox();
 
@@ -124,22 +145,41 @@ public class LoginUI extends Application {
         return buttonsBox;
     }
 
+    /**
+     * Helper method that creates and returns a button.
+     * @param text The text within the button
+     * @param minWidth The minimum width of the button
+     * @return The created button
+     */
     private Button createButton(String text, int minWidth) {
         Button button = new Button(text);
         button.setMinWidth(minWidth);
         return button;
     }
 
+    /**
+     * Helper method that creates and returns a button
+     * @param text The text within the button
+     * @return The created button
+     */
     private Button createButton(String text) {
         return new Button(text);
     }
 
+    /**
+     * Helper method that creates the main VBox for the login UI.
+     * @return A centered VBox
+     */
     private VBox createMainFieldsBox() {
         VBox mainFieldsBox = new VBox(20);
         mainFieldsBox.setAlignment(Pos.CENTER);
         return mainFieldsBox;
     }
 
+    /**
+     * A helper method that creates the HBox for the password field.
+     * @return A centered HBox
+     */
     private HBox createPasswordBox() {
         HBox passwordBox = new HBox();
         passwordBox.setAlignment(Pos.CENTER);
@@ -147,6 +187,10 @@ public class LoginUI extends Application {
         return passwordBox;
     }
 
+    /**
+     * A helper method that creates the password text field.
+     * @return A TextField that asks for a password.
+     */
     private TextField createPasswordField() {
         TextField passwordField = new TextField();
         passwordField.setPromptText("Enter your password");
@@ -154,6 +198,10 @@ public class LoginUI extends Application {
         return passwordField;
     }
 
+    /**
+     * A helper method that creates and returns a box for the username.
+     * @return A centered HBox for the username field
+     */
     private HBox createUsernameBox() {
         HBox usernameBox = new HBox();
         usernameBox.setAlignment(Pos.CENTER);
@@ -161,6 +209,10 @@ public class LoginUI extends Application {
         return usernameBox;
     }
 
+    /**
+     * A helper method that creates and returns a username text field.
+     * @return A TextField that asks for a username.
+     */
     private TextField createUsernameField() {
         TextField usernameField = new TextField();
         usernameField.setPromptText("Enter your username");
@@ -168,6 +220,11 @@ public class LoginUI extends Application {
         return usernameField;
     }
 
+    /**
+     * Displays an alert box with the given title and message.
+     * @param title The title of the window of the alert box
+     * @param alertMessage The string message to be shown
+     */
     private void displayAlertBox(String title, String alertMessage) {
         Stage window = new Stage();
 
