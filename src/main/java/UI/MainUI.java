@@ -34,29 +34,28 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 public class MainUI {
+    //initialize create deck UI reference
     @FXML private TextField deckName;
-
+    //initialize current account
     private final DeckController deckController = new DeckController();
     private final AccountDTO account = AccountInteractor.createAccount("user","pwd");
-
+    //initialize decks in current account
     @FXML private ComboBox<String> deckSelect = new ComboBox<>();
     private final List<String> deckNames = new ArrayList<>();
     private final ObservableList<String> deckObservableList = FXCollections.observableArrayList();
-
+    //initialize session start UI references
     @FXML private ComboBox<String> sessionDeckSelect = new ComboBox<>();
     @FXML private ComboBox<String> sessionTypeSelect = new ComboBox<>();
     @FXML private Button startSessionButton;
-
-    @FXML private Label cardCount;
-    @FXML private TextField cardFrontText;
-    @FXML private TextField cardBackText;
+    //initialize deck edit UI references
     private BufferedImage cardImage;
-    @FXML private TextField newDeckName;
-
+    @FXML private Label cardCount;
     @FXML private StackPane currentFrontImage;
     @FXML private TextField currentFrontText;
     @FXML private TextField currentBackText;
-
+    @FXML private TextField newDeckName;
+    @FXML private TextField cardFrontText;
+    @FXML private TextField cardBackText;
     @FXML private Button renameDeckButton;
     @FXML private Button deleteDeckButton;
 
@@ -81,6 +80,133 @@ public class MainUI {
     }
 
     /**
+     * initializes main menu with the current account and its decks
+     */
+    @FXML
+    void initialize() {
+        //TODO: convert this testing code to actual integration with accounts
+        try {
+            deckController.getCurrentDeck().getName();
+        }
+        catch(Exception e){
+            List<FlashcardDTO> cards = new ArrayList<>();
+            Image img = new Image("file:img/Flag_of_Canada.svg.png",500, 500, true, true);
+            cards.add(FlashcardInteractor.createFlashcard("front",SwingFXUtils.fromFXImage(img,null),"back"));
+            cards.add(FlashcardInteractor.createFlashcard("foo",SwingFXUtils.fromFXImage(img, null),"bar"));
+            DeckDTO deck1 = new DeckDTO("test", cards);
+            DeckDTO deck2 = new DeckDTO("boot", cards);
+            DeckDTO deck3 = new DeckDTO("room", cards);
+
+            AccountInteractor.login(account, account.getPassword());
+            AccountInteractor.addDeckToCurrentAccount(deck1);
+            AccountInteractor.addDeckToCurrentAccount(deck2);
+            AccountInteractor.addDeckToCurrentAccount(deck3);
+        }
+        setDecks();
+        setSessionTypes();
+    }
+
+    /**
+     * Opens Deck creation menu
+     * @param e action event on click
+     * @throws IOException if create-deck-view.fxml is not found
+     */
+    @FXML
+    protected void onCreateDeckButtonClick(ActionEvent e) throws IOException {
+        Parent createDeckParent = FXMLLoader.load(
+                Objects.requireNonNull(getClass().getResource("/create-deck-view.fxml")));
+        Scene createDeckScene = new Scene(createDeckParent);
+        Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+        Stage popUp = new Stage();
+        popUp.setTitle("Create New Deck");
+        popUp.setScene((createDeckScene));
+        popUp.initModality(Modality.WINDOW_MODAL);
+        popUp.initOwner(stage);
+        popUp.setX(stage.getX()+20);
+        popUp.setY(stage.getY()+20);
+        popUp.show();
+        setDecks();
+    }
+
+    /**
+     * creates a new deck on the current account
+     * @param e action event on click
+     */
+    @FXML
+    protected void onCreateDeckSubmit(ActionEvent e) {
+        deckController.createDeck(deckName.getText());
+        onBackButtonClick(e);
+        setCurrentDeck(deckName.getText());
+    }
+
+    /**
+     * Opens Deck study menu
+     * @param e action event on click
+     * @throws IOException if study-deck-view.fxml is not found
+     */
+    @FXML
+    protected void onStudyDeckButtonClick(ActionEvent e) throws IOException {
+        Parent studyDeckParent = FXMLLoader.load(
+                Objects.requireNonNull(getClass().getResource("/study-deck-view.fxml")));
+        Scene studyDeckScene = new Scene(studyDeckParent);
+        Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+        Stage popUp = new Stage();
+        popUp.setTitle("Initialize New Session");
+        popUp.setScene((studyDeckScene));
+        popUp.initModality(Modality.WINDOW_MODAL);
+        popUp.initOwner(stage);
+        popUp.setX(stage.getX()+20);
+        popUp.setY(stage.getY()+20);
+        popUp.show();
+    }
+
+    /**
+     * Enables button for starting session if a deck and session type are selected
+     */
+    @FXML
+    protected void onSessionOptionSelected() {
+        if (sessionTypeSelect.getValue() != null && sessionDeckSelect.getValue() != null) {
+            startSessionButton.setDisable(false);
+        }
+    }
+
+    /**
+     * Opens study session application
+     */
+    @FXML
+    protected void onStartSessionSubmit() {
+        //sets current deck
+        setCurrentDeck(sessionDeckSelect.getValue());
+        //gets type of session to start
+        String sessionType = sessionTypeSelect.getValue();
+        Platform.runLater(
+                () -> {
+                    try {
+                        //TODO: modify to switch cases to different session UI based on value of sessionType
+                        new LearningSessionUI().start(new Stage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+        );
+    }
+
+    /**
+     * Opens Deck edit menu
+     * @param e action event on click
+     * @throws IOException if edit-deck-view.fxml is not found
+     */
+    @FXML
+    protected void onEditDeckButtonClick(ActionEvent e) throws IOException {
+        Parent editDeckParent = FXMLLoader.load(
+                Objects.requireNonNull(getClass().getResource("/edit-deck-view.fxml")));
+        Scene editDeckScene = new Scene(editDeckParent);
+        Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+        stage.setScene(editDeckScene);
+        stage.show();
+    }
+
+    /**
      * updates current deck
      * @param select name of deck
      */
@@ -96,19 +222,21 @@ public class MainUI {
      * Gets current flashcard and updates the display to the current flashcard
      */
     protected void setCardView() {
-        ImageView frontImageView;
+        //get flashcard values
         FlashcardDTO card = FlashcardInteractor.getCurrentFlashcard();
         String frontText = card.getFrontText();
         String backText = card.getBack();
         currentFrontImage.getChildren().clear();
+        //set flashcard image
         if (card.getFrontImage() != null) {
             Image frontImage = SwingFXUtils.toFXImage((BufferedImage) card.getFrontImage(), null);
-            frontImageView = new ImageView(frontImage);
+            ImageView frontImageView = new ImageView(frontImage);
             frontImageView.preserveRatioProperty();
             frontImageView.fitWidthProperty().bind(currentFrontImage.widthProperty());
             frontImageView.fitHeightProperty().bind(currentFrontImage.heightProperty());
             currentFrontImage.getChildren().add(frontImageView);
         }
+        //set flashcard text
         currentFrontText.setText(frontText);
         currentBackText.setText(backText);
     }
@@ -121,14 +249,17 @@ public class MainUI {
         List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();
         cardCount.setText("Flashcard "+(index+1)+" of "+cards.size());
     }
+
     /**
      * Enables deck modification buttons and initializes cards of the current deck
      * once a deck is chosen
      */
     @FXML
     protected void onDeckSelect() {
+        //enable deck modification buttons
         renameDeckButton.setDisable(false);
         deleteDeckButton.setDisable(false);
+        //set current deck and set current flashcard to the first flashcard if it exists
         setCurrentDeck(deckSelect.getValue());
         List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();
         if (cards.size() > 0) {
@@ -191,134 +322,6 @@ public class MainUI {
         }
         setCardView();
     }
-    /**
-     * initializes main menu with the current account and its decks
-     */
-    @FXML
-    void initialize() {
-        //TODO: convert this testing code to actual integration with accounts
-        try {
-            deckController.getCurrentDeck().getName();
-        }
-        catch(Exception e){
-            List<FlashcardDTO> cards = new ArrayList<>();
-            Image img = new Image("file:img/Flag_of_Canada.svg.png",500, 500, true, true);
-            cards.add(FlashcardInteractor.createFlashcard("front",SwingFXUtils.fromFXImage(img,null),"back"));
-            cards.add(FlashcardInteractor.createFlashcard("foo",SwingFXUtils.fromFXImage(img, null),"bar"));
-            DeckDTO deck1 = new DeckDTO("test", cards);
-            DeckDTO deck2 = new DeckDTO("boot", cards);
-            DeckDTO deck3 = new DeckDTO("room", cards);
-
-            AccountInteractor.login(account, account.getPassword());
-            AccountInteractor.addDeckToCurrentAccount(deck1);
-            AccountInteractor.addDeckToCurrentAccount(deck2);
-            AccountInteractor.addDeckToCurrentAccount(deck3);
-        }
-        setDecks();
-        setSessionTypes();
-    }
-
-    /**
-     * Opens Deck creation menu
-     * @param e action event on click
-     * @throws IOException if create-deck-view.fxml is not found
-     */
-    @FXML
-    protected void onCreateDeckButtonClick(ActionEvent e) throws IOException {
-        Parent createDeckParent = FXMLLoader.load(
-                Objects.requireNonNull(getClass().getResource("/create-deck-view.fxml")));
-        Scene createDeckScene = new Scene(createDeckParent);
-
-        Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        Stage popUp = new Stage();
-        popUp.setTitle("Create New Deck");
-        popUp.setScene((createDeckScene));
-
-        popUp.initModality(Modality.WINDOW_MODAL);
-        popUp.initOwner(stage);
-        popUp.setX(stage.getX()+20);
-        popUp.setY(stage.getY()+20);
-
-        popUp.show();
-        setDecks();
-    }
-
-    /**
-     * creates a new deck on the current account
-     * @param e action event on click
-     */
-    @FXML
-    protected void onCreateDeckSubmit(ActionEvent e) {
-        deckController.createDeck(deckName.getText());
-        onBackButtonClick(e);
-        setCurrentDeck(deckName.getText());
-    }
-
-    /**
-     * Opens Deck study menu
-     * @param e action event on click
-     * @throws IOException if study-deck-view.fxml is not found
-     */
-    @FXML
-    protected void onStudyDeckButtonClick(ActionEvent e) throws IOException {
-        Parent studyDeckParent = FXMLLoader.load(
-                Objects.requireNonNull(getClass().getResource("/study-deck-view.fxml")));
-        Scene studyDeckScene = new Scene(studyDeckParent);
-
-        Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        Stage popUp = new Stage();
-        popUp.setTitle("Initialize New Session");
-        popUp.setScene((studyDeckScene));
-
-        popUp.initModality(Modality.WINDOW_MODAL);
-        popUp.initOwner(stage);
-        popUp.setX(stage.getX()+20);
-        popUp.setY(stage.getY()+20);
-
-        popUp.show();
-    }
-
-    @FXML
-    protected void onSessionOptionSelected() {
-        if (sessionTypeSelect.getValue() != null && sessionDeckSelect.getValue() != null) {
-            startSessionButton.setDisable(false);
-        }
-    }
-
-    /**
-     * Opens study session application
-     */
-    @FXML
-    protected void onStartSessionSubmit() {
-        //gets current deck
-        setCurrentDeck(sessionDeckSelect.getValue());
-        //gets type of session to start
-        String sessionType = sessionTypeSelect.getValue();
-        Platform.runLater(
-                () -> {
-                    try {
-                        new LearningSessionUI().start(new Stage());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-        );
-    }
-
-    /**
-     * Opens Deck edit menu
-     * @param e action event on click
-     * @throws IOException if edit-deck-view.fxml is not found
-     */
-    @FXML
-    protected void onEditDeckButtonClick(ActionEvent e) throws IOException {
-        Parent editDeckParent = FXMLLoader.load(
-                Objects.requireNonNull(getClass().getResource("/edit-deck-view.fxml")));
-        Scene editDeckScene = new Scene(editDeckParent);
-        Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        stage.setScene(editDeckScene);
-        stage.show();
-    }
 
     /**
      * Gets image file for flashcard from user and displays the uploaded image
@@ -328,6 +331,7 @@ public class MainUI {
     protected void onUploadFileButtonClick (ActionEvent e) {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         FileChooser fileChooser = new FileChooser();
+        //limit file options to .jpg and .png
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("JPG file (*.JPG)","*.JPG"),
                 new FileChooser.ExtensionFilter("jpg files (*.jpg)", "*.jpg"),
@@ -335,6 +339,7 @@ public class MainUI {
                 new FileChooser.ExtensionFilter("png files (*.png)", "*.png")
         );
         File file = fileChooser.showOpenDialog(stage);
+        //store uploaded file as image object
         if (file != null) {
             try {
                 this.cardImage = ImageIO.read(file);
@@ -368,16 +373,20 @@ public class MainUI {
     @FXML
     protected void onEditCardButtonClick () {
         BufferedImage newCardImage;
+        //update image if a file was uploaded
         if (cardImage != null) {
             newCardImage = cardImage;
+            //reset stored image
             cardImage = null;
         } else {
             newCardImage = (BufferedImage) FlashcardInteractor.getCurrentFlashcard().getFrontImage();
         }
+        //update text
         String newFrontText = currentFrontText.getText();
         String newBackText = currentBackText.getText();
         FlashcardInteractor.editCurrentFlashcardFront(newFrontText, newCardImage);
         FlashcardInteractor.editCurrentFlashcardBack(newBackText);
+        //update flashcard display
         setCardView();
     }
 
