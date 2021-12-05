@@ -1,14 +1,16 @@
 package Flashcards;
 
-import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class FlashcardDTO {
 
-    private final Flashcard.Front front;
+    private final String frontText;
+    private final BufferedImage frontImage;
     private final String back;
 
-    public FlashcardDTO(Flashcard.Front front, String back) {
-        this.front = front;
+    public FlashcardDTO(String frontText, BufferedImage frontImage, String back) {
+        this.frontText = frontText;
+        this.frontImage = frontImage;
         this.back = back;
     }
 
@@ -16,20 +18,20 @@ public class FlashcardDTO {
      * @return the String on the front of this Flashcard
      */
     public String getFrontText() {
-        return front.getText();
+        return frontText;
     }
 
     /**
      * @return the Image on the front of this Flashcard
      */
-    public Image getFrontImage() {
-        return front.getImage();
+    public BufferedImage getFrontImage() {
+        return frontImage;
     }
 
     /**
      * @return the String on the back of this Flashcard
      */
     public String getBack() {
-        return this.back;
+        return back;
     }
 }

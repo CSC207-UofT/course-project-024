@@ -4,7 +4,7 @@ import Flashcards.Flashcard;
 import Flashcards.FlashcardDTO;
 import Flashcards.FlashcardInteractor;
 
-import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,10 +24,11 @@ public class DeckInteractor {
 
     /**
      * Provide relevant interactors with the ability to use the flashcard at this index.
-     * @param index The index of the flashcard within the current deck
+     * @param flashcardDTO The flashcard to be selected
      */
-    public static void selectFlashcard(int index) {
-        FlashcardInteractor.setCurrentFlashcard(currentDeck.getFlashcards().get(index));
+    public static void selectFlashcard(FlashcardDTO flashcardDTO) {
+        Flashcard flashcard = findFlashcardInCurrentDeckFromDTO(flashcardDTO);
+        FlashcardInteractor.setCurrentFlashcard(flashcard);
     }
 
     /**
@@ -57,10 +58,11 @@ public class DeckInteractor {
 
     /**
      * Delete a flashcard from the current deck.
-     * @param index The index of the flashcard to be deleted
+     * @param flashcardDTO The flashcard to be deleted
      */
-    public static void deleteFlashcardFromCurrentDeck(int index) {
-        currentDeck.getFlashcards().remove(index);
+    public static void deleteFlashcardFromCurrentDeck(FlashcardDTO flashcardDTO) {
+        Flashcard flashcard = findFlashcardInCurrentDeckFromDTO(flashcardDTO);
+        currentDeck.getFlashcards().remove(flashcard);
     }
 
     /**
@@ -69,7 +71,7 @@ public class DeckInteractor {
      * @param frontImage The image on the front of the new flashcard (possibly null)
      * @param back The text on the back of the new flashcard
      */
-    public static void addFlashcardToCurrentDeck(String frontText, Image frontImage, String back) {
+    public static void addFlashcardToCurrentDeck(String frontText, BufferedImage frontImage, String back) {
         FlashcardDTO newFlashcard = FlashcardInteractor.createFlashcard(frontText, frontImage, back);
         currentDeck.addFlashcard(FlashcardInteractor.convertDTOToFlashcard(newFlashcard));
     }
@@ -101,6 +103,13 @@ public class DeckInteractor {
             flashcardsDTO.add(flashcardDTO);
         }
         return new DeckDTO(name, flashcardsDTO);
+    }
+
+    private static Flashcard findFlashcardInCurrentDeckFromDTO(FlashcardDTO flashcardDTO) {
+        return currentDeck.getFlashcards().stream()
+                .filter(flashcard -> flashcard.getFront().getText().equals(flashcardDTO.getFrontText()))
+                .findAny()
+                .orElse(null);
     }
 
 }

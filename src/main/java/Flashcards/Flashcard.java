@@ -1,6 +1,6 @@
 package Flashcards;
 
-import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Flashcard {
 
@@ -51,20 +51,20 @@ public class Flashcard {
 
     public static class Front {
         private String text;
-        private Image image;
+        private BufferedImage image;
 
         /**
          * Return a new Front with the given text and image
-         * @param text The String text of the front (possibly null)
+         * @param text The String text of the front
          * @param image The image of the front (possibly null)
          */
-        public Front(String text, Image image) {
+        public Front(String text, BufferedImage image) {
             this.text = text;
             this.image = image;
         }
 
         /**
-         * @return the text on this Front (possibly null)
+         * @return the text on this Front
          */
         public String getText() {
             return text;
@@ -81,7 +81,7 @@ public class Flashcard {
         /**
          * @return The image on this Front (possibly null)
          */
-        public Image getImage() {
+        public BufferedImage getImage() {
             return image;
         }
 
@@ -89,7 +89,7 @@ public class Flashcard {
          * Set the image on this Front to the given image
          * @param image the new image on this Front
          */
-        public void setImage(Image image) {
+        public void setImage(BufferedImage image) {
             this.image = image;
         }
     }
