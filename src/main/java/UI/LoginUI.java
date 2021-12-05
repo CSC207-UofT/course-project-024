@@ -98,7 +98,7 @@ public class LoginUI extends Application {
                 System.out.println("Logged in");
                 try {
                     // use the login function from AccountController. That will set the currentAccount
-                    new MainUI().start(new Stage());
+                    new Main().start(new Stage());
                     window.close();
                 } catch (IOException ex) {
                     ex.printStackTrace();
