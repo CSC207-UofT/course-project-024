@@ -1,11 +1,8 @@
 package Database;
 
-import Accounts.Account;
-import Accounts.AccountInteractor;
+
 import Decks.DeckDTO;
-import Decks.DeckInteractor;
 import Flashcards.FlashcardDTO;
-import org.jetbrains.annotations.NotNull;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -266,4 +263,3 @@ public class DatabaseGateway implements DatabaseTools {
     }
 
 }
-

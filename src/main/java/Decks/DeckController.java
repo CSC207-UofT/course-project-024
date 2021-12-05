@@ -7,6 +7,7 @@ import Database.DatabaseGateway;
 import Flashcards.FlashcardDTO;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,7 +84,7 @@ public class DeckController {
      * @param frontImage The image on the front of the new flashcard (possibly null)
      * @param back The text on the back of the new flashcard
      */
-    public void addCard(String frontText, Image frontImage, String back) {
+    public void addCard(String frontText, BufferedImage frontImage, String back) {
         DeckInteractor.addFlashcardToCurrentDeck(frontText, frontImage, back);
         AccountInteractor.updateSessionsOfDeckInCurrentAccount(getCurrentDeck());
         DBgateway.addCardToDeckInDB(AccountInteractor.getCurrentAccount().getUsername(), DeckInteractor.getCurrentDeck().getName(), frontText, back, frontImage);
