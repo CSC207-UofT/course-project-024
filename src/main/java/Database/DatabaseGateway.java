@@ -227,7 +227,7 @@ public class DatabaseGateway implements DatabaseTools {
             pstmt.setString(3, column);
             pstmt.setString(4, oldValue);
 
-            // System.out.println("UPDATE '" + table + "' SET '" + column + "' = '" + newValue + "' WHERE '" + column + "' = '" + oldValue +"'");
+            // System.out.println("UPDATE '" + table + "' SET '" + column + "' = '" + newValue + "' WHERE '" + column + "' = '" + oldValue +"'")
 
             pstmt.execute();
             pstmt.close();
