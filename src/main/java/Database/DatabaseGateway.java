@@ -14,10 +14,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public class DatabaseGateway implements DatabaseTools {
     // This main method is used for testing the database, it does not have an actual purpose in the overall program so it should generally be ignored
@@ -116,6 +114,32 @@ public class DatabaseGateway implements DatabaseTools {
         } catch(Exception e){
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public Boolean duplicateAccount(String username){
+        try {
+            ResultSet account = createStatement().executeQuery("Select * FROM accounts WHERE username = '" + username + "'");
+            String foundUsername = account.getString("username");
+            if (Objects.equals(foundUsername, "null") || foundUsername.length() > 0){
+                return Boolean.TRUE;
+            } else{
+                return Boolean.FALSE;
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void addAccountToDB(String username, String password){
+        try {
+            PreparedStatement pstmt = connection().prepareStatement("INSERT INTO accounts VALUES (?, ?)");
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            pstmt.execute();
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
 
