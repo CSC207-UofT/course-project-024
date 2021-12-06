@@ -1,10 +1,12 @@
 package Database;
 
 import Accounts.Account;
+import Accounts.AccountDTO;
 import Accounts.AccountInteractor;
 import Decks.DeckDTO;
 import Decks.DeckInteractor;
 import Flashcards.FlashcardDTO;
+import Sessions.StudySessionDTO;
 import org.jetbrains.annotations.NotNull;
 
 import javax.imageio.ImageIO;
@@ -13,6 +15,9 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DatabaseGateway implements DatabaseTools {
     // This main method is used for testing the database, it does not have an actual purpose in the overall program so it should generally be ignored
@@ -95,6 +100,20 @@ public class DatabaseGateway implements DatabaseTools {
                 }
             } return false;
         } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public AccountDTO getAccountFromDB(String username, String password){
+        try{
+            ArrayList<DeckDTO> deckDTOS = getDecksFromDB(username);
+            Map<DeckDTO, List<StudySessionDTO>> deckDTOListMap = new HashMap<DeckDTO, List<StudySessionDTO>>();
+            for (DeckDTO deckDTO: deckDTOS) {
+                deckDTOListMap.put(deckDTO, new ArrayList<>());
+            }
+            return new AccountDTO(username, password, getDecksFromDB(username), deckDTOListMap);
+        } catch(Exception e){
             e.printStackTrace();
             return null;
         }
