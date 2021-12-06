@@ -221,8 +221,8 @@ public class DatabaseGateway implements DatabaseTools {
     public void updateCardFrontInDB(String oldValue, String newValue){
         try{
             PreparedStatement pstmt = connection().prepareStatement("UPDATE cards SET front = (?) WHERE front = (?)");
-            pstmt.setString(1, oldValue);
-            pstmt.setString(2, newValue);
+            pstmt.setString(1, newValue);
+            pstmt.setString(2, oldValue);
 
             // System.out.println("UPDATE '" + table + "' SET '" + column + "' = '" + newValue + "' WHERE '" + column + "' = '" + oldValue +"'")
 
@@ -237,8 +237,8 @@ public class DatabaseGateway implements DatabaseTools {
     public void updateCardBackInDB(String oldValue, String newValue){
         try{
             PreparedStatement pstmt = connection().prepareStatement("UPDATE cards SET back = (?) WHERE back = (?)");
-            pstmt.setString(1, oldValue);
-            pstmt.setString(2, newValue);
+            pstmt.setString(1, newValue);
+            pstmt.setString(2, oldValue);
 
             // System.out.println("UPDATE '" + table + "' SET '" + column + "' = '" + newValue + "' WHERE '" + column + "' = '" + oldValue +"'")
 
@@ -252,8 +252,8 @@ public class DatabaseGateway implements DatabaseTools {
     public void updateDeckInDB(String oldValue, String newValue){
         try{
             PreparedStatement pstmt = connection().prepareStatement("UPDATE decks SET deck_name = (?) WHERE deck_name = (?)");
-            pstmt.setString(1, oldValue);
-            pstmt.setString(2, newValue);
+            pstmt.setString(1, newValue);
+            pstmt.setString(2, oldValue);
 
             // System.out.println("UPDATE '" + table + "' SET '" + column + "' = '" + newValue + "' WHERE '" + column + "' = '" + oldValue +"'");
 
