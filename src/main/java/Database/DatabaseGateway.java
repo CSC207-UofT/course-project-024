@@ -298,8 +298,12 @@ public class DatabaseGateway implements DatabaseTools {
                 pstmt.setString(2, id);
                 pstmt.setString(3, front);
                 pstmt.setString(4, back);
-                InputStream in = imageToInputStream(image);
-                pstmt.setBlob(5, in);
+                if (image == null){
+                    pstmt.setString(5, null);
+                }else {
+                    InputStream in = imageToInputStream(image);
+                    pstmt.setBlob(5, in);
+                }
                 pstmt.execute();
             }
         } catch (Exception e){
