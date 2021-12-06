@@ -178,7 +178,7 @@ public class AccountInteractor {
                 }
             }
 
-            session.update();
+            session.updateDeckContext();
         }
     }
 
