@@ -115,7 +115,7 @@ public class DeckController {
     public void editCurrentFlashcardFront(String frontText, BufferedImage frontImage) {
         FlashcardDTO oldFlashcard = FlashcardInteractor.getCurrentFlashcard();
         FlashcardInteractor.editCurrentFlashcardFront(frontText, frontImage);
-        DBgateway.updateCardFrontInDB(oldFlashcard.getFrontText(), frontText);
+        DBgateway.updateCardFrontTextInDB(oldFlashcard.getFrontText(), frontText);
         DBgateway.editFlashcardImage(oldFlashcard.getFrontText(), frontImage);
 
     }

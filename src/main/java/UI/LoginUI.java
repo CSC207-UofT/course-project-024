@@ -101,7 +101,8 @@ public class LoginUI extends Application {
                 String username = usernameField.getText();
                 String password = passwordField.getText();
                 AccountDTO currAccount = gateway.getAccountFromDB(username, password);
-                System.out.println("Logged in");
+
+                // System.out.println("Logged in");
                 try {
                     // use the login function from AccountController. That will set the currentAccount
                     AccountController.login(currAccount, password);

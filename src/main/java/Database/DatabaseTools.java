@@ -54,7 +54,7 @@ public interface DatabaseTools {
      * @param oldValue Previous value of the field we want to update
      * @param newValue New value of the field we want to update
      */
-    void updateCardFrontInDB(String oldValue, String newValue);
+    void updateCardFrontTextInDB(String oldValue, String newValue);
 
     /**
      * Delete a card in the database
