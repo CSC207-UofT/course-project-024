@@ -22,6 +22,7 @@ public class Deck implements Observable {
         this.name = name;
         this.flashcards = flashcards;
         this.flashcardsLastState = flashcards;
+        this.observers = new ArrayList<>();
     }
 
     /**
@@ -32,6 +33,7 @@ public class Deck implements Observable {
         this.name = name;
         this.flashcards = new ArrayList<>();
         this.flashcardsLastState = flashcards;
+        this.observers = new ArrayList<>();
     }
 
     /**
@@ -55,6 +57,14 @@ public class Deck implements Observable {
      */
     public List<Flashcard> getFlashcards() {
         return flashcards;
+    }
+
+    /**
+     * Get the flashcards last state of this deck
+     * @return a list of flashcards of the deck
+     */
+    public List<Flashcard> getFlashcardsLastState() {
+        return flashcardsLastState;
     }
 
     /**
@@ -108,5 +118,10 @@ public class Deck implements Observable {
                 observer.update();
             }
         }
+    }
+
+    @Override
+    public List<Observer> getObservers(){
+        return this.observers;
     }
 }
