@@ -73,7 +73,7 @@ public class DeckController {
      */
     public void renameCurrentDeck(String newName) {
         DeckInteractor.renameCurrentDeck(newName);
-        DBgateway.updateRowInDB("decks", "deck_name", DeckInteractor.getCurrentDeck().getName(), newName);
+        DBgateway.updateDeckInDB( "deck_name", DeckInteractor.getCurrentDeck().getName(), newName);
     }
 
     /**

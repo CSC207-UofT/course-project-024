@@ -215,20 +215,39 @@ public class DatabaseGateway implements DatabaseTools {
 
     /**
      * Update a single field of some row in the database
-     * @param table Name of the table where the row belongs
      * @param column Name of the field we want to update
      * @param oldValue Previous value of the field we want to update
      * @param newValue New value of the field we want to update
      */
-    public void updateRowInDB(String table, String column, String oldValue, String newValue){
+    public void updateCardInDB(String column, String oldValue, String newValue){
         try{
-            PreparedStatement pstmt = connection().prepareStatement("UPDATE (?) SET (?) = (?) WHERE (?) = (?)");
-            pstmt.setString(1, table);
-            pstmt.setString(2, column);
-            pstmt.setString(3, newValue);
-            pstmt.setString(4, column);
-            pstmt.setString(5, oldValue);
+            PreparedStatement pstmt = connection().prepareStatement("UPDATE cards SET (?) = (?) WHERE (?) = (?)");
+            pstmt.setString(1, column);
+            pstmt.setString(2, newValue);
+            pstmt.setString(3, column);
+            pstmt.setString(4, oldValue);
+
+            // System.out.println("UPDATE '" + table + "' SET '" + column + "' = '" + newValue + "' WHERE '" + column + "' = '" + oldValue +"'");
+
             pstmt.execute();
+            pstmt.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void updateDeckInDB(String column, String oldValue, String newValue){
+        try{
+            PreparedStatement pstmt = connection().prepareStatement("UPDATE decks SET (?) = (?) WHERE (?) = (?)");
+            pstmt.setString(1, column);
+            pstmt.setString(2, newValue);
+            pstmt.setString(3, column);
+            pstmt.setString(4, oldValue);
+
+            // System.out.println("UPDATE '" + table + "' SET '" + column + "' = '" + newValue + "' WHERE '" + column + "' = '" + oldValue +"'");
+
+            pstmt.execute();
+            pstmt.close();
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -241,6 +260,7 @@ public class DatabaseGateway implements DatabaseTools {
             pstmt.setBlob(1, in);
             pstmt.setString(2, oldText);
             pstmt.execute();
+            pstmt.close();
         } catch(Exception e){
             e.printStackTrace();
         }
