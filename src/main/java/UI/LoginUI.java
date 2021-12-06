@@ -3,6 +3,7 @@ package UI;
 import Accounts.AccountController;
 import Accounts.AccountDTO;
 import Accounts.AccountInteractor;
+import Database.DatabaseGateway;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -21,6 +22,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class LoginUI extends Application {
+
+    DatabaseGateway gateway = new DatabaseGateway();
 
     public static final int WINDOW_LENGTH = 1000;
     public static final int WINDOW_HEIGHT = 600;
@@ -85,8 +88,8 @@ public class LoginUI extends Application {
             // TODO: Remove references to AccountInteractor and replace with AccountController
 
             // TODO: Retrieve AccountDTO from Database controller and replace this hack
-            boolean success = AccountController.login(AccountInteractor.createAccount("test", "test"), passwordField.getText());
-
+            // boolean success = AccountController.login(AccountInteractor.createAccount("test", "test"), passwordField.getText());
+            boolean success = gateway.authenticateAccount(usernameField.getText(), passwordField.getText());
             // Search database for any account that matches the inputted username. If that is success, then
             // login. Else, show Alert Box of no matching username. If that goes through, but the password
             // doesn't match, then send an Alert Box that the password is incorrect.
@@ -95,17 +98,20 @@ public class LoginUI extends Application {
             // If not success, show alert box of login failure
             // TODO: Alert box for not finding an account with that username
             if (success) {
+                String username = usernameField.getText();
+                String password = passwordField.getText();
+                AccountDTO currAccount = gateway.getAccountFromDB(username, password);
                 System.out.println("Logged in");
                 try {
                     // use the login function from AccountController. That will set the currentAccount
+                    AccountController.login(currAccount, password);
                     new Main().start(new Stage());
                     window.close();
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             } else {
-                System.out.println("Rejected");
-                displayAlertBox("Login Error", "No account found, please check your input and try again.");
+                displayAlertBox("Login Error", "Invalid credentials, please check your input and try again.");
             }
         });
 
@@ -115,11 +121,17 @@ public class LoginUI extends Application {
 
             if (usernameField.getText().isBlank() || passwordField.getText().isBlank()) {
                 displayAlertBox("Invalid Credentials", "Error: Cannot create an account with a blank username or password.");
+            } else {
+                if (!gateway.duplicateAccount(usernameField.getText())) {
+                    AccountDTO newAccount = AccountController.createAccount(usernameField.getText(), passwordField.getText());
+                    gateway.addAccountToDB(usernameField.getText(), passwordField.getText());
+                    AccountController.login(newAccount, passwordField.getText());
+                } else {
+                    displayAlertBox("Duplicate Username", "Error: An account with that username already exists.");
+                }
             }
 
-            AccountDTO newAccount = AccountController.createAccount(usernameField.getText(), passwordField.getText());
 
-            AccountInteractor.login(newAccount, passwordField.getText());
         });
 
         mainFieldsBox.getChildren().addAll(openingText, openingText2, usernameBox, passwordBox, buttonsBox);

@@ -7,7 +7,7 @@ import Decks.DeckDTO;
 import Decks.DeckInteractor;
 import Flashcards.FlashcardDTO;
 import Sessions.StudySessionDTO;
-import org.jetbrains.annotations.NotNull;
+// import org.jetbrains.annotations.NotNull;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -120,11 +120,12 @@ public class DatabaseGateway implements DatabaseTools {
     public Boolean duplicateAccount(String username){
         try {
             ResultSet account = createStatement().executeQuery("Select * FROM accounts WHERE username = '" + username + "'");
-            String foundUsername = account.getString("username");
             while (account.next()){
+                String foundUsername = account.getString("username");
                 if (Objects.equals(foundUsername, "null") || foundUsername.length() > 0) {
                     return Boolean.TRUE;
                 }
+
             } return Boolean.FALSE;
         } catch(Exception e){
             e.printStackTrace();
