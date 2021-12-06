@@ -2,6 +2,7 @@ package UI;
 
 import Flashcards.FlashcardDTO;
 import Sessions.SessionController;
+import Sessions.SessionInteractor;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -14,7 +15,10 @@ import javafx.scene.layout.*; // Panes, etc.
 public class PracticeSessionUI extends StudySessionUI {
 
     SessionController sessionController = new SessionController();
-    FlashcardDTO flashcard = sessionController.getNextCard();
+
+    public PracticeSessionUI() {
+        flashcard = sessionController.getNextCard();
+    }
 
     @Override
     public void start(Stage window) throws Exception {

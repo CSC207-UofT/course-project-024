@@ -7,6 +7,10 @@ import Decks.DeckDTO;
 import Accounts.AccountDTO;
 
 import Flashcards.FlashcardInteractor;
+import Sessions.LearningSessionDTO;
+import Sessions.PracticeSessionDTO;
+import Sessions.SessionController;
+import Sessions.TestSessionDTO;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -38,6 +42,7 @@ public class MainUI {
     @FXML private TextField deckName;
     //initialize current account
     private final DeckController deckController = new DeckController();
+    private final SessionController sessionController = new SessionController();
     private final AccountDTO account = AccountInteractor.createAccount("user","pwd");
     //initialize decks in current account
     @FXML private ComboBox<String> deckSelect = new ComboBox<>();
@@ -182,8 +187,22 @@ public class MainUI {
         Platform.runLater(
                 () -> {
                     try {
+                        switch (sessionType) {
+                            case "Practice" -> {
+                                sessionController.startSession(deckController.getCurrentDeck(), PracticeSessionDTO.class);
+                                new PracticeSessionUI().start(new Stage());
+                            }
+                            case "Learning" -> {
+                                sessionController.startSession(deckController.getCurrentDeck(), LearningSessionDTO.class);
+                                new LearningSessionUI().start(new Stage());
+                            }
+                            case "Test" -> {
+                                sessionController.startSession(deckController.getCurrentDeck(), TestSessionDTO.class);
+                                new TestSessionUI().start(new Stage());
+                            }
+                        }
                         //TODO: modify to switch cases to different session UI based on value of sessionType
-                        new LearningSessionUI().start(new Stage());
+                        // new LearningSessionUI().start(new Stage());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
