@@ -408,6 +408,29 @@ public class MainUI {
     }
 
     /**
+     * Deletes the current flashcard from its deck
+     */
+    @FXML
+    protected void onDeleteCardButtonClick () {
+        //delete current flashcard
+        deckController.deleteCard(FlashcardInteractor.getCurrentFlashcard());
+        //update flashcard view
+        List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();
+        if (cards.size() > 0) {
+            //return to first flashcard in deck
+            deckController.selectFlashcard(cards.get(0));
+            updateCardCount(0);
+            setCardView();
+        } else {
+            //reset flashcard display
+            updateCardCount(-1);
+            currentFrontImage.getChildren().clear();
+            currentFrontText.setText("");
+            currentBackText.setText("");
+        }
+    }
+
+    /**
      * Renames the current deck
      * @param e action event on click
      * @throws IOException if main menu is not found
