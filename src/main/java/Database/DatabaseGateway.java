@@ -110,7 +110,7 @@ public class DatabaseGateway implements DatabaseTools {
             for (DeckDTO deckDTO: deckDTOS) {
                 deckDTOListMap.put(deckDTO, new ArrayList<>());
             }
-            return new AccountDTO(username, password, getDecksFromDB(username), deckDTOListMap);
+            return new AccountDTO(username, password, deckDTOS, deckDTOListMap);
         } catch(Exception e){
             e.printStackTrace();
             return null;
