@@ -7,7 +7,6 @@ import Decks.DeckDTO;
 import Decks.DeckInteractor;
 import Flashcards.FlashcardDTO;
 import Sessions.StudySessionDTO;
-//import org.jetbrains.annotations.NotNull;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -110,7 +109,7 @@ public class DatabaseGateway implements DatabaseTools {
             for (DeckDTO deckDTO: deckDTOS) {
                 deckDTOListMap.put(deckDTO, new ArrayList<>());
             }
-            return new AccountDTO(username, password, getDecksFromDB(username), deckDTOListMap);
+            return new AccountDTO(username, password, deckDTOS, deckDTOListMap);
         } catch(Exception e){
             e.printStackTrace();
             return null;
@@ -120,11 +119,12 @@ public class DatabaseGateway implements DatabaseTools {
     public Boolean duplicateAccount(String username){
         try {
             ResultSet account = createStatement().executeQuery("Select * FROM accounts WHERE username = '" + username + "'");
-            String foundUsername = account.getString("username");
             while (account.next()){
+                String foundUsername = account.getString("username");
                 if (Objects.equals(foundUsername, "null") || foundUsername.length() > 0) {
                     return Boolean.TRUE;
                 }
+
             } return Boolean.FALSE;
         } catch(Exception e){
             e.printStackTrace();
@@ -142,7 +142,6 @@ public class DatabaseGateway implements DatabaseTools {
             e.printStackTrace();
         }
     }
-
 
     /**
      * Convert an image to an InputStream object.
@@ -167,7 +166,7 @@ public class DatabaseGateway implements DatabaseTools {
 
     /**
      * Generate a list of all the decks belonging to the current account.
-     * This method is mainly used to initialize an instance of the program
+     * This method is mainly used to initialize an instance of  program
      * @param accountUsername The username of the account that the returned decks will be assigned to
      * @return ArrayList of DeckDTOs that will then be added to the current accounts deck list
      */
@@ -216,23 +215,64 @@ public class DatabaseGateway implements DatabaseTools {
 
     /**
      * Update a single field of some row in the database
-     * @param table Name of the table where the row belongs
-     * @param column Name of the field we want to update
      * @param oldValue Previous value of the field we want to update
      * @param newValue New value of the field we want to update
      */
-    public void updateRowInDB(String table, String column, String oldValue, String newValue){
+    public void updateCardFrontInDB(String oldValue, String newValue){
         try{
-            PreparedStatement pstmt = connection().prepareStatement("UPDATE (?) SET (?) = (?) WHERE (?) = (?)");
-            pstmt.setString(1, table);
-            pstmt.setString(2, column);
-            pstmt.setString(3, newValue);
-            pstmt.setString(4, column);
-            pstmt.setString(5, oldValue);
-//            createStatement().executeUpdate("UPDATE "+ table + " SET " + column +" ='"+ newValue + "' WHERE " + column +" = '" + oldValue + "'");
-            // Execute the prepared statement
+            PreparedStatement pstmt = connection().prepareStatement("UPDATE cards SET front = (?) WHERE front = (?)");
+            pstmt.setString(1, newValue);
+            pstmt.setString(2, oldValue);
+
+            // System.out.println("UPDATE '" + table + "' SET '" + column + "' = '" + newValue + "' WHERE '" + column + "' = '" + oldValue +"'")
+
             pstmt.execute();
+            pstmt.close();
         } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    public void updateCardBackInDB(String oldValue, String newValue){
+        try{
+            PreparedStatement pstmt = connection().prepareStatement("UPDATE cards SET back = (?) WHERE back = (?)");
+            pstmt.setString(1, newValue);
+            pstmt.setString(2, oldValue);
+
+            // System.out.println("UPDATE '" + table + "' SET '" + column + "' = '" + newValue + "' WHERE '" + column + "' = '" + oldValue +"'")
+
+            pstmt.execute();
+            pstmt.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void updateDeckInDB(String oldValue, String newValue){
+        try{
+            PreparedStatement pstmt = connection().prepareStatement("UPDATE decks SET deck_name = (?) WHERE deck_name = (?)");
+            pstmt.setString(1, newValue);
+            pstmt.setString(2, oldValue);
+
+            // System.out.println("UPDATE '" + table + "' SET '" + column + "' = '" + newValue + "' WHERE '" + column + "' = '" + oldValue +"'");
+
+            pstmt.execute();
+            pstmt.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void editFlashcardImage(String oldText, BufferedImage newImage){
+        try{
+            PreparedStatement pstmt = connection().prepareStatement("UPDATE cards SET image = (?) WHERE front = (?)");
+            InputStream in = imageToInputStream(newImage);
+            pstmt.setBlob(1, in);
+            pstmt.setString(2, oldText);
+            pstmt.execute();
+            pstmt.close();
+        } catch(Exception e){
             e.printStackTrace();
         }
     }
@@ -297,8 +337,12 @@ public class DatabaseGateway implements DatabaseTools {
                 pstmt.setString(2, id);
                 pstmt.setString(3, front);
                 pstmt.setString(4, back);
-                InputStream in = imageToInputStream(image);
-                pstmt.setBlob(5, in);
+                if (image == null){
+                    pstmt.setString(5, null);
+                }else {
+                    InputStream in = imageToInputStream(image);
+                    pstmt.setBlob(5, in);
+                }
                 pstmt.execute();
             }
         } catch (Exception e){

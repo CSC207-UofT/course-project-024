@@ -43,7 +43,7 @@ public class MainUI {
     //initialize current account
     private final DeckController deckController = new DeckController();
     private final SessionController sessionController = new SessionController();
-    private final AccountDTO account = AccountInteractor.createAccount("user","pwd");
+//    private final AccountDTO account = AccountInteractor.createAccount("user","pwd");
     //initialize decks in current account
     @FXML private ComboBox<String> deckSelect = new ComboBox<>();
     private final List<String> deckNames = new ArrayList<>();
@@ -90,23 +90,23 @@ public class MainUI {
     @FXML
     void initialize() {
         //TODO: convert this testing code to actual integration with accounts
-        try {
-            deckController.getCurrentDeck().getName();
-        }
-        catch(Exception e){
-            List<FlashcardDTO> cards = new ArrayList<>();
-            Image img = new Image("file:img/Flag_of_Canada.svg.png",500, 500, true, true);
-            cards.add(FlashcardInteractor.createFlashcard("front",SwingFXUtils.fromFXImage(img,null),"back"));
-            cards.add(FlashcardInteractor.createFlashcard("foo",SwingFXUtils.fromFXImage(img, null),"bar"));
-            DeckDTO deck1 = new DeckDTO("test", cards);
-            DeckDTO deck2 = new DeckDTO("boot", cards);
-            DeckDTO deck3 = new DeckDTO("room", cards);
-
-            AccountInteractor.login(account, account.getPassword());
-            AccountInteractor.addDeckToCurrentAccount(deck1);
-            AccountInteractor.addDeckToCurrentAccount(deck2);
-            AccountInteractor.addDeckToCurrentAccount(deck3);
-        }
+//        try {
+//            deckController.getCurrentDeck().getName();
+//        }
+//        catch(Exception e){
+//            List<FlashcardDTO> cards = new ArrayList<>();
+//            Image img = new Image("file:img/Flag_of_Canada.svg.png",500, 500, true, true);
+//            cards.add(FlashcardInteractor.createFlashcard("front",SwingFXUtils.fromFXImage(img,null),"back"));
+//            cards.add(FlashcardInteractor.createFlashcard("foo",SwingFXUtils.fromFXImage(img, null),"bar"));
+//            DeckDTO deck1 = new DeckDTO("test", cards);
+//            DeckDTO deck2 = new DeckDTO("boot", cards);
+//            DeckDTO deck3 = new DeckDTO("room", cards);
+//
+//            AccountInteractor.login(account, account.getPassword());
+//            AccountInteractor.addDeckToCurrentAccount(deck1);
+//            AccountInteractor.addDeckToCurrentAccount(deck2);
+//            AccountInteractor.addDeckToCurrentAccount(deck3);
+//        }
         setDecks();
         setSessionTypes();
     }

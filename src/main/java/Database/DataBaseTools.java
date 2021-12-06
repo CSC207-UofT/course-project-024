@@ -50,13 +50,11 @@ interface DatabaseTools {
     void addDeckToDB(String accountUsername, String deck_name);
 
     /**
-     * Update a single field of some row in the database
-     * @param table Name of the table where the row belongs
-     * @param column Name of the field we want to update
+     * Update a single card in the database
      * @param oldValue Previous value of the field we want to update
      * @param newValue New value of the field we want to update
      */
-    void updateRowInDB(String table, String column, String oldValue, String newValue);
+    void updateCardFrontInDB(String oldValue, String newValue);
 
     /**
      * Delete a card in the database
