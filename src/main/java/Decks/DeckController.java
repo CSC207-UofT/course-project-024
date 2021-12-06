@@ -4,7 +4,9 @@ import Accounts.AccountDTO;
 import Accounts.AccountInteractor;
 //import Database.DataBaseGateway;
 import Database.DatabaseGateway;
+import Flashcards.Flashcard;
 import Flashcards.FlashcardDTO;
+import Flashcards.FlashcardInteractor;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -21,6 +23,14 @@ public class DeckController {
      */
     public DeckDTO getCurrentDeck() {
         return DeckInteractor.getCurrentDeck();
+    }
+
+    /**
+     * Get a DTO representation of the selected flashcard.
+     * @return a FlashcardDTO
+     */
+    public FlashcardDTO getCurrentFlashcard() {
+        return FlashcardInteractor.getCurrentFlashcard();
     }
 
     /**
@@ -94,7 +104,23 @@ public class DeckController {
         DBgateway.addCardToDeckInDB(AccountInteractor.getCurrentAccount().getUsername(), DeckInteractor.getCurrentDeck().getName(), frontText, back, frontImage);
 
         return true;
+    }
 
+    /**
+     * Edit the front of the current flashcard.
+     * @param frontText The new text of the front of the Flashcard (possibly null)
+     * @param frontImage The new image of the front of the Flashcard (possibly null)
+     */
+    public static void editCurrentFlashcardFront(String frontText, BufferedImage frontImage) {
+        FlashcardInteractor.editCurrentFlashcardFront(frontText, frontImage);
+    }
+
+    /**
+     * Edit the back of the current flashcard.
+     * @param newBack The new back that will replace the current one
+     */
+    public static void editCurrentFlashcardBack(String newBack) {
+        FlashcardInteractor.editCurrentFlashcardBack(newBack);
     }
 
     private boolean hasUniqueName(DeckDTO deckDTO, AccountDTO accountDTO) {
