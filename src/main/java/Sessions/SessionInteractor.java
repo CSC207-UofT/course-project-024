@@ -109,15 +109,15 @@ public class SessionInteractor {
      */
     public static StudySessionDTO convertSessionToDTO(StudySession session) {
         if (session instanceof PracticeSession practiceSession) {
-            DeckDTO deckDTO = DeckInteractor.convertDeckToDTO(practiceSession.getDeck());
+            DeckDTO deckDTO = DeckInteractor.convertDeckToDTO(practiceSession.getDeckCopy());
             CardShufflerDTO shufflerDTO = convertShufflerToDTO(practiceSession.getCardShuffler());
             return new PracticeSessionDTO(deckDTO, shufflerDTO);
         } else if (session instanceof LearningSession learningSession) {
-            DeckDTO deckDTO = DeckInteractor.convertDeckToDTO(learningSession.getDeck());
+            DeckDTO deckDTO = DeckInteractor.convertDeckToDTO(learningSession.getDeckCopy());
             CardShufflerDTO shufflerDTO = convertShufflerToDTO(learningSession.getCardShuffler());
             return new LearningSessionDTO(deckDTO, shufflerDTO);
         } else if (session instanceof TestSession testSession) {
-            DeckDTO deckDTO = DeckInteractor.convertDeckToDTO(testSession.getDeck());
+            DeckDTO deckDTO = DeckInteractor.convertDeckToDTO(testSession.getDeckCopy());
             CardShufflerDTO shufflerDTO = convertShufflerToDTO(testSession.getCardShuffler());
             int length = testSession.getLength();
             int cardsSeen = testSession.getCardsSeen();
