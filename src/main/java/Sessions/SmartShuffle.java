@@ -19,16 +19,18 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
 
     /**
      * Constructs a new SmartShuffle shuffler using a preexisting map.
+     *
      * @param flashcardToData A mapping from Flashcard to FlashcardData taken from this shuffler's StudySession.
      */
     public SmartShuffle(Map<Flashcard, FlashcardData> flashcardToData) {
         this.flashcardToData = flashcardToData;
-        // This turns an ImmutableList, which ToList returns, to a LinkedList.
+        // This turns an ImmutableList, which ToList returns, to an ArrayList.
         this.deckCopy = new ArrayList<>(this.flashcardToData.keySet().stream().toList());
     }
 
     /**
      * Constructs a new SmartShuffle shuffler, initializing an empty mapping using deck.
+     *
      * @param deck The deck that this shuffler will use to create a Flashcard to FlashcardData mapping.
      */
     public SmartShuffle(Deck deck) {
@@ -43,20 +45,22 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
 
     /**
      * Constructs a new SmartShuffle shuffler using a preexisting map.
-     * @param flashcardToData A mapping from Flashcard to FlashcardData taken from this shuffler's StudySession.
-     * @param deckCopy A list of flashcards which were copied from the original deck
+     *
+     * @param flashcardToData    A mapping from Flashcard to FlashcardData taken from this shuffler's StudySession.
+     * @param deckCopy           A list of flashcards which were copied from the original deck
      * @param lastFlashcardShown The last flashcard shown to the user
      */
     public SmartShuffle(Map<Flashcard, FlashcardData> flashcardToData, ArrayList<Flashcard> deckCopy,
                         Flashcard lastFlashcardShown) {
         this.flashcardToData = flashcardToData;
-        // This turns an ImmutableList, which ToList returns, to a LinkedList.
+        // This turns an ImmutableList, which ToList returns, to an ArrayList.
         this.deckCopy = deckCopy;
         this.lastFlashcardShown = lastFlashcardShown;
     }
 
     /**
      * Returns this shuffler's chosen flashcard based on this shuffler's choosing algorithm.
+     *
      * @return The flashcard that this shuffler chooses based on an algorithm.
      */
     @Override
@@ -93,6 +97,7 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
      * Updates this shuffler's deckCopy to order it after the FlashcardData objects are updated in this.flashcardToData.
      * This method should be called after an answer is given by the user.
      * After this method is called, this shuffler's returnChosenFlashcard method is ready to be called again.
+     *
      * @param wasCorrect Whether the user was correct or not when reviewing this.lastFlashcardShown
      */
     @Override
@@ -126,6 +131,7 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
 
     /**
      * Updates this shuffler's FlashcardData after an answer is graded.
+     *
      * @param wasCorrect Whether the user was correct or not when reviewing this.lastFlashcardShown
      */
     public void updateFlashcardData(boolean wasCorrect) {
@@ -142,8 +148,6 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
             currFlashcardData.setCardsUntilDue(currFlashcardData.getCardsUntilDue() + 3);
         }
     }
-
-
 
 
 }
