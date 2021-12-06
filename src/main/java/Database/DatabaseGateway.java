@@ -215,17 +215,14 @@ public class DatabaseGateway implements DatabaseTools {
 
     /**
      * Update a single field of some row in the database
-     * @param column Name of the field we want to update
      * @param oldValue Previous value of the field we want to update
      * @param newValue New value of the field we want to update
      */
-    public void updateCardInDB(String column, String oldValue, String newValue){
+    public void updateCardFrontInDB(String oldValue, String newValue){
         try{
-            PreparedStatement pstmt = connection().prepareStatement("UPDATE cards SET (?) = (?) WHERE (?) = (?)");
-            pstmt.setString(1, column);
+            PreparedStatement pstmt = connection().prepareStatement("UPDATE cards SET front = (?) WHERE front = (?)");
+            pstmt.setString(1, oldValue);
             pstmt.setString(2, newValue);
-            pstmt.setString(3, column);
-            pstmt.setString(4, oldValue);
 
             // System.out.println("UPDATE '" + table + "' SET '" + column + "' = '" + newValue + "' WHERE '" + column + "' = '" + oldValue +"'")
 
@@ -236,13 +233,27 @@ public class DatabaseGateway implements DatabaseTools {
         }
     }
 
-    public void updateDeckInDB(String column, String oldValue, String newValue){
+
+    public void updateCardBackInDB(String oldValue, String newValue){
         try{
-            PreparedStatement pstmt = connection().prepareStatement("UPDATE decks SET (?) = (?) WHERE (?) = (?)");
-            pstmt.setString(1, column);
+            PreparedStatement pstmt = connection().prepareStatement("UPDATE cards SET back = (?) WHERE back = (?)");
+            pstmt.setString(1, oldValue);
             pstmt.setString(2, newValue);
-            pstmt.setString(3, column);
-            pstmt.setString(4, oldValue);
+
+            // System.out.println("UPDATE '" + table + "' SET '" + column + "' = '" + newValue + "' WHERE '" + column + "' = '" + oldValue +"'")
+
+            pstmt.execute();
+            pstmt.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void updateDeckInDB(String oldValue, String newValue){
+        try{
+            PreparedStatement pstmt = connection().prepareStatement("UPDATE decks SET deck_name = (?) WHERE deck_name = (?)");
+            pstmt.setString(1, oldValue);
+            pstmt.setString(2, newValue);
 
             // System.out.println("UPDATE '" + table + "' SET '" + column + "' = '" + newValue + "' WHERE '" + column + "' = '" + oldValue +"'");
 

@@ -48,7 +48,7 @@ public class FlashcardInteractor {
      */
     public static void editCurrentFlashcardFront(String frontText, BufferedImage frontImage) {
         Flashcard oldFlashcard = currentFlashcard;
-        DBgateway.updateCardInDB("front", oldFlashcard.getFront().getText(), frontText);
+        DBgateway.updateCardFrontInDB(oldFlashcard.getFront().getText(), frontText);
         DBgateway.editFlashcardImage(oldFlashcard.getFront().getText(), frontImage);
         Flashcard.Front front = new Flashcard.Front(frontText, frontImage);
         currentFlashcard.setFront(front);
@@ -60,7 +60,7 @@ public class FlashcardInteractor {
      */
     public static void editCurrentFlashcardBack(String newBack) {
         Flashcard oldFlashcard = currentFlashcard;
-        DBgateway.updateCardInDB("back", oldFlashcard.getBack(), newBack);
+        DBgateway.updateCardBackInDB(oldFlashcard.getBack(), newBack);
         currentFlashcard.setBack(newBack);
     }
 
