@@ -179,10 +179,15 @@ public class DatabaseGateway implements DatabaseTools {
                 ArrayList<FlashcardDTO> flashcardList = new ArrayList<>();
                 while (correspondingCards.next()){
                     Blob imageBlob = correspondingCards.getBlob("Image");
-                    InputStream in = imageBlob.getBinaryStream();
-                    BufferedImage currentCardImage = ImageIO.read(in);
-                    FlashcardDTO newFlashcardDTO =  new FlashcardDTO(correspondingCards.getString("front"), currentCardImage, correspondingCards.getString("back"));
-                    flashcardList.add(newFlashcardDTO);
+                    if (imageBlob == null) {
+                        FlashcardDTO newFlashcardDTO =  new FlashcardDTO(correspondingCards.getString("front"), null, correspondingCards.getString("back"));
+                        flashcardList.add(newFlashcardDTO);
+                    } else {
+                        InputStream in = imageBlob.getBinaryStream();
+                        BufferedImage currentCardImage = ImageIO.read(in);
+                        FlashcardDTO newFlashcardDTO =  new FlashcardDTO(correspondingCards.getString("front"), currentCardImage, correspondingCards.getString("back"));
+                        flashcardList.add(newFlashcardDTO);
+                    }
                 }
                 String newDeckName = decks.getString("deck_name");
                 DeckDTO newDeck = new DeckDTO(newDeckName, flashcardList);
@@ -218,7 +223,7 @@ public class DatabaseGateway implements DatabaseTools {
      * @param oldValue Previous value of the field we want to update
      * @param newValue New value of the field we want to update
      */
-    public void updateCardFrontInDB(String oldValue, String newValue){
+    public void updateCardFrontTextInDB(String oldValue, String newValue){
         try{
             PreparedStatement pstmt = connection().prepareStatement("UPDATE cards SET front = (?) WHERE front = (?)");
             pstmt.setString(1, newValue);
