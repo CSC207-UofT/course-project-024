@@ -310,7 +310,7 @@ public class DatabaseGateway implements DatabaseTools {
             ResultSet corresponding_deck_id = connection().createStatement().executeQuery("SELECT deck_id FROM decks WHERE deck_name ='" + deck_name + "' AND account_id ='" + accountUsername + "'");
             while (corresponding_deck_id.next()) {
                 String deck_id = corresponding_deck_id.getString("deck_id");
-                PreparedStatement pstmt = connection().prepareStatement("DELETE FROM deck WHERE deck_id = (?) AND account_id = (?)");
+                PreparedStatement pstmt = connection().prepareStatement("DELETE FROM decks WHERE deck_id = (?) AND account_id = (?)");
                 pstmt.setString(1, deck_id);
                 pstmt.setString(2, accountUsername);
             }
