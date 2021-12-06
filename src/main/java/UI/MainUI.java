@@ -81,7 +81,7 @@ public class MainUI {
      * Sets session types to choose from to start a session
      */
     public void setSessionTypes() {
-        sessionTypeSelect.setItems((FXCollections.observableArrayList("Learning", "Practice", "Study", "Test")));
+        sessionTypeSelect.setItems((FXCollections.observableArrayList("Practice", "Learning", "Test")));
     }
 
     /**
@@ -201,8 +201,6 @@ public class MainUI {
                                 new TestSessionUI().start(new Stage());
                             }
                         }
-                        //TODO: modify to switch cases to different session UI based on value of sessionType
-                        // new LearningSessionUI().start(new Stage());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
