@@ -1,4 +1,4 @@
-## Instructions to install all relevant dependencies
+## Instructions to install relevant dependencies
 
 JDBC is a Java API used to connect and interact with databases. To install it follow the instructions below
 1. At the top of IntelliJ go to File -> Project Structure -> Modules -> Dependencies 
