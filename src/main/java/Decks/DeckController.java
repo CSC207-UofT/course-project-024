@@ -2,9 +2,7 @@ package Decks;
 
 import Accounts.AccountDTO;
 import Accounts.AccountInteractor;
-//import Database.DataBaseGateway;
-import Database.DatabaseGateway;
-import Flashcards.Flashcard;
+import Database.DatabaseTools;
 import Flashcards.FlashcardDTO;
 import Flashcards.FlashcardInteractor;
 
@@ -13,9 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeckController {
-    DatabaseGateway DBgateway = new DatabaseGateway();
+    // DatabaseGateway DBgateway = new DatabaseGateway();
+    DatabaseTools DBgateway;
 
-    public DeckController() {}
+    public DeckController(DatabaseTools DBgateway) {
+        this.DBgateway = DBgateway;
+    }
 
     /**
      * Get a DTO representation of the selected deck.
@@ -72,7 +73,7 @@ public class DeckController {
      * @param newName The new name of the deck
      */
     public void renameCurrentDeck(String newName) {
-        DBgateway.updateDeckInDB(DeckInteractor.getCurrentDeck().getName(), newName);
+        DBgateway.updateDeckNameInDB(DeckInteractor.getCurrentDeck().getName(), newName);
         DeckInteractor.renameCurrentDeck(newName);
     }
 
@@ -111,16 +112,22 @@ public class DeckController {
      * @param frontText The new text of the front of the Flashcard (possibly null)
      * @param frontImage The new image of the front of the Flashcard (possibly null)
      */
-    public static void editCurrentFlashcardFront(String frontText, BufferedImage frontImage) {
+    public void editCurrentFlashcardFront(String frontText, BufferedImage frontImage) {
+        FlashcardDTO oldFlashcard = FlashcardInteractor.getCurrentFlashcard();
         FlashcardInteractor.editCurrentFlashcardFront(frontText, frontImage);
+        DBgateway.updateCardFrontInDB(oldFlashcard.getFrontText(), frontText);
+        DBgateway.editFlashcardImage(oldFlashcard.getFrontText(), frontImage);
+
     }
 
     /**
      * Edit the back of the current flashcard.
      * @param newBack The new back that will replace the current one
      */
-    public static void editCurrentFlashcardBack(String newBack) {
+    public void editCurrentFlashcardBack(String newBack) {
+        FlashcardDTO oldFlashcard = FlashcardInteractor.getCurrentFlashcard();
         FlashcardInteractor.editCurrentFlashcardBack(newBack);
+        DBgateway.updateCardBackInDB(oldFlashcard.getBack(), newBack);
     }
 
     private boolean hasUniqueName(DeckDTO deckDTO, AccountDTO accountDTO) {

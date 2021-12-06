@@ -249,7 +249,7 @@ public class DatabaseGateway implements DatabaseTools {
         }
     }
 
-    public void updateDeckInDB(String oldValue, String newValue){
+    public void updateDeckNameInDB(String oldValue, String newValue){
         try{
             PreparedStatement pstmt = connection().prepareStatement("UPDATE decks SET deck_name = (?) WHERE deck_name = (?)");
             pstmt.setString(1, newValue);

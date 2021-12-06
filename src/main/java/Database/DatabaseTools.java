@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /** Interface containing all the (unimplemented) basic tools required to interact with the database
  * in the context of this program
  */
-interface DatabaseTools {
+public interface DatabaseTools {
 
     /**
      * Create a connection with the database.
@@ -82,4 +82,24 @@ interface DatabaseTools {
      */
     void addCardToDeckInDB (String accountUsername, String deck_name, String front, String back, BufferedImage image);
 
+    /**
+     * Replaces a flashcard's image with frontImage.
+     * @param frontText The front text of the flashcard which is to be edited
+     * @param frontImage The replacement image
+     */
+    void editFlashcardImage(String frontText, BufferedImage frontImage);
+
+    /**
+     * Replaces a flashcard's back with back
+     * @param back The back of the flashcard to be edited
+     * @param newBack The back that will replace the old back
+     */
+    void updateCardBackInDB(String back, String newBack);
+
+    /**
+     * Renames the deck with the given name
+     * @param name The name of the deck to be renamed
+     * @param newName The new name to replace the old name
+     */
+    void updateDeckNameInDB(String name, String newName);
 }

@@ -1,6 +1,7 @@
 package UI;
 
 import Accounts.AccountInteractor;
+import Database.DatabaseGateway;
 import Flashcards.FlashcardDTO;
 import Decks.DeckController;
 import Decks.DeckDTO;
@@ -41,7 +42,8 @@ public class MainUI {
     //initialize create deck UI reference
     @FXML private TextField deckName;
     //initialize current account
-    private final DeckController deckController = new DeckController();
+    DatabaseGateway DBgateway = new DatabaseGateway();
+    private final DeckController deckController = new DeckController(DBgateway);
     private final SessionController sessionController = new SessionController();
 //    private final AccountDTO account = AccountInteractor.createAccount("user","pwd");
     //initialize decks in current account
