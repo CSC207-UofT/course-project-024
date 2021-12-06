@@ -143,7 +143,6 @@ public class DatabaseGateway implements DatabaseTools {
         }
     }
 
-
     /**
      * Convert an image to an InputStream object.
      * This will be used to store images from flashcards into the database as BLOBs
