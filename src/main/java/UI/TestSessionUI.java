@@ -120,7 +120,7 @@ public class TestSessionUI extends StudySessionUI {
         int totalCards = testSessionDTO.getCardsSeen();
         int percentage = (int) (((float) numCorrect * 100 / totalCards));
         displayAlertBox(
-                "Good job! You got" + numCorrect + " / " + totalCards + " cards correct! " +
+                "Good job! You got " + numCorrect + " / " + totalCards + " cards correct! " +
                         "That's " + percentage + "%!"
         );
     }

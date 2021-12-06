@@ -156,9 +156,13 @@ public class SessionInteractor {
                 deckCopy.add(flashcardDTO);
                 flashcardToDataDTO.put(flashcardDTO, dataDTO);
             }
-            FlashcardDTO lastFlashcardShownDTO = FlashcardInteractor.convertFlashcardToDTO(
-                    smartShuffle.getLastFlashcardShown());
-            return new SmartShuffleDTO(flashcardToDataDTO, deckCopy, lastFlashcardShownDTO);
+            if (smartShuffle.getLastFlashcardShown() == null) {
+                return new SmartShuffleDTO(flashcardToDataDTO, deckCopy, null);
+            } else {
+                FlashcardDTO lastFlashcardShownDTO = FlashcardInteractor.convertFlashcardToDTO(
+                        smartShuffle.getLastFlashcardShown());
+                return new SmartShuffleDTO(flashcardToDataDTO, deckCopy, lastFlashcardShownDTO);
+            }
         } else {
             return null;
         }
@@ -192,9 +196,13 @@ public class SessionInteractor {
                 deckCopy.add(flashcard);
                 flashcardToData.put(flashcard, data);
             }
-            Flashcard lastFlashcardShown = FlashcardInteractor.convertDTOToFlashcard(
-                    smartShuffleDTO.getLastFlashcardShown());
-            return new SmartShuffle(flashcardToData, deckCopy, lastFlashcardShown);
+            if (smartShuffleDTO.getLastFlashcardShown() == null) {
+                return new SmartShuffle(flashcardToData, deckCopy, null);
+            } else {
+                Flashcard lastFlashcardShown = FlashcardInteractor.convertDTOToFlashcard(
+                        smartShuffleDTO.getLastFlashcardShown());
+                return new SmartShuffle(flashcardToData, deckCopy, lastFlashcardShown);
+            }
         } else {
             return null;
         }
