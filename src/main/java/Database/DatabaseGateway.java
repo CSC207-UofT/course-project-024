@@ -168,7 +168,7 @@ public class DatabaseGateway implements DatabaseTools {
 
     /**
      * Generate a list of all the decks belonging to the current account.
-     * This method is mainly used to initialize an instance of the program
+     * This method is mainly used to initialize an instance of  program
      * @param accountUsername The username of the account that the returned decks will be assigned to
      * @return ArrayList of DeckDTOs that will then be added to the current accounts deck list
      */
