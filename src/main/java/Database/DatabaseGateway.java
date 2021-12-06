@@ -121,11 +121,11 @@ public class DatabaseGateway implements DatabaseTools {
         try {
             ResultSet account = createStatement().executeQuery("Select * FROM accounts WHERE username = '" + username + "'");
             String foundUsername = account.getString("username");
-            if (Objects.equals(foundUsername, "null") || foundUsername.length() > 0){
-                return Boolean.TRUE;
-            } else{
-                return Boolean.FALSE;
-            }
+            while (account.next()){
+                if (Objects.equals(foundUsername, "null") || foundUsername.length() > 0) {
+                    return Boolean.TRUE;
+                }
+            } return Boolean.FALSE;
         } catch(Exception e){
             e.printStackTrace();
             return null;

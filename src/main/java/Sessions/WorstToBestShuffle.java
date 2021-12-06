@@ -37,7 +37,15 @@ public class WorstToBestShuffle extends CardShuffler {
      * @param deck The deck that will be copied to this WorstToBestShuffler's copyDeck
      */
     public void setDeck(Deck deck){
-        this.deckCopy = deck.copyDeck();
+        this.deckCopy = deck;
+    }
+
+    /**
+     * Get this shuffler's deckCopy
+     * @return deck
+     */
+    public Deck getDeckCopy() {
+        return deckCopy;
     }
 
     /**
