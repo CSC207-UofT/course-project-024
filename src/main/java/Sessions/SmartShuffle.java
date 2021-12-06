@@ -4,6 +4,7 @@ import Decks.Deck;
 import Flashcards.FlashcardData;
 import Flashcards.Flashcard;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -13,7 +14,7 @@ import java.util.Map;
  */
 public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
 
-    private final LinkedList<Flashcard> deckCopy;
+    private final ArrayList<Flashcard> deckCopy;
     private Flashcard lastFlashcardShown;
 
     /**
@@ -23,7 +24,7 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
     public SmartShuffle(Map<Flashcard, FlashcardData> flashcardToData) {
         this.flashcardToData = flashcardToData;
         // This turns an ImmutableList, which ToList returns, to a LinkedList.
-        this.deckCopy = new LinkedList<>(this.flashcardToData.keySet().stream().toList());
+        this.deckCopy = new ArrayList<>(this.flashcardToData.keySet().stream().toList());
     }
 
     /**
@@ -37,7 +38,7 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
             this.flashcardToData.put(card, new FlashcardData(0));
         }
 
-        this.deckCopy = new LinkedList<>(this.flashcardToData.keySet().stream().toList());
+        this.deckCopy = new ArrayList<>(this.flashcardToData.keySet().stream().toList());
     }
 
     /**
@@ -46,7 +47,7 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
      * @param deckCopy A list of flashcards which were copied from the original deck
      * @param lastFlashcardShown The last flashcard shown to the user
      */
-    public SmartShuffle(Map<Flashcard, FlashcardData> flashcardToData, LinkedList<Flashcard> deckCopy,
+    public SmartShuffle(Map<Flashcard, FlashcardData> flashcardToData, ArrayList<Flashcard> deckCopy,
                         Flashcard lastFlashcardShown) {
         this.flashcardToData = flashcardToData;
         // This turns an ImmutableList, which ToList returns, to a LinkedList.
@@ -60,8 +61,8 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
      */
     @Override
     public Flashcard returnChosenFlashcard() {
-        this.lastFlashcardShown = this.deckCopy.getFirst();
-        return this.deckCopy.getFirst();
+        this.lastFlashcardShown = this.deckCopy.get(0);
+        return this.deckCopy.get(0);
     }
 
     /**
@@ -71,7 +72,7 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
     public void updateDeckContext() {
         for (Flashcard flashcard : this.flashcardToData.keySet()) {
             if (!this.deckCopy.contains(flashcard)) {
-                this.deckCopy.addLast(flashcard);
+                this.deckCopy.add(flashcard);
             }
         }
 
@@ -79,7 +80,7 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
     }
 
 
-    public LinkedList<Flashcard> getDeckCopy() {
+    public ArrayList<Flashcard> getDeckCopy() {
         return this.deckCopy;
     }
 
@@ -111,7 +112,7 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
 
         if (currFlashcardIndex + stepsToSendBackward >= this.deckCopy.size()) {
             // send currentFlashcard to the back
-            this.deckCopy.addLast(this.lastFlashcardShown);
+            this.deckCopy.add(this.lastFlashcardShown);
             this.deckCopy.remove(currFlashcardIndex);
             // System.out.println("Sent to the back");
         } else {
