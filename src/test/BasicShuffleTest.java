@@ -1,6 +1,7 @@
 import Flashcards.Flashcard;
 import Decks.Deck;
 import Flashcards.FlashcardData;
+import Sessions.BasicShuffle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -40,7 +41,7 @@ class BasicShufflerTest {
     void size() {
         basicShuffler = new BasicShuffle(deck);
         basicShuffler.shuffleCards();
-        assertEquals(5, basicShuffler.deckCopy.size());
+        assertEquals(5, basicShuffler.getDeckCopy().size());
     }
 
     /**
@@ -50,11 +51,11 @@ class BasicShufflerTest {
     void order() {
         basicShuffler = new BasicShuffle(deck);
         basicShuffler.shuffleCards();
-        assertFalse(basicShuffler.deckCopy.get(0).equals(deck.getFlashcards().get(0)) ||
-                basicShuffler.deckCopy.get(1).equals(deck.getFlashcards().get(1)) ||
-                basicShuffler.deckCopy.get(2).equals(deck.getFlashcards().get(2)) ||
-                basicShuffler.deckCopy.get(3).equals(deck.getFlashcards().get(3)) ||
-                basicShuffler.deckCopy.get(4).equals(deck.getFlashcards().get(4)));
+        assertFalse(basicShuffler.getDeckCopy().get(0).equals(deck.getFlashcards().get(0)) ||
+                basicShuffler.getDeckCopy().get(1).equals(deck.getFlashcards().get(1)) ||
+                basicShuffler.getDeckCopy().get(2).equals(deck.getFlashcards().get(2)) ||
+                basicShuffler.getDeckCopy().get(3).equals(deck.getFlashcards().get(3)) ||
+                basicShuffler.getDeckCopy().get(4).equals(deck.getFlashcards().get(4)));
     }
 
     /**
@@ -82,7 +83,7 @@ class BasicShufflerTest {
         Flashcard card = new Flashcard(front, ":)");
         deck.addFlashcard(card);
         basicShuffler.updateDeckContext();
-        assertTrue(basicShuffler.deckCopy.contains(card));
+        assertTrue(basicShuffler.getDeckCopy().contains(card));
     }
 
     /**
@@ -96,6 +97,6 @@ class BasicShufflerTest {
         basicShuffler = new BasicShuffle(deck);
         deck.removeFlashcard(card);
         basicShuffler.updateDeckContext();
-        assertFalse(basicShuffler.deckCopy.contains(card));
+        assertFalse(basicShuffler.getDeckCopy().contains(card));
     }
 }

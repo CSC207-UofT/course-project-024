@@ -10,7 +10,7 @@ import java.util.Map;
  * This class represents a study session
  */
 public abstract class StudySession implements Observer {
-    protected Deck deck;
+    protected Deck deckCopy;
     // deck that won't be modified by studysession
     protected Deck originalDeck;
     protected String name;
@@ -24,7 +24,7 @@ public abstract class StudySession implements Observer {
      * @param cardShuffler The CardShuffler that this StudySession will use to get Flashcards
      */
     public StudySession(Deck deck, String name, CardShuffler cardShuffler) {
-        this.deck = deck.copyDeck(); 
+        this.deckCopy = deck.copyDeck();
         this.originalDeck = deck;
         this.name = name;
         this.cardShuffler = cardShuffler;
@@ -36,7 +36,7 @@ public abstract class StudySession implements Observer {
      * @param cardShuffler The CardShuffler that this StudySession will use to get Flashcards
      */
     public StudySession(Deck deck, CardShuffler cardShuffler) {
-        this.deck = deck.copyDeck();
+        this.deckCopy = deck.copyDeck();
         this.originalDeck = deck;
         this.name = "Untitled";
         this.cardShuffler = cardShuffler;
@@ -51,11 +51,19 @@ public abstract class StudySession implements Observer {
     }
 
     /**
-     * Returns this StudySession's deck.
-     * @return This StudySession's deck
+     * Returns this StudySession's deck copy.
+     * @return This StudySession's deck copy
      */
-    public Deck getDeck() {
-        return this.deck;
+    public Deck getDeckCopy() {
+        return this.deckCopy;
+    }
+
+    /**
+     * Returns this StudySession's original deck.
+     * @return This StudySession's original deck
+     */
+    public Deck getOriginalDeck() {
+        return this.originalDeck;
     }
 
      /**
@@ -83,6 +91,6 @@ public abstract class StudySession implements Observer {
 
     @Override
     public void update(){
-        this.deck = originalDeck.copyDeck();
+        this.deckCopy = originalDeck.copyDeck();
     }
 }
