@@ -172,11 +172,12 @@ public class AccountInteractor {
                 }
             }
 
-            for (Flashcard flashcard : flashcardToFlashcardData.keySet()) {
+            for (Flashcard flashcard : flashcardToFlashcardData.keySet().stream().toList()) {
                 if (!flashcardList.contains(flashcard)) {
                     flashcardToFlashcardData.remove(flashcard);
                 }
             }
+
             session.updateDeckContext();
         }
     }
