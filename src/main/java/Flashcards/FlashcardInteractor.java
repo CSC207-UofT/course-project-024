@@ -47,8 +47,11 @@ public class FlashcardInteractor {
      * @param frontImage The new image of the front of the Flashcard (possibly null)
      */
     public static void editCurrentFlashcardFront(String frontText, BufferedImage frontImage) {
-        String oldFlashcard = currentFlashcard.getFront().getText();
-        DBgateway.updateRowInDB("cards", "front", oldFlashcard, frontText);
+        Flashcard oldFlashcard = currentFlashcard;
+
+        DBgateway.updateRowInDB("cards", "front", oldFlashcard.getFront().getText(), frontText);
+        DBgateway.editFlashcardImage(oldFlashcard.getFront().getText(), frontImage);
+
         Flashcard.Front front = new Flashcard.Front(frontText, frontImage);
         currentFlashcard.setFront(front);
     }

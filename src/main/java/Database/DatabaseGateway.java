@@ -228,10 +228,20 @@ public class DatabaseGateway implements DatabaseTools {
             pstmt.setString(3, newValue);
             pstmt.setString(4, column);
             pstmt.setString(5, oldValue);
-//            createStatement().executeUpdate("UPDATE "+ table + " SET " + column +" ='"+ newValue + "' WHERE " + column +" = '" + oldValue + "'");
-            // Execute the prepared statement
             pstmt.execute();
         } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void editFlashcardImage(String oldText, BufferedImage newImage){
+        try{
+            PreparedStatement pstmt = connection().prepareStatement("UPDATE cards SET image=(?) WHERE front = (?)");
+            InputStream in = imageToInputStream(newImage);
+            pstmt.setBlob(1, in);
+            pstmt.setString(2, oldText);
+            pstmt.execute();
+        } catch(Exception e){
             e.printStackTrace();
         }
     }
