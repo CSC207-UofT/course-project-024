@@ -4,17 +4,14 @@ import Decks.Deck;
 import Flashcards.FlashcardData;
 import Flashcards.Flashcard;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 /**
  * A strategy on how to shuffle and select cards. SmartShuffle's strategy //TODO
  */
 public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
 
-    private final ArrayList<Flashcard> deckCopy;
+    private final List<Flashcard> deckCopy;
     private Flashcard lastFlashcardShown;
 
     /**
@@ -50,7 +47,7 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
      * @param deckCopy           A list of flashcards which were copied from the original deck
      * @param lastFlashcardShown The last flashcard shown to the user
      */
-    public SmartShuffle(Map<Flashcard, FlashcardData> flashcardToData, ArrayList<Flashcard> deckCopy,
+    public SmartShuffle(Map<Flashcard, FlashcardData> flashcardToData, List<Flashcard> deckCopy,
                         Flashcard lastFlashcardShown) {
         this.flashcardToData = flashcardToData;
         // This turns an ImmutableList, which ToList returns, to an ArrayList.
@@ -84,7 +81,7 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
     }
 
 
-    public ArrayList<Flashcard> getDeckCopy() {
+    public List<Flashcard> getDeckCopy() {
         return this.deckCopy;
     }
 

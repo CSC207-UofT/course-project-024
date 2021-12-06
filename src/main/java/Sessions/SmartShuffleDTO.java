@@ -5,21 +5,22 @@ import Flashcards.FlashcardDataDTO;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class SmartShuffleDTO extends CardShufflerDTO {
 
-    private final ArrayList<FlashcardDTO> deckCopy;
+    private final List<FlashcardDTO> deckCopy;
     private final FlashcardDTO lastFlashcardShown;
 
     public SmartShuffleDTO(Map<FlashcardDTO, FlashcardDataDTO> flashcardToData,
-                           ArrayList<FlashcardDTO> deckCopy, FlashcardDTO lastFlashcardShown) {
+                           List<FlashcardDTO> deckCopy, FlashcardDTO lastFlashcardShown) {
         super(flashcardToData);
         this.deckCopy = deckCopy;
         this.lastFlashcardShown = lastFlashcardShown;
     }
 
-    public ArrayList<FlashcardDTO> getDeckCopy() {
+    public List<FlashcardDTO> getDeckCopy() {
         return deckCopy;
     }
 
