@@ -236,7 +236,7 @@ public class DatabaseGateway implements DatabaseTools {
 
     public void editFlashcardImage(String oldText, BufferedImage newImage){
         try{
-            PreparedStatement pstmt = connection().prepareStatement("UPDATE cards SET image=(?) WHERE front = (?)");
+            PreparedStatement pstmt = connection().prepareStatement("UPDATE cards SET image = (?) WHERE front = (?)");
             InputStream in = imageToInputStream(newImage);
             pstmt.setBlob(1, in);
             pstmt.setString(2, oldText);

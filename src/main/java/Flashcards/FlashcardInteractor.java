@@ -48,10 +48,8 @@ public class FlashcardInteractor {
      */
     public static void editCurrentFlashcardFront(String frontText, BufferedImage frontImage) {
         Flashcard oldFlashcard = currentFlashcard;
-
         DBgateway.updateRowInDB("cards", "front", oldFlashcard.getFront().getText(), frontText);
         DBgateway.editFlashcardImage(oldFlashcard.getFront().getText(), frontImage);
-
         Flashcard.Front front = new Flashcard.Front(frontText, frontImage);
         currentFlashcard.setFront(front);
     }
@@ -61,9 +59,9 @@ public class FlashcardInteractor {
      * @param newBack The new back that will replace the current one
      */
     public static void editCurrentFlashcardBack(String newBack) {
-        DBgateway.updateRowInDB("cards", "back", currentFlashcard.getBack() , newBack);
-        currentFlashcard.setBack(newBack
-        );
+        Flashcard oldFlashcard = currentFlashcard;
+        DBgateway.updateRowInDB("cards", "back", oldFlashcard.getBack(), newBack);
+        currentFlashcard.setBack(newBack);
     }
 
     /**
