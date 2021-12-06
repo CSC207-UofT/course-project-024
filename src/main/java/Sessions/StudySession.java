@@ -85,12 +85,9 @@ public abstract class StudySession implements Observer {
     /**
      * Updates this StudySession's CardShuffler to make it up-to-date with any changes to its FlashcardToData mapping.
      */
-    public void updateDeckContext() {
-        this.cardShuffler.updateDeckContext();
-    }
-
     @Override
     public void update(){
         this.deckCopy = originalDeck.copyDeck();
+        this.cardShuffler.updateDeckContext();
     }
 }
