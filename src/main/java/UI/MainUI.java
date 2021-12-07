@@ -1,6 +1,6 @@
 package UI;
 
-import Accounts.AccountInteractor;
+import Accounts.AccountController;
 import Database.MySQLDatabaseGateway;
 import Flashcards.FlashcardDTO;
 import Decks.DeckController;
@@ -69,7 +69,7 @@ public class MainUI {
      * updates list of deck names on the current account
      */
     protected void setDecks() {
-        List<DeckDTO> decks = AccountInteractor.getCurrentAccount().getDecks();
+        List<DeckDTO> decks = AccountController.getCurrentAccount().getDecks();
         for (DeckDTO d : decks) {
             deckNames.add(d.getName());
         }
@@ -90,7 +90,6 @@ public class MainUI {
      */
     @FXML
     void initialize() {
-        //TODO: convert this testing code to actual integration with accounts
 //        try {
 //            deckController.getCurrentDeck().getName();
 //        }
@@ -229,9 +228,9 @@ public class MainUI {
      * @param select name of deck
      */
     protected void setCurrentDeck(String select) {
-        for (DeckDTO d : AccountInteractor.getCurrentAccount().getDecks()) {
+        for (DeckDTO d : AccountController.getCurrentAccount().getDecks()) {
             if (select.equals(d.getName())) {
-                AccountInteractor.selectDeck(d);
+                AccountController.selectDeck(d);
             }
         }
     }
@@ -241,7 +240,7 @@ public class MainUI {
      */
     protected void setCardView() {
         //get flashcard values
-        FlashcardDTO card = FlashcardInteractor.getCurrentFlashcard();
+        FlashcardDTO card = deckController.getCurrentFlashcard();
         String frontText = card.getFrontText();
         String backText = card.getBack();
         currentFrontImage.getChildren().clear();
@@ -294,7 +293,7 @@ public class MainUI {
     protected int getCurrentCardIndex() {
         int index = 0;
         List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();
-        FlashcardDTO currentCard = FlashcardInteractor.getCurrentFlashcard();
+        FlashcardDTO currentCard = deckController.getCurrentFlashcard();
         for (FlashcardDTO f : cards) {
             if (f.getFrontText().equals(currentCard.getFrontText())) {
                 index = cards.indexOf(f);
@@ -402,8 +401,8 @@ public class MainUI {
         //update text
         String newFrontText = currentFrontText.getText();
         String newBackText = currentBackText.getText();
-        FlashcardInteractor.editCurrentFlashcardFront(newFrontText, newCardImage);
-        FlashcardInteractor.editCurrentFlashcardBack(newBackText);
+        deckController.editCurrentFlashcardFront(newFrontText, newCardImage);
+        deckController.editCurrentFlashcardBack(newBackText);
         //update flashcard display
         setCardView();
     }
@@ -414,7 +413,7 @@ public class MainUI {
     @FXML
     protected void onDeleteCardButtonClick () {
         //delete current flashcard
-        deckController.deleteCard(FlashcardInteractor.getCurrentFlashcard());
+        deckController.deleteCard(deckController.getCurrentFlashcard());
         //update flashcard view
         List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();
         if (cards.size() > 0) {
@@ -491,9 +490,9 @@ public class MainUI {
      */
     @FXML
     protected void onDebugButtonClick() {
-        System.out.println("UN: "+AccountInteractor.getCurrentAccount().getUsername());
+        System.out.println("UN: "+AccountController.getCurrentAccount().getUsername());
         System.out.println("DECKS: ");
-        for (DeckDTO d : AccountInteractor.getCurrentAccount().getDecks()) {
+        for (DeckDTO d : AccountController.getCurrentAccount().getDecks()) {
             System.out.println(d.getName() + ": " + d.getFlashcards().size());
             for (FlashcardDTO f : d.getFlashcards()) {
                 System.out.println("> Card: "+f.getFrontText()+", "+f.getBack());
