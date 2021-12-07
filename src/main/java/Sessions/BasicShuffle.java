@@ -97,6 +97,8 @@ public class BasicShuffle extends CardShuffler {
                 }
             }
 
-            this.deckCopy.removeIf(card -> !this.flashcardToData.containsKey(card));
+        if (this.deckCopy.removeIf(card -> !this.flashcardToData.containsKey(card))) {
+            this.index = 0;
+        }
     }
 }
