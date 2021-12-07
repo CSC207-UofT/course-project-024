@@ -191,11 +191,11 @@ public class MainUI {
                         switch (sessionType) {
                             case "Practice" -> {
                                 sessionController.startSession(deckController.getCurrentDeck(), PracticeSessionDTO.class);
-                                new PracticeSessionUI().start(new Stage());
+                                new LearningAndPracticeSessionUI().start(new Stage());
                             }
                             case "Learning" -> {
                                 sessionController.startSession(deckController.getCurrentDeck(), LearningSessionDTO.class);
-                                new LearningSessionUI().start(new Stage());
+                                new LearningAndPracticeSessionUI().start(new Stage());
                             }
                             case "Test" -> {
                                 sessionController.startSession(deckController.getCurrentDeck(), TestSessionDTO.class);

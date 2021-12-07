@@ -1,18 +1,20 @@
 package UI;
 
+import Flashcards.FlashcardDTO;
 import Sessions.SessionController;
+import Sessions.SessionInteractor;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.*; // Panes, etc.
-import javafx.scene.input.MouseEvent;
-import javafx.event.EventHandler;
 
-public class LearningSessionUI extends StudySessionUI {
+public class LearningAndPracticeSessionUI extends StudySessionUI {
 
     SessionController sessionController = new SessionController();
 
