@@ -70,7 +70,7 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
      * Updates this card shuffler to make it up-to-date with any changes to its flashcardToData mapping.
      */
     @Override
-    public void updateDeckContext() {
+    public void update() {
         for (Flashcard flashcard : this.flashcardToData.keySet()) {
             if (!this.deckCopy.contains(flashcard)) {
                 this.deckCopy.add(flashcard);
