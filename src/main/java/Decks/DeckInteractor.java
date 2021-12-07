@@ -63,6 +63,7 @@ public class DeckInteractor {
     public static void deleteFlashcardFromCurrentDeck(FlashcardDTO flashcardDTO) {
         Flashcard flashcard = findFlashcardInCurrentDeckFromDTO(flashcardDTO);
         currentDeck.getFlashcards().remove(flashcard);
+        currentDeck.notifyObservers();
     }
 
     /**
@@ -74,6 +75,7 @@ public class DeckInteractor {
     public static void addFlashcardToCurrentDeck(String frontText, BufferedImage frontImage, String back) {
         FlashcardDTO newFlashcard = FlashcardInteractor.createFlashcard(frontText, frontImage, back);
         currentDeck.addFlashcard(FlashcardInteractor.convertDTOToFlashcard(newFlashcard));
+        currentDeck.notifyObservers();
     }
 
     /**

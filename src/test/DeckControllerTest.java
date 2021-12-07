@@ -1,3 +1,5 @@
+import Accounts.AccountDTO;
+import Decks.DeckDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,35 +11,34 @@ import Accounts.AccountInteractor;
 
 public class DeckControllerTest {
     DeckController deckController;
-    Deck deck;
-    Account account;
+    DeckDTO deck;
+    AccountDTO account;
 
     @BeforeEach
     void setUp() {
         deckController = new DeckController();
         account = AccountInteractor.createAccount("user1", "pass1");
-        deck = deckController.createDeck(account, "Deck Name");
+        deckController.createDeck("Deck Name");
+        deck = deckController.getCurrentDeck();
     }
 
     @Test
     void addCard() {
-        Deck deck = deckController.createDeck(account, "Deck Name");
-        deckController.addCard(account, deck, "front", null, "back");
+        deckController.addCard( "front", null, "back");
         // TODO: check if card exists in account's Deck-StudySession proficiency map
         assertEquals(1, deck.getFlashcards().size());
     }
 
     @Test
     void deleteCard() {
-        Deck deck = deckController.createDeck(account, "Deck Name");
-        deckController.addCard(account, deck, "front",null, "back");
-        deckController.deleteCard(account, deck, deck.getFlashcards().get(0));
+        deckController.addCard("front",null, "back");
+        deckController.deleteCard(0);
         assertEquals(0, deck.getFlashcards().size());
     }
 
     @Test
-    void renameDeck() {
-        deckController.renameDeck(deck, "New name");
+    void renameCurrentDeck() {
+        deckController.renameCurrentDeck("New name");
         assertEquals("New name", deck.getName());
     }
 
@@ -48,7 +49,7 @@ public class DeckControllerTest {
 
     @Test
     void deleteDeck() {
-        deckController.deleteDeck(account, deck);
+        deckController.deleteDeck(deck);
         assertFalse(account.getDecks().contains(deck));
     }
 }

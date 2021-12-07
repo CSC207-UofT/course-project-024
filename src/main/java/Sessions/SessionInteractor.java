@@ -161,6 +161,21 @@ public class SessionInteractor {
                         smartShuffle.getLastFlashcardShown());
                 return new SmartShuffleDTO(flashcardToDataDTO, deckCopy, lastFlashcardShownDTO);
             }
+        } else if (shuffler instanceof WorstToBestShuffle worstToBestShuffle){
+            for (Flashcard flashcard : worstToBestShuffle.getDeckCopy()){
+                FlashcardDTO flashcardDTO = FlashcardInteractor.convertFlashcardToDTO(flashcard);
+                FlashcardDataDTO dataDTO = FlashcardInteractor.convertFlashcardDataToDTO(
+                        worstToBestShuffle.flashcardToData.get(flashcard));
+                deckCopy.add(flashcardDTO);
+                flashcardToDataDTO.put(flashcardDTO, dataDTO);
+            }
+            if (worstToBestShuffle.getLastFlashcardShown() == null) {
+                return new WorstToBestShuffleDTO(flashcardToDataDTO, deckCopy, null);
+            } else {
+                FlashcardDTO lastFlashcardShownDTO = FlashcardInteractor.convertFlashcardToDTO(
+                        worstToBestShuffle.getLastFlashcardShown());
+                return new WorstToBestShuffleDTO(flashcardToDataDTO, deckCopy, lastFlashcardShownDTO);
+            }
         } else {
             return null;
         }
@@ -199,7 +214,23 @@ public class SessionInteractor {
                         smartShuffleDTO.getLastFlashcardShown());
                 return new SmartShuffle(flashcardToData, deckCopy, lastFlashcardShown);
             }
-        } else {
+        } else if (shufflerDTO instanceof WorstToBestShuffleDTO worstToBestShuffleDTO){
+            for (FlashcardDTO flashcardDTO : worstToBestShuffleDTO.getDeckCopy()) {
+                Flashcard flashcard = FlashcardInteractor.convertDTOToFlashcard(flashcardDTO);
+                FlashcardData data = FlashcardInteractor.convertDTOToFlashcardData(
+                        worstToBestShuffleDTO.flashcardToData.get(flashcardDTO));
+                deckCopy.add(flashcard);
+                flashcardToData.put(flashcard, data);
+            }
+            if (worstToBestShuffleDTO.getLastFlashcardShown() == null) {
+                return new WorstToBestShuffle(flashcardToData, deckCopy, null);
+            } else {
+                Flashcard lastFlashcardShown = FlashcardInteractor.convertDTOToFlashcard(
+                        worstToBestShuffleDTO.getLastFlashcardShown());
+                return new WorstToBestShuffle(flashcardToData, deckCopy, lastFlashcardShown);
+            }
+        }
+        else {
             return null;
         }
     }
