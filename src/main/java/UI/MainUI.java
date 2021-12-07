@@ -1,16 +1,15 @@
 package UI;
 
-import Accounts.AccountController;
 import Database.MySQLDatabaseGateway;
-import Flashcards.FlashcardDTO;
+import Accounts.AccountController;
 import Decks.DeckController;
+import Sessions.SessionController;
 import Decks.DeckDTO;
-
-import Flashcards.FlashcardInteractor;
+import Flashcards.FlashcardDTO;
 import Sessions.LearningSessionDTO;
 import Sessions.PracticeSessionDTO;
-import Sessions.SessionController;
 import Sessions.TestSessionDTO;
+
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -41,7 +40,7 @@ public class MainUI {
     //initialize create deck UI reference
     @FXML private TextField deckName;
     //initialize current account
-    MySQLDatabaseGateway DBgateway = new MySQLDatabaseGateway();
+    private final MySQLDatabaseGateway DBgateway = new MySQLDatabaseGateway();
     private final DeckController deckController = new DeckController(DBgateway);
     private final SessionController sessionController = new SessionController();
     //initialize decks in current account
@@ -64,12 +63,10 @@ public class MainUI {
     @FXML private TextField newDeckName;
     @FXML private TextField newFrontText;
     @FXML private TextField newBackText;
-
     @FXML private Button renameDeckButton;
     @FXML private Button deleteDeckButton;
     @FXML private Button editCardButton;
     @FXML private Button deleteCardButton;
-    @FXML private Button newCardButton;
     @FXML private Button nextCardButton;
     @FXML private Button previousCardButton;
     @FXML private Button currentFrontImageUpload;
@@ -189,11 +186,11 @@ public class MainUI {
                 switch (sessionType) {
                     case "Practice" -> {
                         sessionController.startSession(deckController.getCurrentDeck(), PracticeSessionDTO.class);
-                        new PracticeSessionUI().start(new Stage());
+                        new SelfGradeSessionUI().start(new Stage());
                     }
                     case "Learning" -> {
                         sessionController.startSession(deckController.getCurrentDeck(), LearningSessionDTO.class);
-                        new LearningSessionUI().start(new Stage());
+                        new SelfGradeSessionUI().start(new Stage());
                     }
                     case "Test" -> {
                         sessionController.startSession(deckController.getCurrentDeck(), TestSessionDTO.class);
@@ -378,12 +375,8 @@ public class MainUI {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         FileChooser fileChooser = new FileChooser();
         //limit file options to .jpg and .png
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("JPG file (*.JPG)","*.JPG"),
-                new FileChooser.ExtensionFilter("jpg files (*.jpg)", "*.jpg"),
-                new FileChooser.ExtensionFilter("PNG files (*.PNG)", "*.PNG"),
-                new FileChooser.ExtensionFilter("png files (*.png)", "*.png")
-        );
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Image files (*.JPG)","*.JPG","*.PNG"));
         File file = fileChooser.showOpenDialog(stage);
         //store uploaded file as image object
         if (file != null) {
@@ -426,7 +419,7 @@ public class MainUI {
             //reset stored image
             cardImage = null;
         } else {
-            newCardImage = FlashcardInteractor.getCurrentFlashcard().getFrontImage();
+            newCardImage = deckController.getCurrentFlashcard().getFrontImage();
         }
         //update text
         String newFrontText = currentFrontText.getText();

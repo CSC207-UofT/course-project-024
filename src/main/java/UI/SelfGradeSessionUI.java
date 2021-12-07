@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.*; // Panes, etc.
 
-public class LearningAndPracticeSessionUI extends StudySessionUI {
+public class SelfGradeSessionUI extends StudySessionUI {
 
     SessionController sessionController = new SessionController();
 
