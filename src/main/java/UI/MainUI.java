@@ -49,6 +49,9 @@ public class MainUI {
     @FXML private ComboBox<String> deckSelect = new ComboBox<>();
     private final List<String> deckNames = new ArrayList<>();
     private final ObservableList<String> deckObservableList = FXCollections.observableArrayList();
+    //initialize non-empty decks in current account
+    private final List<String> studyDeckNames = new ArrayList<>();
+    private final ObservableList<String> studyDeckObservableList = FXCollections.observableArrayList();
     //initialize session start UI references
     @FXML private ComboBox<String> sessionDeckSelect = new ComboBox<>();
     @FXML private ComboBox<String> sessionTypeSelect = new ComboBox<>();
@@ -70,12 +73,19 @@ public class MainUI {
      */
     protected void setDecks() {
         List<DeckDTO> decks = AccountController.getCurrentAccount().getDecks();
+        //add deck names to list
         for (DeckDTO d : decks) {
             deckNames.add(d.getName());
+            if (d.getFlashcards().size() > 0) {
+                studyDeckNames.add(d.getName());
+            }
         }
+        //update decks in current account
         deckObservableList.setAll(deckNames);
         deckSelect.setItems(deckObservableList);
-        sessionDeckSelect.setItems(deckObservableList);
+        //update decks in current account that can be studied
+        studyDeckObservableList.setAll(studyDeckNames);
+        sessionDeckSelect.setItems(studyDeckObservableList);
     }
 
     /**
@@ -184,27 +194,26 @@ public class MainUI {
         setCurrentDeck(sessionDeckSelect.getValue());
         //gets type of session to start
         String sessionType = sessionTypeSelect.getValue();
-        Platform.runLater(
-                () -> {
-                    try {
-                        switch (sessionType) {
-                            case "Practice" -> {
-                                sessionController.startSession(deckController.getCurrentDeck(), PracticeSessionDTO.class);
-                                new PracticeSessionUI().start(new Stage());
-                            }
-                            case "Learning" -> {
-                                sessionController.startSession(deckController.getCurrentDeck(), LearningSessionDTO.class);
-                                new LearningSessionUI().start(new Stage());
-                            }
-                            case "Test" -> {
-                                sessionController.startSession(deckController.getCurrentDeck(), TestSessionDTO.class);
-                                new TestSessionUI().start(new Stage());
-                            }
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+        Platform.runLater(() -> {
+            try {
+                switch (sessionType) {
+                    case "Practice" -> {
+                        sessionController.startSession(deckController.getCurrentDeck(), PracticeSessionDTO.class);
+                        new PracticeSessionUI().start(new Stage());
+                    }
+                    case "Learning" -> {
+                        sessionController.startSession(deckController.getCurrentDeck(), LearningSessionDTO.class);
+                        new LearningSessionUI().start(new Stage());
+                    }
+                    case "Test" -> {
+                        sessionController.startSession(deckController.getCurrentDeck(), TestSessionDTO.class);
+                        new TestSessionUI().start(new Stage());
                     }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         );
     }
 
@@ -283,6 +292,12 @@ public class MainUI {
             deckController.selectFlashcard(cards.get(0));
             updateCardCount(0);
             setCardView();
+        } else {
+            //reset flashcard display
+            updateCardCount(-1);
+            currentFrontImage.getChildren().clear();
+            currentFrontText.setText("");
+            currentBackText.setText("");
         }
     }
 
