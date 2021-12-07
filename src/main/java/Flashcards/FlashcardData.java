@@ -1,7 +1,7 @@
 package Flashcards;
 
 public class FlashcardData {
-    private final int proficiency;
+    private int proficiency;
     private int cardsUntilDue;
 
     /**
@@ -25,6 +25,14 @@ public class FlashcardData {
 
     public int getProficiency() {
         return proficiency;
+    }
+
+    public void addProficiency() {
+        this.proficiency = proficiency + 1;
+    }
+
+    public void removeProficiency() {
+        this.proficiency = proficiency - 1;
     }
 
     public int getCardsUntilDue() {

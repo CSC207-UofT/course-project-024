@@ -131,6 +131,7 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
      *
      * @param wasCorrect Whether the user was correct or not when reviewing this.lastFlashcardShown
      */
+    @Override
     public void updateFlashcardData(boolean wasCorrect) {
         for (FlashcardData data : this.flashcardToData.values()) {
             if (data.getCardsUntilDue() > 0) {

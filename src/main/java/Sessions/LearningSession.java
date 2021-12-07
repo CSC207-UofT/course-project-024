@@ -9,7 +9,7 @@ public class LearningSession extends StudySession {
      * @param deck A deck that will be bound to this LearningSession.
      */
     public LearningSession(Deck deck) {
-        super(deck, new SmartShuffle(deck));
+        super(deck, new WorstToBestShuffle(deck));
     }
 
     /**

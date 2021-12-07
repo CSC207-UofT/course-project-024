@@ -3,9 +3,6 @@ package Main;
 
 import UI.LoginUI;
 // import FlashcardProgram.FlashcardSystem;
-import UI.LearningSessionUI;
-import UI.PracticeSessionUI;
-import UI.TestSessionUI;
 
 
 public class Main {
