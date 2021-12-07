@@ -59,7 +59,7 @@ public interface DatabaseGateway {
      * @param deck_name Name of the deck we want to delete
      */
     void deleteDeckInDB(String accountUsername, String deck_name);
-
+  
     /**
      * Add a card to a deck of the users choice to the database
      * @param accountUsername User name of the account that the added card will belong to
