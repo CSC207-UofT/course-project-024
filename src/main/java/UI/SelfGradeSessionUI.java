@@ -199,10 +199,5 @@ public class SelfGradeSessionUI extends StudySessionUI {
         btn.setMinSize(50, 50);
         return btn;
     }
-
-    // TODO: DO NOT RUN! JavaFX requires use of modules, so for now, run main from Main.java until properly implemented
-    public static void main(String[] args) {
-        launch(args);
-    }
 }
 

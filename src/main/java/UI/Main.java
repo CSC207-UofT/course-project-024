@@ -25,12 +25,4 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
     }
-
-    /**
-     * Starts GUI
-     * @param args command line argument
-     */
-    public static void main(String[] args) {
-        launch(args);
-    }
 }
