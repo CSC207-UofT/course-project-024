@@ -1,11 +1,10 @@
 package UI;
 
 import Accounts.AccountInteractor;
-import Database.DatabaseGateway;
+import Database.MySQLDatabaseGateway;
 import Flashcards.FlashcardDTO;
 import Decks.DeckController;
 import Decks.DeckDTO;
-import Accounts.AccountDTO;
 
 import Flashcards.FlashcardInteractor;
 import Sessions.LearningSessionDTO;
@@ -42,7 +41,7 @@ public class MainUI {
     //initialize create deck UI reference
     @FXML private TextField deckName;
     //initialize current account
-    DatabaseGateway DBgateway = new DatabaseGateway();
+    MySQLDatabaseGateway DBgateway = new MySQLDatabaseGateway();
     private final DeckController deckController = new DeckController(DBgateway);
     private final SessionController sessionController = new SessionController();
 //    private final AccountDTO account = AccountInteractor.createAccount("user","pwd");

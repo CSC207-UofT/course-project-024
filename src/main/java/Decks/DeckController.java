@@ -2,7 +2,7 @@ package Decks;
 
 import Accounts.AccountDTO;
 import Accounts.AccountInteractor;
-import Database.DatabaseTools;
+import Database.DatabaseGateway;
 import Flashcards.FlashcardDTO;
 import Flashcards.FlashcardInteractor;
 
@@ -12,9 +12,9 @@ import java.util.List;
 
 public class DeckController {
     // DatabaseGateway DBgateway = new DatabaseGateway();
-    DatabaseTools DBgateway;
+    DatabaseGateway DBgateway;
 
-    public DeckController(DatabaseTools DBgateway) {
+    public DeckController(DatabaseGateway DBgateway) {
         this.DBgateway = DBgateway;
     }
 
