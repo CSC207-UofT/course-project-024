@@ -1,6 +1,5 @@
 package Flashcards;
 
-import Database.DatabaseGateway;
 import com.mysql.cj.jdbc.Blob;
 
 import javax.sql.rowset.serial.SerialBlob;
@@ -11,7 +10,7 @@ public class FlashcardInteractor {
 
     private static Flashcard currentFlashcard;
 
-    public static DatabaseGateway DBgateway = new DatabaseGateway();
+    // public static DatabaseGateway DBgateway = new DatabaseGateway();
 
     private FlashcardInteractor() {}
 
@@ -47,9 +46,7 @@ public class FlashcardInteractor {
      * @param frontImage The new image of the front of the Flashcard (possibly null)
      */
     public static void editCurrentFlashcardFront(String frontText, BufferedImage frontImage) {
-        Flashcard oldFlashcard = currentFlashcard;
-        DBgateway.updateCardFrontInDB(oldFlashcard.getFront().getText(), frontText);
-        DBgateway.editFlashcardImage(oldFlashcard.getFront().getText(), frontImage);
+
         Flashcard.Front front = new Flashcard.Front(frontText, frontImage);
         currentFlashcard.setFront(front);
     }
@@ -59,8 +56,7 @@ public class FlashcardInteractor {
      * @param newBack The new back that will replace the current one
      */
     public static void editCurrentFlashcardBack(String newBack) {
-        Flashcard oldFlashcard = currentFlashcard;
-        DBgateway.updateCardBackInDB(oldFlashcard.getBack(), newBack);
+
         currentFlashcard.setBack(newBack);
     }
 
