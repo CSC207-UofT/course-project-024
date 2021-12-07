@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.*; // Panes, etc.
 
-public class LearningAndPracticeSessionUI extends StudySessionUI {
+public class SelfGradeSessionUI extends StudySessionUI {
 
     SessionController sessionController = new SessionController();
 
@@ -198,11 +198,6 @@ public class LearningAndPracticeSessionUI extends StudySessionUI {
         Button btn = new Button(btnText);
         btn.setMinSize(50, 50);
         return btn;
-    }
-
-    // TODO: DO NOT RUN! JavaFX requires use of modules, so for now, run main from Main.java until properly implemented
-    public static void main(String[] args) {
-        launch(args);
     }
 }
 

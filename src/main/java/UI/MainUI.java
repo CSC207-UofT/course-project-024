@@ -1,16 +1,15 @@
 package UI;
 
-import Accounts.AccountInteractor;
 import Database.MySQLDatabaseGateway;
-import Flashcards.FlashcardDTO;
+import Accounts.AccountController;
 import Decks.DeckController;
+import Sessions.SessionController;
 import Decks.DeckDTO;
-
-import Flashcards.FlashcardInteractor;
+import Flashcards.FlashcardDTO;
 import Sessions.LearningSessionDTO;
 import Sessions.PracticeSessionDTO;
-import Sessions.SessionController;
 import Sessions.TestSessionDTO;
+
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -41,14 +40,16 @@ public class MainUI {
     //initialize create deck UI reference
     @FXML private TextField deckName;
     //initialize current account
-    MySQLDatabaseGateway DBgateway = new MySQLDatabaseGateway();
+    private final MySQLDatabaseGateway DBgateway = new MySQLDatabaseGateway();
     private final DeckController deckController = new DeckController(DBgateway);
     private final SessionController sessionController = new SessionController();
-//    private final AccountDTO account = AccountInteractor.createAccount("user","pwd");
     //initialize decks in current account
     @FXML private ComboBox<String> deckSelect = new ComboBox<>();
     private final List<String> deckNames = new ArrayList<>();
     private final ObservableList<String> deckObservableList = FXCollections.observableArrayList();
+    //initialize non-empty decks in current account
+    private final List<String> studyDeckNames = new ArrayList<>();
+    private final ObservableList<String> studyDeckObservableList = FXCollections.observableArrayList();
     //initialize session start UI references
     @FXML private ComboBox<String> sessionDeckSelect = new ComboBox<>();
     @FXML private ComboBox<String> sessionTypeSelect = new ComboBox<>();
@@ -60,22 +61,35 @@ public class MainUI {
     @FXML private TextField currentFrontText;
     @FXML private TextField currentBackText;
     @FXML private TextField newDeckName;
-    @FXML private TextField cardFrontText;
-    @FXML private TextField cardBackText;
+    @FXML private TextField newFrontText;
+    @FXML private TextField newBackText;
     @FXML private Button renameDeckButton;
     @FXML private Button deleteDeckButton;
+    @FXML private Button editCardButton;
+    @FXML private Button deleteCardButton;
+    @FXML private Button nextCardButton;
+    @FXML private Button previousCardButton;
+    @FXML private Button currentFrontImageUpload;
+    @FXML private Button newFrontImageUpload;
 
     /**
-     * updates list of deck names on the current account
+     * Updates list of deck names on the current account
      */
     protected void setDecks() {
-        List<DeckDTO> decks = AccountInteractor.getCurrentAccount().getDecks();
+        List<DeckDTO> decks = AccountController.getCurrentAccount().getDecks();
+        //add deck names to list
         for (DeckDTO d : decks) {
             deckNames.add(d.getName());
+            if (d.getFlashcards().size() > 0) {
+                studyDeckNames.add(d.getName());
+            }
         }
+        //update decks in current account
         deckObservableList.setAll(deckNames);
         deckSelect.setItems(deckObservableList);
-        sessionDeckSelect.setItems(deckObservableList);
+        //update decks in current account that can be studied
+        studyDeckObservableList.setAll(studyDeckNames);
+        sessionDeckSelect.setItems(studyDeckObservableList);
     }
 
     /**
@@ -86,28 +100,10 @@ public class MainUI {
     }
 
     /**
-     * initializes main menu with the current account and its decks
+     * Initializes main menu with the current account and its decks
      */
     @FXML
     void initialize() {
-        //TODO: convert this testing code to actual integration with accounts
-//        try {
-//            deckController.getCurrentDeck().getName();
-//        }
-//        catch(Exception e){
-//            List<FlashcardDTO> cards = new ArrayList<>();
-//            Image img = new Image("file:img/Flag_of_Canada.svg.png",500, 500, true, true);
-//            cards.add(FlashcardInteractor.createFlashcard("front",SwingFXUtils.fromFXImage(img,null),"back"));
-//            cards.add(FlashcardInteractor.createFlashcard("foo",SwingFXUtils.fromFXImage(img, null),"bar"));
-//            DeckDTO deck1 = new DeckDTO("test", cards);
-//            DeckDTO deck2 = new DeckDTO("boot", cards);
-//            DeckDTO deck3 = new DeckDTO("room", cards);
-//
-//            AccountInteractor.login(account, account.getPassword());
-//            AccountInteractor.addDeckToCurrentAccount(deck1);
-//            AccountInteractor.addDeckToCurrentAccount(deck2);
-//            AccountInteractor.addDeckToCurrentAccount(deck3);
-//        }
         setDecks();
         setSessionTypes();
     }
@@ -185,27 +181,26 @@ public class MainUI {
         setCurrentDeck(sessionDeckSelect.getValue());
         //gets type of session to start
         String sessionType = sessionTypeSelect.getValue();
-        Platform.runLater(
-                () -> {
-                    try {
-                        switch (sessionType) {
-                            case "Practice" -> {
-                                sessionController.startSession(deckController.getCurrentDeck(), PracticeSessionDTO.class);
-                                new LearningAndPracticeSessionUI().start(new Stage());
-                            }
-                            case "Learning" -> {
-                                sessionController.startSession(deckController.getCurrentDeck(), LearningSessionDTO.class);
-                                new LearningAndPracticeSessionUI().start(new Stage());
-                            }
-                            case "Test" -> {
-                                sessionController.startSession(deckController.getCurrentDeck(), TestSessionDTO.class);
-                                new TestSessionUI().start(new Stage());
-                            }
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+        Platform.runLater(() -> {
+            try {
+                switch (sessionType) {
+                    case "Practice" -> {
+                        sessionController.startSession(deckController.getCurrentDeck(), PracticeSessionDTO.class);
+                        new SelfGradeSessionUI().start(new Stage());
+                    }
+                    case "Learning" -> {
+                        sessionController.startSession(deckController.getCurrentDeck(), LearningSessionDTO.class);
+                        new SelfGradeSessionUI().start(new Stage());
+                    }
+                    case "Test" -> {
+                        sessionController.startSession(deckController.getCurrentDeck(), TestSessionDTO.class);
+                        new TestSessionUI().start(new Stage());
                     }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         );
     }
 
@@ -225,13 +220,35 @@ public class MainUI {
     }
 
     /**
+     * Update disable property of edit deck UI related to modifying cards
+     * @param b new disable value
+     */
+    protected void setDisableCardUI(boolean b) {
+        editCardButton.setDisable(b);
+        deleteCardButton.setDisable(b);
+        nextCardButton.setDisable(b);
+        previousCardButton.setDisable(b);
+        currentFrontImageUpload.setDisable(b);
+    }
+
+    /**
+     * Update disable property of edit deck UI related to modifying decks
+     * @param b new disable value
+     */
+    protected void setDisableDeckUI(boolean b) {
+        renameDeckButton.setDisable(b);
+        deleteDeckButton.setDisable(b);
+        newFrontImageUpload.setDisable(b);
+    }
+
+    /**
      * updates current deck
      * @param select name of deck
      */
     protected void setCurrentDeck(String select) {
-        for (DeckDTO d : AccountInteractor.getCurrentAccount().getDecks()) {
+        for (DeckDTO d : AccountController.getCurrentAccount().getDecks()) {
             if (select.equals(d.getName())) {
-                AccountInteractor.selectDeck(d);
+                AccountController.selectDeck(d);
             }
         }
     }
@@ -241,7 +258,7 @@ public class MainUI {
      */
     protected void setCardView() {
         //get flashcard values
-        FlashcardDTO card = FlashcardInteractor.getCurrentFlashcard();
+        FlashcardDTO card = deckController.getCurrentFlashcard();
         String frontText = card.getFrontText();
         String backText = card.getBack();
         currentFrontImage.getChildren().clear();
@@ -275,15 +292,23 @@ public class MainUI {
     @FXML
     protected void onDeckSelect() {
         //enable deck modification buttons
-        renameDeckButton.setDisable(false);
-        deleteDeckButton.setDisable(false);
+        setDisableDeckUI(false);
         //set current deck and set current flashcard to the first flashcard if it exists
         setCurrentDeck(deckSelect.getValue());
         List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();
         if (cards.size() > 0) {
+            //update flashcard view to first flashcard in deck
             deckController.selectFlashcard(cards.get(0));
             updateCardCount(0);
             setCardView();
+            setDisableCardUI(false);
+        } else {
+            //reset flashcard display
+            updateCardCount(-1);
+            currentFrontImage.getChildren().clear();
+            currentFrontText.setText("");
+            currentBackText.setText("");
+            setDisableCardUI(true);
         }
     }
 
@@ -294,7 +319,7 @@ public class MainUI {
     protected int getCurrentCardIndex() {
         int index = 0;
         List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();
-        FlashcardDTO currentCard = FlashcardInteractor.getCurrentFlashcard();
+        FlashcardDTO currentCard = deckController.getCurrentFlashcard();
         for (FlashcardDTO f : cards) {
             if (f.getFrontText().equals(currentCard.getFrontText())) {
                 index = cards.indexOf(f);
@@ -350,12 +375,8 @@ public class MainUI {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         FileChooser fileChooser = new FileChooser();
         //limit file options to .jpg and .png
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("JPG file (*.JPG)","*.JPG"),
-                new FileChooser.ExtensionFilter("jpg files (*.jpg)", "*.jpg"),
-                new FileChooser.ExtensionFilter("PNG files (*.PNG)", "*.PNG"),
-                new FileChooser.ExtensionFilter("png files (*.png)", "*.png")
-        );
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Image files (*.JPG, *.PNG)","*.JPG","*.PNG"));
         File file = fileChooser.showOpenDialog(stage);
         //store uploaded file as image object
         if (file != null) {
@@ -373,16 +394,17 @@ public class MainUI {
     @FXML
     protected void onAddCardSubmit () {
         //add card to current deck
-        deckController.addCard(cardFrontText.getText(), cardImage, cardBackText.getText());
+        deckController.addCard(newFrontText.getText(), cardImage, newBackText.getText());
         //reset values
-        cardFrontText.setText("");
-        cardBackText.setText("");
+        newFrontText.setText("");
+        newBackText.setText("");
         cardImage = null;
         //update current flashcard view
         List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();
         deckController.selectFlashcard(cards.get(cards.size()-1));
         updateCardCount(cards.size()-1);
         setCardView();
+        setDisableCardUI(false);
     }
 
     /**
@@ -397,13 +419,13 @@ public class MainUI {
             //reset stored image
             cardImage = null;
         } else {
-            newCardImage = FlashcardInteractor.getCurrentFlashcard().getFrontImage();
+            newCardImage = deckController.getCurrentFlashcard().getFrontImage();
         }
         //update text
         String newFrontText = currentFrontText.getText();
         String newBackText = currentBackText.getText();
-        FlashcardInteractor.editCurrentFlashcardFront(newFrontText, newCardImage);
-        FlashcardInteractor.editCurrentFlashcardBack(newBackText);
+        deckController.editCurrentFlashcardFront(newFrontText, newCardImage);
+        deckController.editCurrentFlashcardBack(newBackText);
         //update flashcard display
         setCardView();
     }
@@ -414,7 +436,7 @@ public class MainUI {
     @FXML
     protected void onDeleteCardButtonClick () {
         //delete current flashcard
-        deckController.deleteCard(FlashcardInteractor.getCurrentFlashcard());
+        deckController.deleteCard(deckController.getCurrentFlashcard());
         //update flashcard view
         List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();
         if (cards.size() > 0) {
@@ -428,6 +450,7 @@ public class MainUI {
             currentFrontImage.getChildren().clear();
             currentFrontText.setText("");
             currentBackText.setText("");
+            setDisableCardUI(true);
         }
     }
 
@@ -491,9 +514,9 @@ public class MainUI {
      */
     @FXML
     protected void onDebugButtonClick() {
-        System.out.println("UN: "+AccountInteractor.getCurrentAccount().getUsername());
+        System.out.println("UN: "+AccountController.getCurrentAccount().getUsername());
         System.out.println("DECKS: ");
-        for (DeckDTO d : AccountInteractor.getCurrentAccount().getDecks()) {
+        for (DeckDTO d : AccountController.getCurrentAccount().getDecks()) {
             System.out.println(d.getName() + ": " + d.getFlashcards().size());
             for (FlashcardDTO f : d.getFlashcards()) {
                 System.out.println("> Card: "+f.getFrontText()+", "+f.getBack());
