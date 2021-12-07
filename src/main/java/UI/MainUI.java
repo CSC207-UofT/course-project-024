@@ -376,7 +376,7 @@ public class MainUI {
         FileChooser fileChooser = new FileChooser();
         //limit file options to .jpg and .png
         fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Image files (*.JPG)","*.JPG","*.PNG"));
+                new FileChooser.ExtensionFilter("Image files (*.JPG, *.PNG)","*.JPG","*.PNG"));
         File file = fileChooser.showOpenDialog(stage);
         //store uploaded file as image object
         if (file != null) {
