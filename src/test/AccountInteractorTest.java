@@ -1,6 +1,12 @@
+import Accounts.AccountDTO;
+import Decks.DeckDTO;
+import Decks.DeckInteractor;
 import Flashcards.Flashcard;
+import Flashcards.FlashcardDTO;
 import Sessions.SessionController;
+import Sessions.SessionInteractor;
 import Sessions.StudySession;
+import Sessions.StudySessionDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,19 +19,21 @@ import Accounts.AccountInteractor;
 
 public class AccountInteractorTest {
 
-    Account account;
-    Deck deck;
+    AccountDTO account;
+    DeckDTO deck;
     DeckController deckController;
-    StudySession session;
+    StudySessionDTO session;
     SessionController sessionController;
 
     @BeforeEach
     void setUp() {
         account = AccountInteractor.createAccount("username", "password");
         deckController = new DeckController();
-        deck = deckController.createDeck(account, "deck name");
+        deckController.createDeck("deck name");
+        deck = deckController.getCurrentDeck();
         sessionController = new SessionController();
-        session = sessionController.getPracticeSession(deck, account);
+        sessionController.startPracticeSession(deck);
+        session = sessionController.getCurrentSession();
     }
 
     @Test
@@ -34,9 +42,8 @@ public class AccountInteractorTest {
     }
 
     @Test
-    void changeUsername() {
-        AccountInteractor.changeUsername(account, "newUser");
-        assertEquals("newUser", account.getUsername());
+    void getCurrentAccount() {
+        assertEquals(account, AccountInteractor.getCurrentAccount());
     }
 
     @Test
@@ -45,38 +52,40 @@ public class AccountInteractorTest {
     }
 
     @Test
-    void addDeckToAccount() {
-        AccountInteractor.addDeckToAccount(account, deck);
+    void addDeckToCurrentAccount() {
+        AccountInteractor.addDeckToCurrentAccount(deck);
         assertTrue(account.getDecks().contains(deck));
     }
 
     @Test
-    void deleteDeckFromAccount() {
-        AccountInteractor.deleteDeckFromAccount(account, deck);
+    void deleteDeckFromCurrentAccount() {
+        AccountInteractor.deleteDeckFromCurrentAccount(deck);
         assertFalse(account.getDecks().contains(deck));
     }
 
     @Test
-    void addSessionToAccount() {
-        AccountInteractor.addSessionToAccount(account, deck, session);
+    void addSessionToCurrentAccount() {
+        AccountInteractor.addSessionToCurrentAccount(deck, session);
         assertTrue(account.getDecksToSessions().get(deck).contains(session));
     }
 
     @Test
-    void deleteSessionFromAccount() {
-        AccountInteractor.deleteSessionFromAccount(account, deck, session);
+    void deleteSessionFromCurrentAccount() {
+        AccountInteractor.deleteSessionFromCurrentAccount(deck, session);
         assertFalse(account.getDecksToSessions().get(deck).contains(session));
     }
 
     @Test
-    void updateSessionsOfDeck() {
-        deckController.addCard(account, deck, "front", null, "back");
-        AccountInteractor.updateSessionsOfDeck(account, deck);
-        for (Flashcard flashcard : deck.getFlashcards()) {
-            assertTrue(session.getFlashcardToData().containsKey(flashcard));
+    void updateSessionsOfDeckInCurrentAccount() {
+        deckController.addCard("front", null, "back");
+        AccountInteractor.updateSessionsOfDeckInCurrentAccount(deck);
+        StudySession nonDTOsession = SessionInteractor.convertDTOToSession(session);
+        Deck nonDTOdeck = DeckInteractor.convertDTOToDeck(deck);
+        for (Flashcard flashcard : nonDTOdeck.getFlashcards()) {
+            assertTrue(nonDTOsession.getFlashcardToData().containsKey(flashcard));
         }
-        for (Flashcard flashcard : session.getFlashcardToData().keySet()) {
-            assertTrue(deck.getFlashcards().contains(flashcard));
+        for (Flashcard flashcard : nonDTOsession.getFlashcardToData().keySet()) {
+            assertTrue(nonDTOdeck.getFlashcards().contains(flashcard));
         }
     }
 }
