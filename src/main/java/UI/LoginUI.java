@@ -2,8 +2,7 @@ package UI;
 
 import Accounts.AccountController;
 import Accounts.AccountDTO;
-import Accounts.AccountInteractor;
-import Database.DatabaseGateway;
+import Database.MySQLDatabaseGateway;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -23,7 +22,7 @@ import java.io.IOException;
 
 public class LoginUI extends Application {
 
-    DatabaseGateway gateway = new DatabaseGateway();
+    MySQLDatabaseGateway gateway = new MySQLDatabaseGateway();
 
     public static final int WINDOW_LENGTH = 1000;
     public static final int WINDOW_HEIGHT = 600;
@@ -77,31 +76,20 @@ public class LoginUI extends Application {
 
         Button loginBtn = createButton("Log in", 100);
 
-        Button createAccountBtn = createButton("Create a New Account");
+        Button createAccountBtn = createButton("Create a New Account", 0);
 
         HBox buttonsBox = createButtonsBox();
 
         buttonsBox.getChildren().addAll(loginBtn, createAccountBtn);
 
         loginBtn.setOnMouseClicked(e -> {
-
-            // TODO: Remove references to AccountInteractor and replace with AccountController
-
-            // TODO: Retrieve AccountDTO from Database controller and replace this hack
-            // boolean success = AccountController.login(AccountInteractor.createAccount("test", "test"), passwordField.getText());
             boolean success = gateway.authenticateAccount(usernameField.getText(), passwordField.getText());
-            // Search database for any account that matches the inputted username. If that is success, then
-            // login. Else, show Alert Box of no matching username. If that goes through, but the password
-            // doesn't match, then send an Alert Box that the password is incorrect.
-            // boolean success = AccountController.login();
-            //TODO: If success, close window and launch main menu
-            // If not success, show alert box of login failure
-            // TODO: Alert box for not finding an account with that username
             if (success) {
                 String username = usernameField.getText();
                 String password = passwordField.getText();
                 AccountDTO currAccount = gateway.getAccountFromDB(username, password);
-                System.out.println("Logged in");
+
+                // System.out.println("Logged in");
                 try {
                     // use the login function from AccountController. That will set the currentAccount
                     AccountController.login(currAccount, password);
@@ -116,9 +104,6 @@ public class LoginUI extends Application {
         });
 
         createAccountBtn.setOnMouseClicked(e -> {
-            //TODO: Make sure that an account with that same username doesn't already exist, and that
-            // the username and password fields are non-empty. If so, create an AlertBox
-
             if (usernameField.getText().isBlank() || passwordField.getText().isBlank()) {
                 displayAlertBox("Invalid Credentials", "Error: Cannot create an account with a blank username or password.");
             } else {
@@ -130,8 +115,6 @@ public class LoginUI extends Application {
                     displayAlertBox("Duplicate Username", "Error: An account with that username already exists.");
                 }
             }
-
-
         });
 
         mainFieldsBox.getChildren().addAll(openingText, openingText2, usernameBox, passwordBox, buttonsBox);
@@ -169,14 +152,6 @@ public class LoginUI extends Application {
         return button;
     }
 
-    /**
-     * Helper method that creates and returns a button
-     * @param text The text within the button
-     * @return The created button
-     */
-    private Button createButton(String text) {
-        return new Button(text);
-    }
 
     /**
      * Helper method that creates the main VBox for the login UI.
