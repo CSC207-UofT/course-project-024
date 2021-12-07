@@ -11,7 +11,7 @@ public class PracticeSession extends StudySession {
      * @param deck The deck that this session will use to show cards to the user.
      */
     public PracticeSession(Deck deck) {
-        super(deck, new BasicShuffle(deck));
+        super(deck, new SmartShuffle(deck));
     }
 
     /**

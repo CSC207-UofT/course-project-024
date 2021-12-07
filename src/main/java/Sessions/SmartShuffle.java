@@ -51,7 +51,7 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
                         Flashcard lastFlashcardShown) {
         this.flashcardToData = flashcardToData;
         // This turns an ImmutableList, which ToList returns, to an ArrayList.
-        this.deckCopy = deckCopy;
+        this.deckCopy = new ArrayList<>(deckCopy);
         this.lastFlashcardShown = lastFlashcardShown;
     }
 
@@ -131,6 +131,7 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
      *
      * @param wasCorrect Whether the user was correct or not when reviewing this.lastFlashcardShown
      */
+    @Override
     public void updateFlashcardData(boolean wasCorrect) {
         for (FlashcardData data : this.flashcardToData.values()) {
             if (data.getCardsUntilDue() > 0) {
