@@ -134,9 +134,9 @@ public class SessionInteractor {
      * @return a CardShufflerDTO
      */
     public static CardShufflerDTO convertShufflerToDTO(CardShuffler shuffler) {
+        Map<FlashcardDTO, FlashcardDataDTO> flashcardToDataDTO = new HashMap<>();
+        List<FlashcardDTO> deckCopy = new ArrayList<>();
         if (shuffler instanceof BasicShuffle basicShuffle) {
-            Map<FlashcardDTO, FlashcardDataDTO> flashcardToDataDTO = new HashMap<>();
-            List<FlashcardDTO> deckCopy = new ArrayList<>();
             for (Flashcard flashcard : basicShuffle.getDeckCopy()) {
                 FlashcardDTO flashcardDTO = FlashcardInteractor.convertFlashcardToDTO(flashcard);
                 FlashcardDataDTO dataDTO = FlashcardInteractor.convertFlashcardDataToDTO(
@@ -147,8 +147,6 @@ public class SessionInteractor {
             int index = basicShuffle.getIndex();
             return new BasicShuffleDTO(flashcardToDataDTO, deckCopy, index);
         } else if (shuffler instanceof SmartShuffle smartShuffle) {
-            Map<FlashcardDTO, FlashcardDataDTO> flashcardToDataDTO = new HashMap<>();
-            LinkedList<FlashcardDTO> deckCopy = new LinkedList<>();
             for (Flashcard flashcard : smartShuffle.getDeckCopy()) {
                 FlashcardDTO flashcardDTO = FlashcardInteractor.convertFlashcardToDTO(flashcard);
                 FlashcardDataDTO dataDTO = FlashcardInteractor.convertFlashcardDataToDTO(
@@ -174,9 +172,9 @@ public class SessionInteractor {
      * @return a CardShuffler
      */
     public static CardShuffler convertDTOToShuffler(CardShufflerDTO shufflerDTO) {
+        Map<Flashcard, FlashcardData> flashcardToData = new HashMap<>();
+        List<Flashcard> deckCopy = new ArrayList<>();
         if (shufflerDTO instanceof BasicShuffleDTO basicShuffleDTO) {
-            Map<Flashcard, FlashcardData> flashcardToData = new HashMap<>();
-            List<Flashcard> deckCopy = new ArrayList<>();
             for (FlashcardDTO flashcardDTO : basicShuffleDTO.getDeckCopy()) {
                 Flashcard flashcard = FlashcardInteractor.convertDTOToFlashcard(flashcardDTO);
                 FlashcardData data = FlashcardInteractor.convertDTOToFlashcardData(
@@ -187,8 +185,6 @@ public class SessionInteractor {
             int index = basicShuffleDTO.getIndex();
             return new BasicShuffle(flashcardToData, deckCopy, index);
         } else if (shufflerDTO instanceof SmartShuffleDTO smartShuffleDTO) {
-            Map<Flashcard, FlashcardData> flashcardToData = new HashMap<>();
-            LinkedList<Flashcard> deckCopy = new LinkedList<>();
             for (FlashcardDTO flashcardDTO : smartShuffleDTO.getDeckCopy()) {
                 Flashcard flashcard = FlashcardInteractor.convertDTOToFlashcard(flashcardDTO);
                 FlashcardData data = FlashcardInteractor.convertDTOToFlashcardData(
