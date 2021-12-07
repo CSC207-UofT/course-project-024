@@ -85,6 +85,6 @@ public class TestSession extends StudySession {
      * Updates this session's CardShuffler's shuffled deck with the updated version in the Account.
      */
     public void updateFlashcardData() {
-        this.cardShuffler.updateDeckContext();
+        this.cardShuffler.update();
     }
 }

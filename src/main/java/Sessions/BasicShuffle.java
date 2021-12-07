@@ -46,7 +46,7 @@ public class BasicShuffle extends CardShuffler {
     public BasicShuffle(Map<Flashcard, FlashcardData> flashcardToData, List<Flashcard> deckCopy, int index) {
         this.index = index;
         this.flashcardToData = flashcardToData;
-        this.deckCopy = deckCopy;
+        this.deckCopy = new ArrayList<>(deckCopy);
     }
 
     /**
@@ -90,13 +90,13 @@ public class BasicShuffle extends CardShuffler {
      * Updates this card shuffler to make it up-to-date with any changes to its flashcardToData mapping.
      */
     @Override
-    public void updateDeckContext() {
-        for (Flashcard flashcard : this.flashcardToData.keySet()) {
-            if (!this.deckCopy.contains(flashcard)) {
-                this.deckCopy.add(flashcard);
+    public void update() {
+            for (Flashcard flashcard : this.flashcardToData.keySet()) {
+                if (!this.deckCopy.contains(flashcard)) {
+                    this.deckCopy.add(flashcard);
+                }
             }
-        }
 
-        this.deckCopy.removeIf(card -> !this.flashcardToData.containsKey(card));
+            this.deckCopy.removeIf(card -> !this.flashcardToData.containsKey(card));
     }
 }

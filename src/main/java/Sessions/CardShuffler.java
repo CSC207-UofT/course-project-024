@@ -5,7 +5,7 @@ import Flashcards.Flashcard;
 
 import java.util.Map;
 
-public abstract class CardShuffler {
+public abstract class CardShuffler implements Observer{
 
     /**
      * A mapping from Flashcard to its corresponding FlashcardData.
@@ -21,7 +21,8 @@ public abstract class CardShuffler {
     /**
      * Updates this card shuffler to make it up-to-date with any changes to its flashcardToData mapping.
      */
-    public abstract void updateDeckContext();
+    @Override
+    public abstract void update();
 
     protected Map<Flashcard, FlashcardData> getFlashcardToData() {
         return this.flashcardToData;

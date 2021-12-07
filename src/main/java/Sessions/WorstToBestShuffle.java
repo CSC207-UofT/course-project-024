@@ -61,7 +61,7 @@ public class WorstToBestShuffle extends CardShuffler {
      * Update this card shuffler's deckCopy after its original deck has changed.
      */
     @Override
-    public void updateDeckContext() {
+    public void update() {
         for (Flashcard flashcard : this.flashcardToData.keySet()) {
             if (!this.deckCopy.getFlashcards().contains(flashcard)) {
                 this.deckCopy.getFlashcards().add(flashcard);
