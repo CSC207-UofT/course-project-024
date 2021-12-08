@@ -6,6 +6,9 @@ import Sessions.StudySessionDTO;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * TODO, representation of class
+ */
 public class AccountDTO {
 
     private final String username;

@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Represents the user's account
+ */
 public class Account {
     private String username;
     private final String password;
