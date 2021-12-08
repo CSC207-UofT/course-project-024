@@ -155,32 +155,10 @@ public class AccountInteractor {
     public static void updateSessionsOfDeckInCurrentAccount(DeckDTO deckDTO) {
         Deck deck = findDeckInCurrentAccountFromDTO(deckDTO);
 
-        List<Flashcard> flashcardList = deck.getFlashcards();
-
         List<StudySession> listOfSessions = currentAccount.getDecksToSessions().get(deck);
 
         for (StudySession session : listOfSessions) {
-            // First, check for updates needed from adding a card:
-            // Loop through flashcardList. If it is in flashcardData, move on.
-            // If it is not in flashcardData, add it to flashcardData.
-            // Second, check for updates needed from deleting a card:
-            // Loop through flashcardData. If it is in flashcardList, move on.
-            // If it is not in flashcardList, then delete it from flashcardData
-
-            Map<Flashcard, FlashcardData> flashcardToFlashcardData = session.getFlashcardToData();
-
-            for (Flashcard flashcard : flashcardList) {
-                if (!session.getFlashcardToData().containsKey(flashcard)) {
-                    session.getFlashcardToData().put(flashcard, new FlashcardData(0));
-                }
-            }
-
-            for (Flashcard flashcard : flashcardToFlashcardData.keySet().stream().toList()) {
-                if (!flashcardList.contains(flashcard)) {
-                    flashcardToFlashcardData.remove(flashcard);
-                }
-            }
-
+            session.getCardShuffler().updateFlashcardToData(deck);
             session.updateDeckContext();
         }
     }
