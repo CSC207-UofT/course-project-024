@@ -11,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class DeckTest {
     Deck deck;
-    List<CardShuffler> observers;
 
     @BeforeEach
     void setUp() {
@@ -36,9 +35,9 @@ public class DeckTest {
         CardShuffler observerOne = new WorstToBestShuffle(deck);
         CardShuffler observerTwo = new BasicShuffle(deck);
         CardShuffler observerThree = new SmartShuffle(deck);
-        observers.add(observerOne);
-        observers.add(observerTwo);
-        observers.add(observerThree);
+        deck.addObserver(observerOne);
+        deck.addObserver(observerTwo);
+        deck.addObserver(observerThree);
     }
 
     /**
@@ -89,14 +88,16 @@ public class DeckTest {
         Flashcard flashcardHey = new Flashcard(frontHey, "Hey");
         deck.addFlashcard(flashcardHey);
 
-        for (CardShuffler observer: observers){
-            assertNotEquals(observer.getDeckCopy(), deck.getFlashcards());
+        for (Observer o: deck.getObservers()) {
+            if (o instanceof CardShuffler observer) {
+                assertNotEquals(observer.getDeckCopy(), deck.getFlashcards());
+            }
         }
-
         deck.notifyObservers();
 
-        for (CardShuffler observer: observers){
+        for (Observer o: deck.getObservers()){
+            if (o instanceof CardShuffler observer){
             assertEquals(observer.getDeckCopy(), deck.getFlashcards());
-        }
+        }}
     }
 }
