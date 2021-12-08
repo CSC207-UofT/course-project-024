@@ -1,15 +1,11 @@
-import Sessions.CardShuffler;
+import Decks.Deck;
+import Flashcards.Flashcard;
+import Flashcards.FlashcardData;
+import Sessions.WorstToBestShuffle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import Flashcards.Flashcard;
-import Decks.Deck;
-import Flashcards.FlashcardData;
-import Sessions.WorstToBestShuffle;
 
 public class WorstToBestTest {
     WorstToBestShuffle shuffler;
@@ -83,11 +79,11 @@ public class WorstToBestTest {
     void returnFlashcard() {
         Flashcard.Front front1 = new Flashcard.Front("!!!", null);
         Flashcard flashcard1 = new Flashcard(front1, "???");
-        deck.addFlashcard(flashcard1);
-        shuffler.update();
+        this.shuffler.getFlashcardToData().put(flashcard1, new FlashcardData(0));
+        this.shuffler.update();
         shuffler.shuffleCards();
         Flashcard card1 = shuffler.returnChosenFlashcard();
-        assertEquals(card1, flashcard1);
+        assertEquals(card1.getFront().getText(), flashcard1.getFront().getText());
     }
 
     /**
@@ -97,9 +93,9 @@ public class WorstToBestTest {
     void updateAdd() {
         Flashcard.Front front = new Flashcard.Front("<3", null);
         Flashcard card = new Flashcard(front, ":)");
-        deck.addFlashcard(card);
-        shuffler.update();
-        assertTrue(shuffler.getDeckCopy().contains(card));
+        this.shuffler.getFlashcardToData().put(card, new FlashcardData(0));
+        this.shuffler.update();
+        assertTrue(this.shuffler.getDeckCopy().contains(card));
     }
 
     /**
@@ -109,10 +105,11 @@ public class WorstToBestTest {
     void updateDelete() {
         Flashcard.Front front = new Flashcard.Front("<3", null);
         Flashcard card = new Flashcard(front, ":)");
-        deck.addFlashcard(card);
-        deck.removeFlashcard(card);
-        shuffler.update();
-        assertFalse(shuffler.getDeckCopy().contains(card));
+        this.shuffler.getFlashcardToData().put(card, new FlashcardData(0));
+        this.shuffler.update();
+        this.shuffler.getFlashcardToData().remove(card);
+        this.shuffler.update();
+        assertFalse(this.shuffler.getDeckCopy().contains(card));
     }
 
     /**
@@ -122,8 +119,8 @@ public class WorstToBestTest {
     void updateCardCorrect() {
         Flashcard.Front front = new Flashcard.Front("<3", null);
         Flashcard card = new Flashcard(front, ":)");
-        deck.addFlashcard(card);
-        shuffler.update();
+        this.shuffler.getFlashcardToData().put(card, new FlashcardData(0));
+        this.shuffler.update();
         shuffler.setLastFlashcardShown(card);
         shuffler.postAnswerFlashcardDataUpdate(true);
         assertEquals(shuffler.getFlashcardToData().get(card).getProficiency(), 1);
@@ -136,8 +133,10 @@ public class WorstToBestTest {
     void updateCardIncorrect() {
         Flashcard.Front front = new Flashcard.Front("<3", null);
         Flashcard card = new Flashcard(front, ":)");
-        deck.addFlashcard(card);
-        shuffler.update();
+        this.shuffler.getFlashcardToData().put(card, new FlashcardData(0));
+        this.shuffler.update();
+        this.shuffler.getFlashcardToData().remove(card, new FlashcardData(0));
+        this.shuffler.update();
         shuffler.setLastFlashcardShown(card);
         shuffler.postAnswerFlashcardDataUpdate(false);
         assertEquals(shuffler.getFlashcardToData().get(card).getProficiency(), -1);

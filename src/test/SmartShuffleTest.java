@@ -49,12 +49,13 @@ class SmartShuffleTest {
 
         this.cardShuffler.update();
 
-        assertTrue(this.cardShuffler.getFlashcardToData().containsKey(flashcardAdded));
+        assertTrue(this.cardShuffler.getDeckCopy().contains(flashcardAdded));
 
         Flashcard flashcardRemoved = this.cardShuffler.removeFromFlashcardData();
 
-        assertFalse(this.cardShuffler.getFlashcardToData().containsKey(flashcardRemoved));
+        this.cardShuffler.update();
 
+        assertFalse(this.cardShuffler.getDeckCopy().contains(flashcardRemoved));
     }
 
     @Test

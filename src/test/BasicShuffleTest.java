@@ -47,20 +47,6 @@ class BasicShuffleTest {
     }
 
     /**
-     * Test that basic shuffle switches order
-     */
-    @Test
-    void shuffle() {
-        basicShuffler.shuffleCards();
-        assertTrue(basicShuffler.getDeckCopy().get(0).equals(deck.getFlashcards().get(1)) ||
-                basicShuffler.getDeckCopy().get(1).equals(deck.getFlashcards().get(4)) ||
-                basicShuffler.getDeckCopy().get(2).equals(deck.getFlashcards().get(3)) ||
-                basicShuffler.getDeckCopy().get(3).equals(deck.getFlashcards().get(0)) ||
-                basicShuffler.getDeckCopy().get(4).equals(deck.getFlashcards().get(2)));
-
-    }
-
-    /**
      * Test returncChosenFlashcard actually goes through the entire deck before reshuffling
      */
     @Test
