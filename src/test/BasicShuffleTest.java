@@ -1,15 +1,17 @@
-import Flashcards.Flashcard;
+import Accounts.AccountDTO;
+import Accounts.AccountInteractor;
 import Decks.Deck;
+import Flashcards.Flashcard;
 import Flashcards.FlashcardData;
 import Sessions.BasicShuffle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class BasicShufflerTest {
+class BasicShuffleTest {
     BasicShuffle basicShuffler;
     Deck deck;
 
@@ -45,20 +47,6 @@ class BasicShufflerTest {
     }
 
     /**
-     * Test that basic shuffle switches order
-     */
-    @Test
-    void order() {
-        basicShuffler = new BasicShuffle(deck);
-        basicShuffler.shuffleCards();
-        assertFalse(basicShuffler.getDeckCopy().get(0).equals(deck.getFlashcards().get(0)) ||
-                basicShuffler.getDeckCopy().get(1).equals(deck.getFlashcards().get(1)) ||
-                basicShuffler.getDeckCopy().get(2).equals(deck.getFlashcards().get(2)) ||
-                basicShuffler.getDeckCopy().get(3).equals(deck.getFlashcards().get(3)) ||
-                basicShuffler.getDeckCopy().get(4).equals(deck.getFlashcards().get(4)));
-    }
-
-    /**
      * Test returncChosenFlashcard actually goes through the entire deck before reshuffling
      */
     @Test
@@ -77,26 +65,53 @@ class BasicShufflerTest {
      * Test update when flash card is added
      */
     @Test
-    void updateAdd() {
+    void deckcontextadd() {
+
+        AccountDTO accountDTO = AccountInteractor.createAccount("test", "password");
+
+        AccountInteractor.login(accountDTO, "password");
+
         basicShuffler = new BasicShuffle(deck);
+
+
         Flashcard.Front front = new Flashcard.Front("<3", null);
         Flashcard card = new Flashcard(front, ":)");
-        deck.addFlashcard(card);
+        basicShuffler.getFlashcardToData().put(card, new FlashcardData(0));
         basicShuffler.update();
-        assertTrue(basicShuffler.getDeckCopy().contains(card));
+
+        List<String> fronts = new ArrayList<>();
+
+        for (Flashcard flashcard : basicShuffler.getDeckCopy()) {
+            fronts.add(flashcard.getFront().getText());
+        }
+
+        assertTrue(fronts.contains("<3"));
     }
 
     /**
      * Test update when flash card is deleted
      */
     @Test
-    void updateDelete() {
+    void deckcontextdelete() {
+        AccountDTO accountDTO = AccountInteractor.createAccount("test", "password");
+
+        AccountInteractor.login(accountDTO, "password");
+
+        basicShuffler = new BasicShuffle(deck);
+
         Flashcard.Front front = new Flashcard.Front("<3", null);
         Flashcard card = new Flashcard(front, ":)");
-        deck.addFlashcard(card);
-        basicShuffler = new BasicShuffle(deck);
-        deck.removeFlashcard(card);
+        basicShuffler.getFlashcardToData().put(card, new FlashcardData(0));
         basicShuffler.update();
-        assertFalse(basicShuffler.getDeckCopy().contains(card));
+        basicShuffler.getFlashcardToData().remove(card);
+        basicShuffler.update();
+
+        List<String> fronts = new ArrayList<>();
+
+        for (Flashcard flashcard : basicShuffler.getDeckCopy()) {
+            fronts.add(flashcard.getFront().getText());
+        }
+
+        assertFalse(fronts.contains("<3"));
     }
 }

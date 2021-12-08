@@ -20,7 +20,7 @@ public abstract class CardShufflerDTO {
      * getter method for flashcardToData
      * @return Map<FlashcardDTO, FlashcardDataDTO>
      */
-    Map<FlashcardDTO, FlashcardDataDTO> getFlashcardToData() {
+    public Map<FlashcardDTO, FlashcardDataDTO> getFlashcardToData() {
         return this.flashcardToData;
     }
 }

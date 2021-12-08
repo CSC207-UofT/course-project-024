@@ -7,7 +7,8 @@ import Flashcards.Flashcard;
 import java.util.*;
 
 /**
- * A strategy on how to shuffle and select cards. SmartShuffle's strategy //TODO
+ * A strategy on how to shuffle and select cards. SmartShuffle's strategy relies on setting a queue of cards to be seen,
+ * with each successive correct answer pushing a card further along the queue in increasing intervals.
  */
 public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
 
@@ -94,6 +95,18 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
      */
     public Flashcard getLastFlashcardShown() {
         return this.lastFlashcardShown;
+    }
+
+    public Map<Flashcard, FlashcardData> getFlashcardToData(){
+        return this.flashcardToData;
+    }
+
+    /**
+     * A method for testing that manually sets the value of this shuffler's last flashcard shown.
+     * @param lastFlashcard The flashcard that this shuffler's lastFlashcardShown will be set to
+     */
+    public void setLastFlashcardShown(Flashcard lastFlashcard) {
+        this.lastFlashcardShown = lastFlashcard;
     }
 
 
