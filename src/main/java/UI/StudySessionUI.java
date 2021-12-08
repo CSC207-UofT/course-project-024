@@ -105,8 +105,8 @@ public abstract class StudySessionUI extends Application {
     }
 
     /**
-     * TODO
-     * @param image
+     * Resize the given image to fit inside of the dimensions of a flashcard
+     * @param image the image to be resized
      */
     protected void resizeImageViewToFit(ImageView image) {
         image.setFitWidth(FLASHCARD_LENGTH * 0.9);

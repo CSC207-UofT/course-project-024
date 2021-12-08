@@ -41,8 +41,6 @@ public class TestSessionUI extends StudySessionUI {
     public void setNewCardScene(Stage window) {
         flashcard = sessionController.getNextCard();
 
-        BorderPane layout = new BorderPane();
-
         BorderPane top = getTopBar();
         StackPane center = getFlashcardFront();
         StackPane left = getLeftBar();
@@ -57,14 +55,27 @@ public class TestSessionUI extends StudySessionUI {
         right.prefWidthProperty().bind(left.widthProperty());
         HBox bottom = getBottomBarFirst();
 
+        Scene scene = getScene(top, center, left, right, bottom);
+        window.setScene(scene);
+    }
+
+    /**
+     * Get a scene with the given layout
+     * @param top the top bar
+     * @param center the center element
+     * @param left the left bar
+     * @param right the right bar
+     * @param bottom the bottom bar
+     * @return a Scene
+     */
+    private Scene getScene(BorderPane top, StackPane center, StackPane left, StackPane right, HBox bottom) {
+        BorderPane layout = new BorderPane();
         layout.setTop(top);
         layout.setCenter(center);
         layout.setRight(right);
         layout.setLeft(left);
         layout.setBottom(bottom);
-
-        Scene newCardScene = new Scene(layout, WINDOW_LENGTH, WINDOW_HEIGHT);
-        window.setScene(newCardScene);
+        return new Scene(layout, WINDOW_LENGTH, WINDOW_HEIGHT);
     }
 
     /**
@@ -72,8 +83,6 @@ public class TestSessionUI extends StudySessionUI {
      * Allows the user to request to view the next card.
      */
     public void setBackScene(Stage window) {
-        BorderPane layout = new BorderPane();
-
         BorderPane top = getTopBar();
         StackPane center = getFlippableFlashcardBack(e -> setFlippedFrontScene(window));
         StackPane left = getLeftBar();
@@ -81,14 +90,8 @@ public class TestSessionUI extends StudySessionUI {
         right.prefWidthProperty().bind(left.widthProperty());
         HBox bottom = getBottomBarShowResult();
 
-
-        layout.setTop(top);
-        layout.setCenter(center);
-        layout.setRight(right);
-        layout.setLeft(left);
-        layout.setBottom(bottom);
-        Scene flippedBackScene = new Scene(layout, WINDOW_LENGTH, WINDOW_HEIGHT);
-        window.setScene(flippedBackScene);
+        Scene scene = getScene(top, center, left, right, bottom);
+        window.setScene(scene);
     }
 
     /**
@@ -96,8 +99,6 @@ public class TestSessionUI extends StudySessionUI {
      * Allows the user to request to view the next card.
      */
     public void setFlippedFrontScene(Stage window) {
-        BorderPane layout = new BorderPane();
-
         BorderPane top = getTopBar();
         StackPane center = getFlippableFlashcardFront(e -> setBackScene(window));
         StackPane left = getLeftBar();
@@ -105,13 +106,8 @@ public class TestSessionUI extends StudySessionUI {
         right.prefWidthProperty().bind(left.widthProperty());
         HBox bottom = getBottomBarShowResult();
 
-        layout.setTop(top);
-        layout.setCenter(center);
-        layout.setRight(right);
-        layout.setLeft(left);
-        layout.setBottom(bottom);
-        Scene flippedFrontScene = new Scene(layout, WINDOW_LENGTH, WINDOW_HEIGHT);
-        window.setScene(flippedFrontScene);
+        Scene scene = getScene(top, center, left, right, bottom);
+        window.setScene(scene);
     }
 
     /**
@@ -129,8 +125,8 @@ public class TestSessionUI extends StudySessionUI {
     }
 
     /**
-     * TODO
-     * @return
+     * Return a BorderPane that holds important information meant to be displayed at the top of the window.
+     * @return a BorderPane
      */
     private BorderPane getTopBar() {
         TestSessionDTO testSessionDTO = (TestSessionDTO) sessionController.getCurrentSession();
@@ -147,8 +143,8 @@ public class TestSessionUI extends StudySessionUI {
     }
 
     /**
-     * TODO
-     * @return
+     * Return an HBox containing the bottom bar displayed after the user requests a new card.
+     * @return an HBox
      */
     private HBox getBottomBarFirst() {
         HBox bottom = new HBox();
@@ -162,8 +158,8 @@ public class TestSessionUI extends StudySessionUI {
     }
 
     /**
-     * TODO
-     * @return
+     * Return an HBox containing the bottom bar displayed after the user inputs a guess.
+     * @return an HBox
      */
     private HBox getBottomBarShowResult() {
         HBox bottom = new HBox();
@@ -182,8 +178,10 @@ public class TestSessionUI extends StudySessionUI {
     }
 
     /**
-     * TODO
-     * @return
+     * Return a generic right bar containing a button with the given text and which fires the given event.
+     * @param btnText the text on the button
+     * @param e the event to be executed when the button is clicked
+     * @return a StackPane
      */
     private StackPane getGenericRightBar(String btnText, EventHandler<MouseEvent> e) {
         StackPane rightBar = new StackPane();
@@ -195,8 +193,8 @@ public class TestSessionUI extends StudySessionUI {
     }
 
     /**
-     * TODO
-     * @return
+     * Return a StackPane containing the left bar tracking the user's progress in the test.
+     * @return a StackPane
      */
     private StackPane getLeftBar() {
         TestSessionDTO testSessionDTO = (TestSessionDTO) sessionController.getCurrentSession();
@@ -210,8 +208,8 @@ public class TestSessionUI extends StudySessionUI {
     }
 
     /**
-     * TODO
-     * @return
+     * Get a button
+     * @return a Button
      */
     private Button getButton(String btnText) {
         Button btn = new Button(btnText);
@@ -220,8 +218,7 @@ public class TestSessionUI extends StudySessionUI {
     }
 
     /**
-     * TODO
-     * @return
+     * Display a closeable popup window about the test being finished.
      */
     private void displayAlertBox(String msg) {
         Stage alertWindow = new Stage();
@@ -245,8 +242,9 @@ public class TestSessionUI extends StudySessionUI {
     }
 
     /**
-     * TODO
-     * @return
+     * Return a StackPane containing the right bar with a button
+     * @param window the current window
+     * @return a StackPane
      */
     private StackPane getRightBar(Stage window) {
         TestSessionDTO testSessionDTO = (TestSessionDTO) sessionController.getCurrentSession();

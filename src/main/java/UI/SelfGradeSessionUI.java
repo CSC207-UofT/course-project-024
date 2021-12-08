@@ -71,18 +71,7 @@ public class SelfGradeSessionUI extends StudySessionUI {
         BorderPane layout = new BorderPane();
 
         StackPane center = getFlippableFlashcardBack(e -> setFlippedFrontScene(window));
-        StackPane right = getRightBar(e -> setNewCardScene(window));
-        Region left = new Region();
-        left.prefWidthProperty().bind(right.widthProperty());
-        HBox bottom = getBottomBarBackDisabled();
-
-
-        layout.setCenter(center);
-        layout.setRight(right);
-        layout.setLeft(left);
-        layout.setBottom(bottom);
-        Scene flippedBackScene = new Scene(layout, WINDOW_LENGTH, WINDOW_HEIGHT);
-        window.setScene(flippedBackScene);
+        setupFlashcardView(window, layout, center);
     }
 
     /**
@@ -93,6 +82,16 @@ public class SelfGradeSessionUI extends StudySessionUI {
         BorderPane layout = new BorderPane();
 
         StackPane center = getFlippableFlashcardFront(e -> setFlippedBackScene(window));
+        setupFlashcardView(window, layout, center);
+    }
+
+    /**
+     * Set the scene to the given layout and centered content.
+     * @param window the current window
+     * @param layout the outermost layout
+     * @param center the centermost layout (the flashcard)
+     */
+    private void setupFlashcardView(Stage window, BorderPane layout, StackPane center) {
         StackPane right = getRightBar(e -> setNewCardScene(window));
         Region left = new Region();
         left.prefWidthProperty().bind(right.widthProperty());
@@ -102,13 +101,13 @@ public class SelfGradeSessionUI extends StudySessionUI {
         layout.setRight(right);
         layout.setLeft(left);
         layout.setBottom(bottom);
-        Scene flippedFrontScene = new Scene(layout, WINDOW_LENGTH, WINDOW_HEIGHT);
-        window.setScene(flippedFrontScene);
+        Scene flippedBackScene = new Scene(layout, WINDOW_LENGTH, WINDOW_HEIGHT);
+        window.setScene(flippedBackScene);
     }
 
     /**
-     * TODO
-     * @return
+     * Return an HBox which contains the bottom bar for when the front of a flashcard is being shown.
+     * @return an HBox
      */
     private HBox getBottomBarFront() {
         HBox bottom = new HBox();
@@ -122,42 +121,43 @@ public class SelfGradeSessionUI extends StudySessionUI {
     }
 
     /**
-     * TODO
-     * @param window
-     * @return
+     * Return an HBox containing an interactable bottom bar for when the back of a flashcard is being shown.
+     * @param window The window for the session
+     * @return an HBox
      */
     private HBox getBottomBarBackInteractable(Stage window) {
         Button yesBtn = getButton("YES");
         yesBtn.setOnMouseClicked(e -> {
-            // TODO: handle YES
             sessionController.postAnswerUpdate(true);
             setFlippedBackScene(window);
         });
         Button noBtn = getButton("NO");
         noBtn.setOnMouseClicked(e -> {
-            // TODO: handle NO
             sessionController.postAnswerUpdate(false);
             setFlippedBackScene(window);
         });
-        HBox bottom = new HBox();
-        bottom.setAlignment(Pos.CENTER);
-        bottom.setSpacing(10);
-        bottom.setPadding(new Insets(10, 10, 40, 10));
-        Label bottomLabel = new Label("Did you guess the back correctly?");
-        bottomLabel.setFont(Font.font(20));
-        bottom.getChildren().addAll(bottomLabel, yesBtn, noBtn);
-        return bottom;
+        return getLabeledBottomBar(yesBtn, noBtn);
     }
 
     /**
-     * TODO
-     * @return
+     * Return an HBox containing an uninteractable bottom bar for when the back of a flashcard is being shown.
+     * @return an HBox
      */
     private HBox getBottomBarBackDisabled() {
         Button yesBtn = getButton("YES");
         yesBtn.setDisable(true);
         Button noBtn = getButton("NO");
         noBtn.setDisable(true);
+        return getLabeledBottomBar(yesBtn, noBtn);
+    }
+
+    /**
+     * Return an HBox with prebuilt user prompts and the given buttons.
+     * @param yesBtn a button representing a positive user response
+     * @param noBtn a button representing a negative user response
+     * @return an HBox
+     */
+    private HBox getLabeledBottomBar(Button yesBtn, Button noBtn) {
         HBox bottom = new HBox();
         bottom.setAlignment(Pos.CENTER);
         bottom.setSpacing(10);
@@ -169,9 +169,9 @@ public class SelfGradeSessionUI extends StudySessionUI {
     }
 
     /**
-     * TODO
-     * @param e
-     * @return
+     * Return a StackPane containing the right bar with a button
+     * @param e the event to trigger when the button in the right bar is pressed
+     * @return a StackPane
      */
     private StackPane getRightBar(EventHandler<MouseEvent> e) {
         StackPane rightBar = new StackPane();
@@ -183,9 +183,9 @@ public class SelfGradeSessionUI extends StudySessionUI {
     }
 
     /**
-     * TODO
-     * @param btnText
-     * @return
+     * Return a Button
+     * @param btnText the text on the button
+     * @return a Button
      */
     private Button getButton(String btnText) {
         Button btn = new Button(btnText);
