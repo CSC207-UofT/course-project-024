@@ -34,6 +34,7 @@ public class WorstToBestTest {
         deck.addFlashcard(flashcard4);
         deck.addFlashcard(flashcard5);
 
+        this.deck = deck;
         shuffler = new WorstToBestShuffle(deck);
 
         FlashcardData data1 = new FlashcardData(4,3);
@@ -51,8 +52,6 @@ public class WorstToBestTest {
         FlashcardData data5 = new FlashcardData(2,3);
         shuffler.getFlashcardToData().put(flashcard5, data5);
 
-        shuffler = new WorstToBestShuffle(deck);
-        this.deck = deck;
     }
 
     /**
@@ -84,6 +83,7 @@ public class WorstToBestTest {
     void returnFlashcard() {
         Flashcard.Front front1 = new Flashcard.Front("!!!", null);
         Flashcard flashcard1 = new Flashcard(front1, "???");
+        deck.addFlashcard(flashcard1);
         shuffler.update();
         shuffler.shuffleCards();
         Flashcard card1 = shuffler.returnChosenFlashcard();
@@ -139,7 +139,7 @@ public class WorstToBestTest {
         deck.addFlashcard(card);
         shuffler.update();
         shuffler.setLastFlashcardShown(card);
-        shuffler.postAnswerFlashcardDataUpdate(true);
-        assertEquals(shuffler.getFlashcardToData().get(card).getProficiency(), 0);
+        shuffler.postAnswerFlashcardDataUpdate(false);
+        assertEquals(shuffler.getFlashcardToData().get(card).getProficiency(), -1);
     }
 }

@@ -17,7 +17,6 @@ public class WorstToBestShuffle extends CardShuffler implements UpdatingShuffler
     List<Flashcard> deckCopy;
     List<Flashcard> originalDeck;
     private Flashcard lastFlashcardShown;
-    private final Map<Flashcard, FlashcardData> flashcardToData;
 
     /**
      * Construct a new WorstToBestShuffle shuffler.
@@ -28,7 +27,7 @@ public class WorstToBestShuffle extends CardShuffler implements UpdatingShuffler
         for (Flashcard card : deck.getFlashcards()) {
             this.flashcardToData.put(card, new FlashcardData(0));
         }
-        this.originalDeck = new ArrayList<>(this.flashcardToData.keySet().stream().toList());
+        this.originalDeck = deck.getFlashcards();
         this.deckCopy = new ArrayList<>(originalDeck);
     }
 
@@ -43,7 +42,7 @@ public class WorstToBestShuffle extends CardShuffler implements UpdatingShuffler
     public WorstToBestShuffle(Map<Flashcard, FlashcardData> flashcardToData, List<Flashcard> deckCopy,
                         Flashcard lastFlashcardShown) {
         this.flashcardToData = flashcardToData;
-        this.deckCopy = new ArrayList<>(deckCopy);
+        this.originalDeck = deckCopy;
         this.lastFlashcardShown = lastFlashcardShown;
         this.deckCopy = new ArrayList<>(originalDeck);
     }
