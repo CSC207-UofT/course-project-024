@@ -20,7 +20,7 @@ class SessionControllerTest {
 
     @BeforeEach
     void setUp() {
-        this.deckController = new DeckController();
+//        this.deckController = new DeckController();
         this.account = new Account("hi", "bye");
         this.sessionController = new SessionController();
         this.deckController.createDeck("default");
@@ -29,7 +29,7 @@ class SessionControllerTest {
     @Test
     void startPracticeSession() {
         this.deck = DeckInteractor.getCurrentDeck();
-        this.sessionController.startPracticeSession(this.deck);
+//        this.sessionController.startPracticeSession(this.deck);
         StudySession nonDTOsession = SessionInteractor.convertDTOToSession(this.session);
         Deck nonDTOdeck = DeckInteractor.convertDTOToDeck(this.deck);
         assertTrue(this.account.getDecksToSessions().get(nonDTOdeck).contains(nonDTOsession));
@@ -39,7 +39,7 @@ class SessionControllerTest {
     @Test
     void startLearningSession() {
         this.deck = DeckInteractor.getCurrentDeck();
-        this.sessionController.startLearningSession(this.deck);
+//        this.sessionController.startLearningSession(this.deck);
         StudySession nonDTOsession = SessionInteractor.convertDTOToSession(this.session);
         Deck nonDTOdeck = DeckInteractor.convertDTOToDeck(this.deck);
 
@@ -49,7 +49,7 @@ class SessionControllerTest {
     @Test
     void getNextCard() {
         this.deck = DeckInteractor.getCurrentDeck();
-        this.sessionController.startPracticeSession(this.deck);
+//        this.sessionController.startPracticeSession(this.deck);
         this.deckController.addCard("1", null, "1");
         assertNotNull(this.sessionController.getNextCard());
     }
@@ -57,7 +57,7 @@ class SessionControllerTest {
     @Test
     void postAnswerUpdate() {
         this.deck = DeckInteractor.getCurrentDeck();
-        this.sessionController.startLearningSession(this.deck);
+//        this.sessionController.startLearningSession(this.deck);
         this.session = SessionInteractor.getCurrentSession();
         StudySession nonDTOsession = SessionInteractor.convertDTOToSession(this.session);
         this.deckController.addCard("1", null, "1");

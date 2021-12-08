@@ -28,11 +28,11 @@ public class AccountInteractorTest {
     @BeforeEach
     void setUp() {
         account = AccountInteractor.createAccount("username", "password");
-        deckController = new DeckController();
+//        deckController = new DeckController();
         deckController.createDeck("deck name");
         deck = deckController.getCurrentDeck();
         sessionController = new SessionController();
-        sessionController.startPracticeSession(deck);
+//        sessionController.startPracticeSession(deck);
         session = sessionController.getCurrentSession();
     }
 

@@ -16,7 +16,7 @@ public class DeckControllerTest {
 
     @BeforeEach
     void setUp() {
-        deckController = new DeckController();
+//        deckController = new DeckController();
         account = AccountInteractor.createAccount("user1", "pass1");
         deckController.createDeck("Deck Name");
         deck = deckController.getCurrentDeck();
@@ -32,7 +32,7 @@ public class DeckControllerTest {
     @Test
     void deleteCard() {
         deckController.addCard("front",null, "back");
-        deckController.deleteCard(0);
+//        deckController.deleteCard(0);
         assertEquals(0, deck.getFlashcards().size());
     }
 

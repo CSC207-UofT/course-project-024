@@ -9,7 +9,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class BasicShufflerTest {
+class BasicShuffleTest {
     BasicShuffle basicShuffler;
     Deck deck;
 
@@ -82,7 +82,7 @@ class BasicShufflerTest {
         Flashcard.Front front = new Flashcard.Front("<3", null);
         Flashcard card = new Flashcard(front, ":)");
         deck.addFlashcard(card);
-        basicShuffler.updateDeckContext();
+//        basicShuffler.updateDeckContext();
         assertTrue(basicShuffler.getDeckCopy().contains(card));
     }
 
@@ -96,7 +96,7 @@ class BasicShufflerTest {
         deck.addFlashcard(card);
         basicShuffler = new BasicShuffle(deck);
         deck.removeFlashcard(card);
-        basicShuffler.updateDeckContext();
+//        basicShuffler.updateDeckContext();
         assertFalse(basicShuffler.getDeckCopy().contains(card));
     }
 }
