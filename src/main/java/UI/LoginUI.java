@@ -26,7 +26,7 @@ public class LoginUI extends Application {
 
     public static final int WINDOW_LENGTH = 1000;
     public static final int WINDOW_HEIGHT = 600;
-    public static final String APPLICATION_TITLE = "Flashcards";
+    public static final String APPLICATION_TITLE = "Flashcards!";
 
     /**
      * Starts the login UI.
