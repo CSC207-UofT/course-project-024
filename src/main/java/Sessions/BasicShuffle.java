@@ -56,10 +56,18 @@ public class BasicShuffle extends CardShuffler {
         Collections.shuffle(this.deckCopy);
     }
 
+    /**
+     * getter method for index
+     * @return int
+     */
     public int getIndex() {
         return index;
     }
 
+    /**
+     * getter method for deckCopy
+     * @return List<Flashcard>
+     */
     public List<Flashcard> getDeckCopy() {
         return deckCopy;
     }

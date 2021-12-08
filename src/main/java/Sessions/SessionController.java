@@ -6,6 +6,9 @@ import Flashcards.FlashcardDTO;
 
 import java.util.List;
 
+/**
+ * TODO, describe class
+ */
 public class SessionController {
 
     public SessionController() {}

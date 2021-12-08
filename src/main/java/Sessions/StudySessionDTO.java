@@ -15,10 +15,18 @@ public abstract class StudySessionDTO {
         this.cardShufflerDTO = cardShufflerDTO;
     }
 
+    /**
+     * getter method for deckDTO
+     * @return DeckDTO
+     */
     public DeckDTO getDeckDTO() {
         return deckDTO;
     }
 
+    /**
+     * getter method for CardShufflerDTO
+     * @return CardShufflerDTO
+     */
     public CardShufflerDTO getCardShufflerDTO() {
         return cardShufflerDTO;
     }

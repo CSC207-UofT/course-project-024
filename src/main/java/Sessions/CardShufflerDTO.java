@@ -16,6 +16,10 @@ public abstract class CardShufflerDTO {
         this.flashcardToData = flashcardToData;
     }
 
+    /**
+     * getter method for flashcardToData
+     * @return Map<FlashcardDTO, FlashcardDataDTO>
+     */
     Map<FlashcardDTO, FlashcardDataDTO> getFlashcardToData() {
         return this.flashcardToData;
     }

@@ -21,10 +21,18 @@ public class BasicShuffleDTO extends CardShufflerDTO {
         this.deckCopy = deckCopy;
     }
 
+    /**
+     * getter method for index
+     * @return int
+     */
     public int getIndex() {
         return index;
     }
 
+    /**
+     * getter method for deckCopy
+     * @return List<FlashcardDTO>
+     */
     public List<FlashcardDTO> getDeckCopy() {
         return deckCopy;
     }

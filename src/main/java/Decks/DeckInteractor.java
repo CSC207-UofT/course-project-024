@@ -110,6 +110,11 @@ public class DeckInteractor {
         return new DeckDTO(name, flashcardsDTO);
     }
 
+    /**
+     * TODO
+     * @param flashcardDTO
+     * @return
+     */
     private static Flashcard findFlashcardInCurrentDeckFromDTO(FlashcardDTO flashcardDTO) {
         return currentDeck.getFlashcards().stream()
                 .filter(flashcard -> flashcard.getFront().getText().equals(flashcardDTO.getFrontText()))

@@ -18,14 +18,26 @@ public class TestSessionDTO extends StudySessionDTO {
         this.numCorrect = numCorrect;
     }
 
+    /**
+     * getter method for length.
+     * @return int
+     */
     public int getLength() {
         return length;
     }
 
+    /**
+     * getter method for cardsSeen
+     * @return int
+     */
     public int getCardsSeen() {
         return cardsSeen;
     }
 
+    /**
+     * getter method for numCorrect
+     * @return int
+     */
     public int getNumCorrect() {
         return numCorrect;
     }

@@ -21,10 +21,18 @@ public class WorstToBestShuffleDTO extends CardShufflerDTO{
         this.lastFlashcardShown = lastFlashcardShown;
     }
 
+    /**
+     * getter method for deckCopy
+     * @return FlashcardDTO
+     */
     public List<FlashcardDTO> getDeckCopy() {
         return deckCopy;
     }
 
+    /**
+     * getter method for lastFlashcardShown
+     * @return FlashcardDTO
+     */
     public FlashcardDTO getLastFlashcardShown() {
         return lastFlashcardShown;
     }
