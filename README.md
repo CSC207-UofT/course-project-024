@@ -6,7 +6,6 @@ Practice session generates infinitely generates cards.
 Learning session also infinitely generates cards based on the user’s feedback and proficiency with the cards and orders them from worst proficiency to best proficiency.
 Test session generates a finite number of random cards and tracks the percentage of cards that the user gets correct.
 
-
 ## Installation instructions
 
 When opening the project in an IDE, make sure to mark the following: src/main/java folder as sources root, src/test as Test sources root and src/main/resources as Resources root.
