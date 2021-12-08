@@ -81,7 +81,7 @@ public class DeckTest {
     }
 
     /**
-     * Test if the observers have been notified // TODO is this legal?
+     * Test if the observers have been notified
      */
     @Test
     public void notifyObservers() {
