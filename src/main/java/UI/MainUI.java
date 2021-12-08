@@ -233,12 +233,11 @@ public class MainUI {
 
     /**
      * Update disable property of edit deck UI related to modifying decks
-     * @param b new disable value
      */
-    protected void setDisableDeckUI(boolean b) {
-        renameDeckButton.setDisable(b);
-        deleteDeckButton.setDisable(b);
-        newFrontImageUpload.setDisable(b);
+    protected void setDisableDeckUI() {
+        renameDeckButton.setDisable(false);
+        deleteDeckButton.setDisable(false);
+        newFrontImageUpload.setDisable(false);
     }
 
     /**
@@ -292,7 +291,7 @@ public class MainUI {
     @FXML
     protected void onDeckSelect() {
         //enable deck modification buttons
-        setDisableDeckUI(false);
+        setDisableDeckUI();
         //set current deck and set current flashcard to the first flashcard if it exists
         setCurrentDeck(deckSelect.getValue());
         List<FlashcardDTO> cards = deckController.getCurrentDeck().getFlashcards();

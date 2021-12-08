@@ -9,13 +9,13 @@ public interface Observable {
 
     /**
      * add an observer to the observable
-     * @param observer
+     * @param observer The observer to be added
      */
     void addObserver(Observer observer);
 
     /**
      * delete an observer from the observable
-     * @param observer
+     * @param observer The observer to be added
      */
     void deleteObserver(Observer observer);
 

@@ -7,7 +7,7 @@ import Flashcards.FlashcardDTO;
 import java.util.List;
 
 /**
- * TODO, describe class
+ * This class handles logic that UI elements need from study sessions.
  */
 public class SessionController {
 
@@ -41,20 +41,10 @@ public class SessionController {
     }
 
     /**
-     * Delete the specified StudySession from the specified account.
-     * @param deckDTO The deck which the session is based on
-     * @param sessionDTO The StudySession to be deleted
-     */
-    public void deleteSession(DeckDTO deckDTO, StudySessionDTO sessionDTO) {
-        AccountInteractor.deleteSessionFromCurrentAccount(deckDTO, sessionDTO);
-    }
-
-    /**
      * Return the next card that should be shown to the user in the specified StudySession.
      * @return a FlashcardDTO
      */
     public FlashcardDTO getNextCard() {
-        // TODO: throw an exception if the deck is empty
         return SessionInteractor.getNextCard();
     }
 

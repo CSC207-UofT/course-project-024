@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO, what does this class represents
+ * This class handles use cases for Decks.
  */
 public class DeckInteractor {
 
@@ -111,9 +111,9 @@ public class DeckInteractor {
     }
 
     /**
-     * TODO
-     * @param flashcardDTO
-     * @return
+     * Find and return the flashcardDTO in its entity form within the current deck.
+     * @param flashcardDTO The flashcardDTO that will be converted
+     * @return The entity form of flashcardDTO
      */
     private static Flashcard findFlashcardInCurrentDeckFromDTO(FlashcardDTO flashcardDTO) {
         return currentDeck.getFlashcards().stream()

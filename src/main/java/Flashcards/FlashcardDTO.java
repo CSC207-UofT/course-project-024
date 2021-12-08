@@ -5,17 +5,7 @@ import java.awt.image.BufferedImage;
 /**
  * Data Transfer Object for Flashcard
  */
-public class FlashcardDTO {
-
-    private final String frontText;
-    private final BufferedImage frontImage;
-    private final String back;
-
-    public FlashcardDTO(String frontText, BufferedImage frontImage, String back) {
-        this.frontText = frontText;
-        this.frontImage = frontImage;
-        this.back = back;
-    }
+public record FlashcardDTO(String frontText, BufferedImage frontImage, String back) {
 
     /**
      * @return the String on the front of this Flashcard

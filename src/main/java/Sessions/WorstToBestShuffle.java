@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A strategy on how to shuffle and select cards. WorsttoBestShuffle's strategy is to order deck by ascending proficiency of the user
+ * A strategy on how to shuffle and select cards.
+ * WorstToBestShuffle's strategy is to order deck by ascending proficiency of the user
  */
 public class WorstToBestShuffle extends CardShuffler implements UpdatingShuffler {
 
@@ -74,7 +75,7 @@ public class WorstToBestShuffle extends CardShuffler implements UpdatingShuffler
 
     /**
      * Get this shuffler's flashcardToData
-     * @return
+     * @return The Flashcard to FlashcardData mapping that this shuffler has.
      */
     public Map<Flashcard, FlashcardData> getFlashcardToData() {
         return flashcardToData;

@@ -7,22 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * TODO, representation of class
+ * This class contains all data values that represent an Account, without any behaviour.
  */
-public class AccountDTO {
-
-    private final String username;
-    private final String password;
-    private final List<DeckDTO> decks;
-    private final Map<DeckDTO, List<StudySessionDTO>> decksToSessions;
-
-    public AccountDTO(String username, String password, List<DeckDTO> decks, Map<DeckDTO,
-            List<StudySessionDTO>> decksToSessions) {
-        this.username = username;
-        this.password = password;
-        this.decks = decks;
-        this.decksToSessions = decksToSessions;
-    }
+public record AccountDTO(String username, String password, List<DeckDTO> decks,
+                         Map<DeckDTO, List<StudySessionDTO>> decksToSessions) {
 
     /**
      * @return this account's username

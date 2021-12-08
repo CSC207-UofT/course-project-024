@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * TODO: what does this class represent
+ * This class handles use cases for Accounts.
  */
 public class AccountInteractor {
 
@@ -83,14 +83,6 @@ public class AccountInteractor {
     public static AccountDTO createAccount(String username, String password) {
         Account account = new Account(username, password);
         return convertAccountToDTO(account);
-    }
-
-    /**
-     * Change the current account's username to the given username.
-     * @param newUsername The new username of the account
-     */
-    public static void changeCurrentAccountUsername(String newUsername) {
-        currentAccount.setUsername(newUsername);
     }
 
     /**
@@ -186,9 +178,9 @@ public class AccountInteractor {
     }
 
     /**
-     * TODO
-     * @param accountDTO
-     * @return
+     * Converts an AccountDTO to an Account and returns the Account.
+     * @param accountDTO The AccountDTO to be converted
+     * @return The entity version of AccountDTO
      */
     public static Account convertDTOToAccount(AccountDTO accountDTO) {
         String username = accountDTO.getUsername();
@@ -209,9 +201,9 @@ public class AccountInteractor {
     }
 
     /**
-     * TODO
-     * @param account
-     * @return
+     * Convert Account to AccountDTO
+     * @param account The Account to be converted.
+     * @return The AccountDTO version of account
      */
     public static AccountDTO convertAccountToDTO(Account account) {
         String username = account.getUsername();
@@ -232,9 +224,9 @@ public class AccountInteractor {
     }
 
     /**
-     * TODO
-     * @param deckDTO
-     * @return
+     * Find and return the Deck corresponding to the deckDTO parameter in the current account.
+     * @param deckDTO The DeckDTO that corresponds to the Deck that is to be searched for
+     * @return The Deck that corresponds to deckDTO in the current Account
      */
     private static Deck findDeckInCurrentAccountFromDTO(DeckDTO deckDTO) {
         return currentAccount.getDecks().stream()
@@ -244,10 +236,10 @@ public class AccountInteractor {
     }
 
     /**
-     * TODO
-     * @param deck
-     * @param sessionDTO
-     * @return
+     * Find and return the StudySession corresponding to the sessionDTO given within the deck.
+     * @param deck The Deck that sessionDTO uses
+     * @param sessionDTO The StudySessionDTO that will be used to search for its entity version
+     * @return The true entity version of sessionDTO
      */
     private static StudySession findSessionInCurrentAccountFromDTO(Deck deck, StudySessionDTO sessionDTO) {
         StudySession selectedSession = SessionInteractor.convertDTOToSession(sessionDTO);

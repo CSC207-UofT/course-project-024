@@ -14,7 +14,8 @@ import java.util.*;
 import java.util.List;
 
 /**
- * TODO, what this class represents
+ * This class implements DatabaseGateway with a MySQL concreteness, giving methods to communicate with a
+ * MySQl database server.
  */
 public class MySQLDatabaseGateway implements DatabaseGateway {
 
@@ -70,10 +71,10 @@ public class MySQLDatabaseGateway implements DatabaseGateway {
     }
 
     /**
-     * TODO
-     * @param username
-     * @param password
-     * @return
+     * Returns the account with the given username and password
+     * @param username The username of the account
+     * @param password The password of the account
+     * @return The AccountDTO that has the same username and password
      */
     public AccountDTO getAccountFromDB(String username, String password){
         try{
@@ -90,9 +91,9 @@ public class MySQLDatabaseGateway implements DatabaseGateway {
     }
 
     /**
-     * TODO
-     * @param username
-     * @return
+     * Finds if an account with username already exists
+     * @param username The username that will be checked for duplicates
+     * @return Whether an account with the same username already exists.
      */
     public Boolean duplicateAccount(String username){
         try {
@@ -110,9 +111,9 @@ public class MySQLDatabaseGateway implements DatabaseGateway {
     }
 
     /**
-     * TODO
-     * @param username
-     * @param password
+     * Add an account with the given username and password to the database.
+     * @param username The username of the account
+     * @param password The password of the account
      */
     public void addAccountToDB(String username, String password){
         try {
@@ -221,9 +222,9 @@ public class MySQLDatabaseGateway implements DatabaseGateway {
     }
 
     /**
-     * TODO
-     * @param oldValue
-     * @param newValue
+     * Updates a flashcard with a given back with its new value.
+     * @param oldValue The old back of the flashcard
+     * @param newValue The new back of the flashcard
      */
     public void updateCardBackInDB(String oldValue, String newValue){
         try{
@@ -241,9 +242,9 @@ public class MySQLDatabaseGateway implements DatabaseGateway {
     }
 
     /**
-     * TODO
-     * @param oldValue
-     * @param newValue
+     * Updates the deck name in the database after its name has been locally changed.
+     * @param oldValue The old name of the deck
+     * @param newValue The new name of the deck
      */
     public void updateDeckNameInDB(String oldValue, String newValue){
         try{
@@ -261,18 +262,21 @@ public class MySQLDatabaseGateway implements DatabaseGateway {
     }
 
     /**
-     * TODO
-     * @param oldText
-     * @param newImage
+     * Changes a flashcard's image in the database after it was changed locally.
+     * @param oldText The flashcard's front text
+     * @param newImage The image that will replace the old image
      */
     public void editFlashcardImage(String oldText, BufferedImage newImage){
         try{
             PreparedStatement pstmt = connection().prepareStatement("UPDATE cards SET image = (?) WHERE front = (?)");
-            InputStream in = imageToInputStream(newImage);
-            pstmt.setBlob(1, in);
-            pstmt.setString(2, oldText);
-            pstmt.execute();
-            pstmt.close();
+
+            if (newImage != null) {
+                InputStream in = imageToInputStream(newImage);
+                pstmt.setBlob(1, in);
+                pstmt.setString(2, oldText);
+                pstmt.execute();
+                pstmt.close();
+            }
         } catch(Exception e){
             e.printStackTrace();
         }
