@@ -16,11 +16,7 @@ public class WorstToBestShuffle extends CardShuffler implements UpdatingShuffler
 
     List<Flashcard> deckCopy;
     private Flashcard lastFlashcardShown;
-
-    public WorstToBestShuffle(Map<Flashcard, FlashcardData> flashcardToData) {
-        this.deckCopy = new ArrayList<>(flashcardToData.keySet().stream().toList());
-        this.flashcardToData = flashcardToData;
-    }
+    private final Map<Flashcard, FlashcardData> flashcardToData;
 
     /**
      * Construct a new WorstToBestShuffle shuffler.
@@ -34,15 +30,6 @@ public class WorstToBestShuffle extends CardShuffler implements UpdatingShuffler
         this.deckCopy = new ArrayList<>(this.flashcardToData.keySet().stream().toList());
     }
 
-    /**
-     * Construct a new WorstToBestShuffle shuffler.
-     * @param flashcardToData A mapping from Flashcard to FlashcardData taken from this shuffler's StudySession.
-     * @param deckCopy A list of flashcards which were copied from the original deck
-     */
-    public WorstToBestShuffle(Map<Flashcard, FlashcardData> flashcardToData, List<Flashcard> deckCopy) {
-        this.flashcardToData = flashcardToData;
-        this.deckCopy = new ArrayList<>(deckCopy);
-    }
 
     /**
      * Constructs a new WorstToBestShuffle shuffler using a preexisting map.
@@ -86,6 +73,14 @@ public class WorstToBestShuffle extends CardShuffler implements UpdatingShuffler
     }
 
     /**
+     * Get this shuffler's flashcardToData
+     * @return
+     */
+    public Map<Flashcard, FlashcardData> getFlashcardToData() {
+        return flashcardToData;
+    }
+
+    /**
      * Return the chosen flashcard of this card shuffle algorithm.
      * @return A Flashcard (the chosen one)
      */
@@ -111,15 +106,35 @@ public class WorstToBestShuffle extends CardShuffler implements UpdatingShuffler
 
     }
 
+    /**
+     * get Last flashcardshown
+     * @return Flashcard
+     */
     public Flashcard getLastFlashcardShown() {
         return lastFlashcardShown;
     }
 
+    /**
+     * set Last flashcardshown
+     */
+    public void setLastFlashcardShown(Flashcard flashcard) {
+        this.lastFlashcardShown = flashcard;
+    }
+
+    /**
+     * Performs any post-answer updates that are needed for studySession.
+     * @param wasCorrect Whether the user had correctly answered the current Flashcard
+     */
     @Override
     public void postAnswerFlashcardDataUpdate(boolean wasCorrect) {
         this.updateFlashcardData(wasCorrect);
     }
 
+    /**
+     * Updates this shuffler's FlashcardData after an answer is graded.
+     *
+     * @param wasCorrect Whether the user was correct or not when reviewing this.lastFlashcardShown
+     */
     @Override
     public void updateFlashcardData(boolean wasCorrect) {
         FlashcardData currFlashcardData = this.flashcardToData.get(this.lastFlashcardShown);
