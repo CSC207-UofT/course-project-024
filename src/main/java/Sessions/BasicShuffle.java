@@ -23,7 +23,7 @@ public class BasicShuffle extends CardShuffler {
         // This turns an ImmutableList, which ToList returns, to an ArrayList. Don't ask me why.
         this.index = 0;
         this.originalDeck = new ArrayList<>(flashcardToData.keySet().stream().toList());
-        this.deckCopy = new ArrayList<>(deckCopy);
+        this.deckCopy = new ArrayList<>(originalDeck);
         this.flashcardToData = flashcardToData;
     }
 
@@ -36,8 +36,8 @@ public class BasicShuffle extends CardShuffler {
         for (Flashcard card : deck.getFlashcards()) {
             this.flashcardToData.put(card, new FlashcardData(0));
         }
-        this.originalDeck = new ArrayList<>(this.flashcardToData.keySet().stream().toList());
-        this.deckCopy = new ArrayList<>(deckCopy);
+        this.originalDeck = deck.getFlashcards();
+        this.deckCopy = new ArrayList<>(originalDeck);
     }
 
     /**
@@ -49,8 +49,8 @@ public class BasicShuffle extends CardShuffler {
     public BasicShuffle(Map<Flashcard, FlashcardData> flashcardToData, List<Flashcard> deckCopy, int index) {
         this.index = index;
         this.flashcardToData = flashcardToData;
-        this.originalDeck = new ArrayList<>(deckCopy);
-        this.deckCopy = new ArrayList<>(deckCopy);
+        this.originalDeck = deckCopy;
+        this.deckCopy = new ArrayList<>(originalDeck);
     }
 
     /**

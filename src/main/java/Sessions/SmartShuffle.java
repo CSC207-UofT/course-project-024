@@ -39,7 +39,7 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
             this.flashcardToData.put(card, new FlashcardData(0));
         }
 
-        this.originalDeck = new ArrayList<>(this.flashcardToData.keySet().stream().toList());
+        this.originalDeck = deck.getFlashcards();
         this.deckCopy = new ArrayList<>(originalDeck);
     }
 
@@ -54,7 +54,7 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
                         Flashcard lastFlashcardShown) {
         this.flashcardToData = flashcardToData;
         // This turns an ImmutableList, which ToList returns, to an ArrayList.
-        this.originalDeck = new ArrayList<>(deckCopy);
+        this.originalDeck = deckCopy;
         this.deckCopy = new ArrayList<>(originalDeck);
         this.lastFlashcardShown = lastFlashcardShown;
     }
