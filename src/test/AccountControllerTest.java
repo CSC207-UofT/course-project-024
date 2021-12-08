@@ -48,19 +48,8 @@ class AccountControllerTest {
 
     @Test
     void login() {
-
-    }
-
-    @Test
-    void selectDeck() {
-    }
-
-    @Test
-    void selectSession() {
-    }
-
-    @Test
-    void getCurrentAccount() {
+        AccountController.login(accountDTO, "password");
+        assertEquals(AccountInteractor.getCurrentAccount().getUsername(), accountDTO.getUsername());
     }
 
     @Test

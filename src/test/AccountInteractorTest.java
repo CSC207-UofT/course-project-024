@@ -136,21 +136,14 @@ public class AccountInteractorTest {
 
         DeckInteractor.addFlashcardToCurrentDeck("front", null, "back");
 
-        for (FlashcardDTO flashcard : DeckInteractor.getCurrentDeck().getFlashcards()) {
-            System.out.println(flashcard.getFrontText());
-        }
-
         AccountInteractor.updateSessionsOfDeckInCurrentAccount(DeckInteractor.getCurrentDeck());
 
         List<FlashcardDTO> flashcards = SessionInteractor.getCurrentSession().getCardShufflerDTO().getFlashcardToData().keySet().stream().toList();
-
-        System.out.println(flashcards.size());
 
         List<String> sessionFronts = new ArrayList<>();
 
         for (FlashcardDTO flashcard : flashcards) {
             sessionFronts.add(flashcard.getFrontText());
-            System.out.println(flashcard.getFrontText());
         }
 
         assertTrue(sessionFronts.contains("front"));

@@ -86,8 +86,6 @@ class BasicShuffleTest {
         }
 
         assertTrue(fronts.contains("<3"));
-
-//        assertTrue(basicShuffler.getDeckCopy().contains(card));
     }
 
     /**
