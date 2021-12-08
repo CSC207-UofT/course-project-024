@@ -3,6 +3,7 @@ package Sessions;
 import Flashcards.FlashcardData;
 import Flashcards.Flashcard;
 
+import java.util.List;
 import java.util.Map;
 
 public abstract class CardShuffler implements Observer{
@@ -23,6 +24,8 @@ public abstract class CardShuffler implements Observer{
      */
     @Override
     public abstract void update();
+
+    public abstract List<Flashcard> getDeckCopy();
 
     protected Map<Flashcard, FlashcardData> getFlashcardToData() {
         return this.flashcardToData;

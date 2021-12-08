@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class DeckTest {
     Deck deck;
-    List<StudySession> observers;
+    List<CardShuffler> observers;
 
     @BeforeEach
     void setUp() {
@@ -33,9 +33,9 @@ public class DeckTest {
         deck.addFlashcard(flashcard5);
         this.deck = deck;
 
-        StudySession observerOne = new PracticeSession(deck);
-        StudySession observerTwo = new PracticeSession(deck);
-        StudySession observerThree = new PracticeSession(deck);
+        CardShuffler observerOne = new WorstToBestShuffle(deck);
+        CardShuffler observerTwo = new BasicShuffle(deck);
+        CardShuffler observerThree = new SmartShuffle(deck);
         observers.add(observerOne);
         observers.add(observerTwo);
         observers.add(observerThree);
@@ -46,7 +46,7 @@ public class DeckTest {
      */
     @Test
     public void addObserver() {
-        StudySession observerFour = new LearningSession(deck);
+        CardShuffler observerFour = new BasicShuffle(deck);
         deck.addObserver(observerFour);
         assertEquals(deck.getObservers().size(), 4);
         assertTrue(deck.getObservers().contains(observerFour));
@@ -57,8 +57,8 @@ public class DeckTest {
      */
     @Test
     public void deleteObserver() {
-        StudySession observerFour = new LearningSession(deck);
-        StudySession observerFive = new LearningSession(deck);
+        CardShuffler observerFour = new BasicShuffle(deck);
+        CardShuffler observerFive = new BasicShuffle(deck);
         deck.addObserver(observerFour);
         deck.addObserver(observerFive);
         deck.deleteObserver(observerFour);
@@ -81,7 +81,7 @@ public class DeckTest {
     }
 
     /**
-     * Test if the observers have been notified
+     * Test if the observers have been notified // TODO is this legal?
      */
     @Test
     public void notifyObservers() {
@@ -89,14 +89,14 @@ public class DeckTest {
         Flashcard flashcardHey = new Flashcard(frontHey, "Hey");
         deck.addFlashcard(flashcardHey);
 
-        for (StudySession observer: observers){
-            assertNotEquals(observer.getDeckCopy(), observer.getOriginalDeck());
+        for (CardShuffler observer: observers){
+            assertNotEquals(observer.getDeckCopy(), deck.getFlashcards());
         }
 
         deck.notifyObservers();
 
-        for (StudySession observer: observers){
-            assertEquals(observer.getDeckCopy(), observer.getOriginalDeck());
+        for (CardShuffler observer: observers){
+            assertEquals(observer.getDeckCopy(), deck.getFlashcards());
         }
     }
 }
