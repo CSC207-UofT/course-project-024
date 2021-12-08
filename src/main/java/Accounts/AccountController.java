@@ -5,6 +5,10 @@ import Sessions.StudySessionDTO;
 
 import java.util.List;
 
+/**
+ * TODO: what does this class represent
+ */
+
 public class AccountController {
 
     public AccountController(){}

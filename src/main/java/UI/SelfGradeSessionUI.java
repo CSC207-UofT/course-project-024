@@ -14,7 +14,10 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.*; // Panes, etc.
 
-public class LearningAndPracticeSessionUI extends StudySessionUI {
+/**
+ * User interface for sessions that use a self-grade feature
+ */
+public class SelfGradeSessionUI extends StudySessionUI {
 
     SessionController sessionController = new SessionController();
 
@@ -115,6 +118,10 @@ public class LearningAndPracticeSessionUI extends StudySessionUI {
         window.setScene(flippedFrontScene);
     }
 
+    /**
+     * TODO
+     * @return
+     */
     private BorderPane getTopBar() {
         BorderPane top = new BorderPane();
         HBox leftBox = new HBox();
@@ -136,6 +143,10 @@ public class LearningAndPracticeSessionUI extends StudySessionUI {
         return top;
     }
 
+    /**
+     * TODO
+     * @return
+     */
     private HBox getBottomBarFront() {
         HBox bottom = new HBox();
         bottom.setAlignment(Pos.CENTER);
@@ -147,6 +158,11 @@ public class LearningAndPracticeSessionUI extends StudySessionUI {
         return bottom;
     }
 
+    /**
+     * TODO
+     * @param window
+     * @return
+     */
     private HBox getBottomBarBackInteractable(Stage window) {
         Button yesBtn = getButton("YES");
         yesBtn.setOnMouseClicked(e -> {
@@ -170,6 +186,10 @@ public class LearningAndPracticeSessionUI extends StudySessionUI {
         return bottom;
     }
 
+    /**
+     * TODO
+     * @return
+     */
     private HBox getBottomBarBackDisabled() {
         Button yesBtn = getButton("YES");
         yesBtn.setDisable(true);
@@ -185,6 +205,11 @@ public class LearningAndPracticeSessionUI extends StudySessionUI {
         return bottom;
     }
 
+    /**
+     * TODO
+     * @param e
+     * @return
+     */
     private StackPane getRightBar(EventHandler<MouseEvent> e) {
         StackPane rightBar = new StackPane();
         rightBar.setPadding(new Insets(0, 40, 0, 0));
@@ -194,15 +219,15 @@ public class LearningAndPracticeSessionUI extends StudySessionUI {
         return rightBar;
     }
 
+    /**
+     * TODO
+     * @param btnText
+     * @return
+     */
     private Button getButton(String btnText) {
         Button btn = new Button(btnText);
         btn.setMinSize(50, 50);
         return btn;
-    }
-
-    // TODO: DO NOT RUN! JavaFX requires use of modules, so for now, run main from Main.java until properly implemented
-    public static void main(String[] args) {
-        launch(args);
     }
 }
 

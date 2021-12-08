@@ -8,6 +8,9 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * TODO, what does this class represents
+ */
 public class DeckInteractor {
 
     private static Deck currentDeck;
@@ -107,6 +110,11 @@ public class DeckInteractor {
         return new DeckDTO(name, flashcardsDTO);
     }
 
+    /**
+     * TODO
+     * @param flashcardDTO
+     * @return
+     */
     private static Flashcard findFlashcardInCurrentDeckFromDTO(FlashcardDTO flashcardDTO) {
         return currentDeck.getFlashcards().stream()
                 .filter(flashcard -> flashcard.getFront().getText().equals(flashcardDTO.getFrontText()))

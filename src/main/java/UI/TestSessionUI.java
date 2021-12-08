@@ -15,6 +15,9 @@ import javafx.scene.layout.*; // Panes, etc.
 import javafx.scene.input.MouseEvent;
 import javafx.event.EventHandler;
 
+/**
+ * User interface for test sessions
+ */
 public class TestSessionUI extends StudySessionUI {
 
     SessionController sessionController = new SessionController();
@@ -125,6 +128,10 @@ public class TestSessionUI extends StudySessionUI {
         );
     }
 
+    /**
+     * TODO
+     * @return
+     */
     private BorderPane getTopBar() {
         TestSessionDTO testSessionDTO = (TestSessionDTO) sessionController.getCurrentSession();
         BorderPane top = new BorderPane();
@@ -161,6 +168,10 @@ public class TestSessionUI extends StudySessionUI {
         return top;
     }
 
+    /**
+     * TODO
+     * @return
+     */
     private HBox getBottomBarFirst() {
         HBox bottom = new HBox();
         bottom.setAlignment(Pos.CENTER);
@@ -172,6 +183,10 @@ public class TestSessionUI extends StudySessionUI {
         return bottom;
     }
 
+    /**
+     * TODO
+     * @return
+     */
     private HBox getBottomBarShowResult() {
         HBox bottom = new HBox();
         bottom.setAlignment(Pos.CENTER);
@@ -188,6 +203,10 @@ public class TestSessionUI extends StudySessionUI {
         return bottom;
     }
 
+    /**
+     * TODO
+     * @return
+     */
     private StackPane getGenericRightBar(String btnText, EventHandler<MouseEvent> e) {
         StackPane rightBar = new StackPane();
         rightBar.setPadding(new Insets(0, 40, 0, 0));
@@ -197,6 +216,10 @@ public class TestSessionUI extends StudySessionUI {
         return rightBar;
     }
 
+    /**
+     * TODO
+     * @return
+     */
     private StackPane getLeftBar() {
         TestSessionDTO testSessionDTO = (TestSessionDTO) sessionController.getCurrentSession();
         StackPane leftBar = new StackPane();
@@ -208,12 +231,20 @@ public class TestSessionUI extends StudySessionUI {
         return leftBar;
     }
 
+    /**
+     * TODO
+     * @return
+     */
     private Button getButton(String btnText) {
         Button btn = new Button(btnText);
         btn.setMinSize(50, 50);
         return btn;
     }
 
+    /**
+     * TODO
+     * @return
+     */
     private void displayAlertBox(String msg) {
         Stage alertWindow = new Stage();
         alertWindow.setTitle("Test Finished");
@@ -235,6 +266,10 @@ public class TestSessionUI extends StudySessionUI {
         alertWindow.showAndWait();
     }
 
+    /**
+     * TODO
+     * @return
+     */
     private StackPane getRightBar(Stage window) {
         TestSessionDTO testSessionDTO = (TestSessionDTO) sessionController.getCurrentSession();
         StackPane rightBar;
@@ -247,11 +282,6 @@ public class TestSessionUI extends StudySessionUI {
             rightBar = getGenericRightBar("Get another card", e -> setNewCardScene(window));
         }
         return rightBar;
-    }
-
-    // TODO: DO NOT RUN! JavaFX requires use of modules, so for now, run main from Main.java until properly implemented
-    public static void main(String[] args) {
-        launch(args);
     }
 }
 

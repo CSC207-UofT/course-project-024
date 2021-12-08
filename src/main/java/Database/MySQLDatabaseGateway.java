@@ -13,6 +13,9 @@ import java.sql.*;
 import java.util.*;
 import java.util.List;
 
+/**
+ * TODO, what this class represents
+ */
 public class MySQLDatabaseGateway implements DatabaseGateway {
 
     /**
@@ -66,6 +69,12 @@ public class MySQLDatabaseGateway implements DatabaseGateway {
         }
     }
 
+    /**
+     * TODO
+     * @param username
+     * @param password
+     * @return
+     */
     public AccountDTO getAccountFromDB(String username, String password){
         try{
             List<DeckDTO> deckDTOS = getDecksFromDB(username);
@@ -80,6 +89,11 @@ public class MySQLDatabaseGateway implements DatabaseGateway {
         }
     }
 
+    /**
+     * TODO
+     * @param username
+     * @return
+     */
     public Boolean duplicateAccount(String username){
         try {
             ResultSet account = createStatement().executeQuery("Select * FROM accounts WHERE username = '" + username + "'");
@@ -95,6 +109,11 @@ public class MySQLDatabaseGateway implements DatabaseGateway {
         }
     }
 
+    /**
+     * TODO
+     * @param username
+     * @param password
+     */
     public void addAccountToDB(String username, String password){
         try {
             PreparedStatement pstmt = connection().prepareStatement("INSERT INTO accounts VALUES (?, ?)");
@@ -201,7 +220,11 @@ public class MySQLDatabaseGateway implements DatabaseGateway {
         }
     }
 
-
+    /**
+     * TODO
+     * @param oldValue
+     * @param newValue
+     */
     public void updateCardBackInDB(String oldValue, String newValue){
         try{
             PreparedStatement pstmt = connection().prepareStatement("UPDATE cards SET back = (?) WHERE back = (?)");
@@ -217,6 +240,11 @@ public class MySQLDatabaseGateway implements DatabaseGateway {
         }
     }
 
+    /**
+     * TODO
+     * @param oldValue
+     * @param newValue
+     */
     public void updateDeckNameInDB(String oldValue, String newValue){
         try{
             PreparedStatement pstmt = connection().prepareStatement("UPDATE decks SET deck_name = (?) WHERE deck_name = (?)");
@@ -232,6 +260,11 @@ public class MySQLDatabaseGateway implements DatabaseGateway {
         }
     }
 
+    /**
+     * TODO
+     * @param oldText
+     * @param newImage
+     */
     public void editFlashcardImage(String oldText, BufferedImage newImage){
         try{
             PreparedStatement pstmt = connection().prepareStatement("UPDATE cards SET image = (?) WHERE front = (?)");

@@ -8,6 +8,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Data Transfer Object for SmartShuffle
+ */
 public class SmartShuffleDTO extends CardShufflerDTO {
 
     private final List<FlashcardDTO> deckCopy;
@@ -20,10 +23,18 @@ public class SmartShuffleDTO extends CardShufflerDTO {
         this.lastFlashcardShown = lastFlashcardShown;
     }
 
+    /**
+     * getter method for deckCopy
+     * @return List<FlashcardDTO>
+     */
     public List<FlashcardDTO> getDeckCopy() {
         return deckCopy;
     }
 
+    /**
+     * getter method for last flashcard shown
+     * @return FlashcardDTO
+     */
     public FlashcardDTO getLastFlashcardShown() {
         return lastFlashcardShown;
     }

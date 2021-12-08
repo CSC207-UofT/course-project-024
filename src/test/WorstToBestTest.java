@@ -1,3 +1,4 @@
+import Sessions.CardShuffler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +14,6 @@ import Sessions.WorstToBestShuffle;
 public class WorstToBestTest {
     WorstToBestShuffle shuffler;
     private Deck deck;
-    private Map<Flashcard, FlashcardData> map;
 
     @BeforeEach
     void setUp() {
@@ -34,23 +34,24 @@ public class WorstToBestTest {
         deck.addFlashcard(flashcard4);
         deck.addFlashcard(flashcard5);
 
+        this.deck = deck;
+        shuffler = new WorstToBestShuffle(deck);
+
         FlashcardData data1 = new FlashcardData(4,3);
-        map.put(flashcard1, data1);
+        shuffler.getFlashcardToData().put(flashcard1, data1);
 
         FlashcardData data2 = new FlashcardData(1,3);
-        map.put(flashcard2, data2);
+        shuffler.getFlashcardToData().put(flashcard2, data2);
 
         FlashcardData data3 = new FlashcardData(5,3);
-        map.put(flashcard3, data3);
+        shuffler.getFlashcardToData().put(flashcard3, data3);
 
         FlashcardData data4 = new FlashcardData(3,3);
-        map.put(flashcard4, data4);
+        shuffler.getFlashcardToData().put(flashcard4, data4);
 
         FlashcardData data5 = new FlashcardData(2,3);
-        map.put(flashcard5, data5);
+        shuffler.getFlashcardToData().put(flashcard5, data5);
 
-//        shuffler.setDeck(deck);
-        this.deck = deck;
     }
 
     /**
@@ -59,57 +60,86 @@ public class WorstToBestTest {
     @Test
     void size() {
         shuffler.shuffleCards();
-//        assertEquals(5, shuffler.getDeckCopy().getFlashcards().size());
+        assertEquals(5, shuffler.getDeckCopy().size());
     }
 
     /**
      * Test that the cards are in proper order after shuffling
      */
     @Test
-    void order() {
+    void shuffle() {
         shuffler.shuffleCards();
-//        assertTrue(shuffler.getDeckCopy().getFlashcards().get(0).equals(deck.getFlashcards().get(1)) ||
-//                shuffler.getDeckCopy().getFlashcards().get(1).equals(deck.getFlashcards().get(4)) ||
-//                shuffler.getDeckCopy().getFlashcards().get(2).equals(deck.getFlashcards().get(3)) ||
-//                shuffler.getDeckCopy().getFlashcards().get(3).equals(deck.getFlashcards().get(0)) ||
-//                shuffler.getDeckCopy().getFlashcards().get(4).equals(deck.getFlashcards().get(2)));
+        assertTrue(shuffler.getDeckCopy().get(0).equals(deck.getFlashcards().get(1)) ||
+                shuffler.getDeckCopy().get(1).equals(deck.getFlashcards().get(4)) ||
+                shuffler.getDeckCopy().get(2).equals(deck.getFlashcards().get(3)) ||
+                shuffler.getDeckCopy().get(3).equals(deck.getFlashcards().get(0)) ||
+                shuffler.getDeckCopy().get(4).equals(deck.getFlashcards().get(2)));
     }
 
     /**
      * Test returnchosenflashcard actually goes through the entire deck before reshuffling
      */
     @Test
-    void returnflashcard() {
+    void returnFlashcard() {
         Flashcard.Front front1 = new Flashcard.Front("!!!", null);
         Flashcard flashcard1 = new Flashcard(front1, "???");
-//        shuffler.updateDeckContext();
+        deck.addFlashcard(flashcard1);
+        shuffler.update();
         shuffler.shuffleCards();
         Flashcard card1 = shuffler.returnChosenFlashcard();
-        assertTrue(card1.equals(flashcard1));
+        assertEquals(card1, flashcard1);
     }
 
     /**
-     * Test update deckcontext when flash card is added
+     * Test update when flashcard is added
      */
     @Test
-    void deckcontextadd() {
+    void updateAdd() {
         Flashcard.Front front = new Flashcard.Front("<3", null);
         Flashcard card = new Flashcard(front, ":)");
         deck.addFlashcard(card);
-//        shuffler.updateDeckContext();
-//        assertTrue(shuffler.getDeckCopy().getFlashcards().contains(card));
+        shuffler.update();
+        assertTrue(shuffler.getDeckCopy().contains(card));
     }
 
     /**
-     * Test update deckcontext when flash card is deleted
+     * Test update when flashcard is deleted
      */
     @Test
-    void deckcontextdelete() {
+    void updateDelete() {
         Flashcard.Front front = new Flashcard.Front("<3", null);
         Flashcard card = new Flashcard(front, ":)");
         deck.addFlashcard(card);
         deck.removeFlashcard(card);
-//        shuffler.updateDeckContext();
-//        assertFalse(shuffler.getDeckCopy().getFlashcards().contains(card));
+        shuffler.update();
+        assertFalse(shuffler.getDeckCopy().contains(card));
+    }
+
+    /**
+     * Test update flashcard data when the card is correct
+     */
+    @Test
+    void updateCardCorrect() {
+        Flashcard.Front front = new Flashcard.Front("<3", null);
+        Flashcard card = new Flashcard(front, ":)");
+        deck.addFlashcard(card);
+        shuffler.update();
+        shuffler.setLastFlashcardShown(card);
+        shuffler.postAnswerFlashcardDataUpdate(true);
+        assertEquals(shuffler.getFlashcardToData().get(card).getProficiency(), 1);
+    }
+
+    /**
+     * Test update flashcard data when the card is incorrect
+     */
+    @Test
+    void updateCardIncorrect() {
+        Flashcard.Front front = new Flashcard.Front("<3", null);
+        Flashcard card = new Flashcard(front, ":)");
+        deck.addFlashcard(card);
+        shuffler.update();
+        shuffler.setLastFlashcardShown(card);
+        shuffler.postAnswerFlashcardDataUpdate(false);
+        assertEquals(shuffler.getFlashcardToData().get(card).getProficiency(), -1);
     }
 }

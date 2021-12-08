@@ -81,11 +81,18 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
         this.deckCopy.removeIf(card -> !this.flashcardToData.containsKey(card));
     }
 
-
+    /**
+     * getter method for deckcopy
+     * @return List of flashcards
+     */
     public List<Flashcard> getDeckCopy() {
         return this.deckCopy;
     }
 
+    /**
+     * getter for the the last flashcard shown
+     * @return Flashcard
+     */
     public Flashcard getLastFlashcardShown() {
         return this.lastFlashcardShown;
     }

@@ -3,9 +3,12 @@ package Sessions;
 import Decks.Deck;
 import Flashcards.Flashcard;
 
+/**
+ * A type of study session for testing. Users can be marked based off their answers.
+ */
 public class TestSession extends StudySession {
 
-    private final int length;
+    private final int length; // How many cards will be shown by the session
     private int cardsSeen;
     private int numCorrect; // the number of times the user guessed the back of the card correctly
 
@@ -40,6 +43,10 @@ public class TestSession extends StudySession {
         return this.numCorrect;
     }
 
+    /**
+     * Returns the next card given by this StudySession's CardShuffler.
+     * @return A Flashcard chosen by this StudySession's CardShuffler
+     */
     @Override
     public Flashcard getNextCard() {
         this.cardsSeen++;

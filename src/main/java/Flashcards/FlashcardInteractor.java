@@ -6,6 +6,9 @@ import javax.sql.rowset.serial.SerialBlob;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 
+/**
+ * TODO class representation
+ */
 public class FlashcardInteractor {
 
     private static Flashcard currentFlashcard;

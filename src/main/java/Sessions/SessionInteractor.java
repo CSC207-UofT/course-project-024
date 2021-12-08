@@ -165,7 +165,7 @@ public class SessionInteractor {
             for (Flashcard flashcard : worstToBestShuffle.getDeckCopy()){
                 FlashcardDTO flashcardDTO = FlashcardInteractor.convertFlashcardToDTO(flashcard);
                 FlashcardDataDTO dataDTO = FlashcardInteractor.convertFlashcardDataToDTO(
-                        worstToBestShuffle.flashcardToData.get(flashcard));
+                        worstToBestShuffle.getFlashcardToData().get(flashcard));
                 deckCopy.add(flashcardDTO);
                 flashcardToDataDTO.put(flashcardDTO, dataDTO);
             }
