@@ -93,7 +93,7 @@ public class LoginUI extends Application {
                 try {
                     // use the login function from AccountController. That will set the currentAccount
                     AccountController.login(currAccount, password);
-                    new Main().start(new Stage());
+                    new MainUILauncher().start(new Stage());
                     window.close();
                 } catch (IOException ex) {
                     ex.printStackTrace();
