@@ -128,36 +128,14 @@ public class TestSessionUI extends StudySessionUI {
     private BorderPane getTopBar() {
         TestSessionDTO testSessionDTO = (TestSessionDTO) sessionController.getCurrentSession();
         BorderPane top = new BorderPane();
-        HBox leftBox = new HBox();
         HBox midBox = new HBox();
-        HBox rightBox = new HBox();
-        leftBox.setSpacing(10);
         midBox.setSpacing(10);
-        rightBox.setSpacing(10);
-        leftBox.setPadding(new Insets(10, 10, 20, 10));
         midBox.setPadding(new Insets(10,10,10,10));
-        rightBox.setPadding(new Insets(10, 10, 20, 10));
         midBox.setAlignment(Pos.CENTER);
-        if (rightBox.widthProperty().lessThanOrEqualTo(rightBox.widthProperty()).get()) {
-            rightBox.prefWidthProperty().bind(leftBox.widthProperty());
-        } else {
-            leftBox.prefWidthProperty().bind(rightBox.widthProperty());
-        }
-        Button exitBtn = new Button("Exit Session");
-        // TODO: implement
-        exitBtn.setOnMouseClicked(e -> System.out.println("Exiting session..."));
-        Button logoutBtn = new Button("Logout");
-        // TODO: implement
-        logoutBtn.setOnMouseClicked(e -> System.out.println("Logging out..."));
-        // TODO: implement
         Label cardCountLabel = new Label("Card: " + testSessionDTO.getCardsSeen() + " / " + testSessionDTO.getLength());
         cardCountLabel.setFont(Font.font(20));
-        leftBox.getChildren().add(exitBtn);
         midBox.getChildren().add(cardCountLabel);
-        rightBox.getChildren().add(logoutBtn);
-        top.setLeft(leftBox);
         top.setCenter(midBox);
-        top.setRight(rightBox);
         return top;
     }
 

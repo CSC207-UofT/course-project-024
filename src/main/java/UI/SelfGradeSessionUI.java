@@ -1,8 +1,6 @@
 package UI;
 
-import Flashcards.FlashcardDTO;
 import Sessions.SessionController;
-import Sessions.SessionInteractor;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -35,11 +33,9 @@ public class SelfGradeSessionUI extends StudySessionUI {
         flashcard = sessionController.getNextCard();
         BorderPane layout = new BorderPane();
 
-        BorderPane top = getTopBar();
         StackPane center = getFlippableFlashcardFront(e -> setFirstFlipScene(window));
         HBox bottom = getBottomBarFront();
 
-        layout.setTop(top);
         layout.setCenter(center);
         layout.setBottom(bottom);
 
@@ -55,11 +51,9 @@ public class SelfGradeSessionUI extends StudySessionUI {
     public void setFirstFlipScene(Stage window) {
         BorderPane layout = new BorderPane();
 
-        BorderPane top = getTopBar();
         StackPane center = getFlashcardBack();
         HBox bottom = getBottomBarBackInteractable(window);
 
-        layout.setTop(top);
         layout.setCenter(center);
         layout.setBottom(bottom);
         Scene firstFlipScene = new Scene(layout, WINDOW_LENGTH, WINDOW_HEIGHT);
@@ -73,16 +67,13 @@ public class SelfGradeSessionUI extends StudySessionUI {
     public void setFlippedBackScene(Stage window) {
         BorderPane layout = new BorderPane();
 
-        BorderPane top = getTopBar();
         StackPane center = getFlippableFlashcardBack(e -> setFlippedFrontScene(window));
-        // TODO: implement
         StackPane right = getRightBar(e -> setNewCardScene(window));
         Region left = new Region();
         left.prefWidthProperty().bind(right.widthProperty());
         HBox bottom = getBottomBarBackDisabled();
 
 
-        layout.setTop(top);
         layout.setCenter(center);
         layout.setRight(right);
         layout.setLeft(left);
@@ -98,42 +89,18 @@ public class SelfGradeSessionUI extends StudySessionUI {
     public void setFlippedFrontScene(Stage window) {
         BorderPane layout = new BorderPane();
 
-        BorderPane top = getTopBar();
         StackPane center = getFlippableFlashcardFront(e -> setFlippedBackScene(window));
-        // TODO: implement
         StackPane right = getRightBar(e -> setNewCardScene(window));
         Region left = new Region();
         left.prefWidthProperty().bind(right.widthProperty());
         HBox bottom = getBottomBarBackDisabled();
 
-        layout.setTop(top);
         layout.setCenter(center);
         layout.setRight(right);
         layout.setLeft(left);
         layout.setBottom(bottom);
         Scene flippedFrontScene = new Scene(layout, WINDOW_LENGTH, WINDOW_HEIGHT);
         window.setScene(flippedFrontScene);
-    }
-
-    private BorderPane getTopBar() {
-        BorderPane top = new BorderPane();
-        HBox leftBox = new HBox();
-        HBox rightBox = new HBox();
-        leftBox.setSpacing(10);
-        rightBox.setSpacing(10);
-        leftBox.setPadding(new Insets(10, 10, 20, 10));
-        rightBox.setPadding(new Insets(10, 10, 20, 10));
-        Button exitBtn = new Button("Exit Session");
-        // TODO: implement
-        exitBtn.setOnMouseClicked(e -> System.out.println("Exiting session..."));
-        Button logoutBtn = new Button("Logout");
-        // TODO: implement
-        logoutBtn.setOnMouseClicked(e -> System.out.println("Logging out..."));
-        leftBox.getChildren().add(exitBtn);
-        rightBox.getChildren().add(logoutBtn);
-        top.setLeft(leftBox);
-        top.setRight(rightBox);
-        return top;
     }
 
     private HBox getBottomBarFront() {
