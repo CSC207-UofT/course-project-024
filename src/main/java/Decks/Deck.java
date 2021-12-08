@@ -11,7 +11,7 @@ import java.util.List;
  * Represents a deck of flashcards
  */
 public class Deck implements Observable {
-    private List<Observer> observers;
+    private final List<Observer> observers;
     private String name;
     private final List<Flashcard> flashcards;
     private List<Flashcard> flashcardsLastState;
@@ -96,7 +96,7 @@ public class Deck implements Observable {
 
     /**
      * add an observer to the observable
-     * @param observer
+     * @param observer The observer to be added
      */
     @Override
     public void addObserver(Observer observer) {
@@ -106,7 +106,7 @@ public class Deck implements Observable {
 
     /**
      * delete an observer from the observable
-     * @param observer
+     * @param observer The observer to be added
      */
     @Override
     public void deleteObserver(Observer observer) {

@@ -12,7 +12,7 @@ import java.util.*;
 public class BasicShuffle extends CardShuffler {
 
     private int index;
-    private List<Flashcard> deckCopy;
+    private final List<Flashcard> deckCopy;
 
     /**
      * Construct a new BasicShuffle card shuffler.

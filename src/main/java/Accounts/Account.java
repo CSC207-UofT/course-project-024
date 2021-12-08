@@ -113,15 +113,6 @@ public class Account {
     }
 
     /**
-     * Delete the given deck from this account.
-     * @param deck The deck which will be deleted from this account
-     */
-    public void deleteDeck(Deck deck) {
-        this.decks.remove(deck);
-        this.decksToSessions.remove(deck);
-    }
-
-    /**
      * Add the given StudySession to this account.
      * @param deck The deck which the given session is based on
      * @param session The session which will be added to this account

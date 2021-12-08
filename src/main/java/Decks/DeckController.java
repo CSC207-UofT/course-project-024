@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO describe class
+ * This class handles the logic that UI elements need from Decks.
  */
 public class DeckController {
     // DatabaseGateway DBgateway = new DatabaseGateway();
@@ -49,17 +49,15 @@ public class DeckController {
      * Create a new empty deck, which is bound to the current account and stored in a database. Return whether the
      * deck was successfully created.
      * @param name Name of the new deck
-     * @return whether the deck was successfully created
      */
-    public boolean createDeck(String name){
+    public void createDeck(String name){
         DeckDTO deckDTO = DeckInteractor.createDeck(name);
         AccountDTO accountDTO = AccountInteractor.getCurrentAccount();
         if (!hasUniqueName(deckDTO, accountDTO)) {
-            return false;
+            return;
         }
         AccountInteractor.addDeckToCurrentAccount(deckDTO);
         DBgateway.addDeckToDB(accountDTO.getUsername(), name);
-        return true;
     }
 
     /**
@@ -97,17 +95,15 @@ public class DeckController {
      * @param frontText The text on the front of the new flashcard (possibly null)
      * @param frontImage The image on the front of the new flashcard (possibly null)
      * @param back The text on the back of the new flashcard
-     * @return whether the card was successfully created.
      */
-    public boolean addCard(String frontText, BufferedImage frontImage, String back) {
+    public void addCard(String frontText, BufferedImage frontImage, String back) {
         if (!hasUniqueName(frontText, getCurrentDeck())) {
-            return false;
+            return;
         }
         DeckInteractor.addFlashcardToCurrentDeck(frontText, frontImage, back);
         AccountInteractor.updateSessionsOfDeckInCurrentAccount(getCurrentDeck());
         DBgateway.addCardToDeckInDB(AccountInteractor.getCurrentAccount().getUsername(), DeckInteractor.getCurrentDeck().getName(), frontText, back, frontImage);
 
-        return true;
     }
 
     /**
@@ -134,10 +130,10 @@ public class DeckController {
     }
 
     /**
-     * TODO
-     * @param deckDTO
-     * @param accountDTO
-     * @return
+     * Check and return whether the deckDTO has a unique name or not.
+     * @param deckDTO The deckDTO to be checked
+     * @param accountDTO The accountDTO that the deckDTO belongs to
+     * @return Whether the deckDTO's name is unique
      */
     private boolean hasUniqueName(DeckDTO deckDTO, AccountDTO accountDTO) {
         List<String> existingDeckNames = new ArrayList<>();
@@ -148,10 +144,10 @@ public class DeckController {
     }
 
     /**
-     * TODO
-     * @param frontText
-     * @param deckDTO
-     * @return
+     * Check and return whether a flashcard front has a unique front text or not.
+     * @param frontText The text to be compared
+     * @param deckDTO The deck that the flashcard belongs to
+     * @return Whether the front text is unique within that deck or not
      */
     private boolean hasUniqueName(String frontText, DeckDTO deckDTO) {
         List<String> existingFlashcardNames = new ArrayList<>();

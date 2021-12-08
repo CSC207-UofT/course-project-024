@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Main stage for the GUI
  */
-public class Main extends Application {
+public class MainUILauncher extends Application {
 
     /**
      * Starts the stage
@@ -19,7 +19,7 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/main-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(MainUILauncher.class.getResource("/main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Flashcards!");
         stage.setScene(scene);

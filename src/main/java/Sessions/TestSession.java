@@ -68,30 +68,9 @@ public class TestSession extends StudySession {
     }
 
     /**
-     * Increment the counter for the number of flashcards seen by the user in total during this session.
-     */
-    public void incrementCardsSeen() {
-        this.cardsSeen++;
-    }
-
-    /**
      * @return the number of cards that will be shown to the user in this session.
      */
     public int getLength() {
         return this.length;
-    }
-
-    /**
-     * @return a double representing the percentage of cards that the users guessed correctly.
-     */
-    public double getPercentageCorrect() {
-        return ((double)(this.numCorrect) / this.length * 100) ;
-    }
-
-    /**
-     * Updates this session's CardShuffler's shuffled deck with the updated version in the Account.
-     */
-    public void updateFlashcardData() {
-        this.cardShuffler.update();
     }
 }

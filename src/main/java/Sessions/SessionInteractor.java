@@ -37,15 +37,6 @@ public class SessionInteractor {
     }
 
     /**
-     * Return a new LearningSession based on the specified deck.
-     * @param deckDTO The deck which this session will be based on
-     * @return a new LearningSession.
-     */
-    public static StudySessionDTO createLearningSession(DeckDTO deckDTO) {
-        return convertSessionToDTO(new LearningSession(DeckInteractor.convertDTOToDeck(deckDTO)));
-    }
-
-    /**
      * @return the current session
      */
     public static StudySessionDTO getCurrentSession() {

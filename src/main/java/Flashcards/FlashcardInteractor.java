@@ -1,13 +1,9 @@
 package Flashcards;
 
-import com.mysql.cj.jdbc.Blob;
-
-import javax.sql.rowset.serial.SerialBlob;
 import java.awt.image.BufferedImage;
-import java.io.InputStream;
 
 /**
- * TODO class representation
+ * This class handles use cases for Flashcards.
  */
 public class FlashcardInteractor {
 

@@ -6,7 +6,7 @@ import Sessions.StudySessionDTO;
 import java.util.List;
 
 /**
- * TODO: what does this class represent
+ * This class handles logic that UI elements need from accounts.
  */
 
 public class AccountController {
@@ -28,13 +28,6 @@ public class AccountController {
      */
     public static void selectDeck(DeckDTO selectedDeckDTO) {
         AccountInteractor.selectDeck(selectedDeckDTO);
-    }
-
-    /**
-     * Provide relevant interactors with the ability to use the given StudySession.
-     */
-    public static void selectSession(DeckDTO deckDTO, StudySessionDTO sessionDTO) {
-        AccountInteractor.selectSession(deckDTO, sessionDTO);
     }
 
     /**
@@ -62,14 +55,6 @@ public class AccountController {
      */
     public static AccountDTO createAccount(String username, String password) {
         return AccountInteractor.createAccount(username, password);
-    }
-
-    /**
-     * Change the current account's username to the given username.
-     * @param newUsername The new username of the account
-     */
-    public static void changeCurrentAccountUsername(String newUsername) {
-        AccountInteractor.changeCurrentAccountUsername(newUsername);
     }
 
     /**
