@@ -2,6 +2,9 @@ package Flashcards;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * This class represents a flashcard used for studying
+ */
 public class Flashcard {
 
     private Front front;

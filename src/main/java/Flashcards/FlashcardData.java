@@ -1,5 +1,8 @@
 package Flashcards;
 
+/**
+ * This class represents user data on a certain flashcard
+ */
 public class FlashcardData {
     private int proficiency;
     private int cardsUntilDue;
@@ -23,22 +26,39 @@ public class FlashcardData {
         this.cardsUntilDue = defaultCardsUntilDue;
     }
 
+    /**
+     * get the flashcardData's proficiency
+     * @return int
+     */
     public int getProficiency() {
         return proficiency;
     }
 
+    /**
+     * add to the flashcardData's proficiency
+     */
     public void addProficiency() {
         this.proficiency = proficiency + 1;
     }
 
+    /**
+     * remove from the flashcardData's proficiency
+     */
     public void removeProficiency() {
         this.proficiency = proficiency - 1;
     }
 
+    /**
+     * get the flashcardData's cards until due
+     * @return int
+     */
     public int getCardsUntilDue() {
         return cardsUntilDue;
     }
 
+    /**
+     * set the flashcardData's cards until due
+     */
     public void setCardsUntilDue(int newCardsUntilDue) {
         this.cardsUntilDue = newCardsUntilDue;
     }

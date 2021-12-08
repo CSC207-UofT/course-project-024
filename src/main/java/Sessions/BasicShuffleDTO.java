@@ -6,6 +6,9 @@ import Flashcards.FlashcardDataDTO;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Data Transfer Object for BasicShuffle
+ */
 public class BasicShuffleDTO extends CardShufflerDTO {
 
     private final int index;
@@ -18,10 +21,18 @@ public class BasicShuffleDTO extends CardShufflerDTO {
         this.deckCopy = deckCopy;
     }
 
+    /**
+     * getter method for index
+     * @return int
+     */
     public int getIndex() {
         return index;
     }
 
+    /**
+     * getter method for deckCopy
+     * @return List<FlashcardDTO>
+     */
     public List<FlashcardDTO> getDeckCopy() {
         return deckCopy;
     }
