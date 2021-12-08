@@ -24,7 +24,7 @@ public abstract class CardShuffler implements Observer{
     @Override
     public abstract void update();
 
-    protected Map<Flashcard, FlashcardData> getFlashcardToData() {
+    public Map<Flashcard, FlashcardData> getFlashcardToData() {
         return this.flashcardToData;
     }
 
