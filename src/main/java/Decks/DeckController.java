@@ -10,6 +10,9 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * TODO describe class
+ */
 public class DeckController {
     // DatabaseGateway DBgateway = new DatabaseGateway();
     DatabaseGateway DBgateway;
@@ -130,6 +133,12 @@ public class DeckController {
         DBgateway.updateCardBackInDB(oldFlashcard.getBack(), newBack);
     }
 
+    /**
+     * TODO
+     * @param deckDTO
+     * @param accountDTO
+     * @return
+     */
     private boolean hasUniqueName(DeckDTO deckDTO, AccountDTO accountDTO) {
         List<String> existingDeckNames = new ArrayList<>();
         for (DeckDTO d : accountDTO.getDecks()) {
@@ -138,6 +147,12 @@ public class DeckController {
         return !existingDeckNames.contains(deckDTO.getName());
     }
 
+    /**
+     * TODO
+     * @param frontText
+     * @param deckDTO
+     * @return
+     */
     private boolean hasUniqueName(String frontText, DeckDTO deckDTO) {
         List<String> existingFlashcardNames = new ArrayList<>();
         for (FlashcardDTO f : deckDTO.getFlashcards()) {

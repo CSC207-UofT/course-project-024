@@ -3,8 +3,12 @@ package Sessions;
 import Flashcards.FlashcardData;
 import Flashcards.Flashcard;
 
+import java.util.List;
 import java.util.Map;
 
+/**
+ * This class deals with how to shuffle decks
+ */
 public abstract class CardShuffler implements Observer{
 
     /**
@@ -24,10 +28,38 @@ public abstract class CardShuffler implements Observer{
     @Override
     public abstract void update();
 
-    protected Map<Flashcard, FlashcardData> getFlashcardToData() {
+    /**
+     * getter method for flashcardToData
+     * @return Map<Flashcard, FlashcardData>
+     */
+    public Map<Flashcard, FlashcardData> getFlashcardToData() {
         return this.flashcardToData;
     }
 
+    /**
+     * A method for testing that adds a throwaway flashcard to this shuffler's flashcard to flashcard data map.
+     * @return The flashcard that was added
+     */
+    public Flashcard addToFlashcardData() {
+        Flashcard newFlashcard = new Flashcard(new Flashcard.Front("Hi", null), "Hi");
+        this.flashcardToData.put(newFlashcard, new FlashcardData(0));
+        return newFlashcard;
+    }
 
+    /**
+     * A method for testing that removes the first flashcard from this shuffler's flashcard to flashcard data map.
+     * @return The Flashcard that was removed
+     */
+    public Flashcard removeFromFlashcardData() {
+        Flashcard removedFlashcard = this.flashcardToData.keySet().stream().toList().get(0);
+        this.flashcardToData.remove(removedFlashcard);
+        return removedFlashcard;
+    }
+
+    /**
+     * getter method for the deckCopy
+     * @return List<Flashcard>
+     */
+    public abstract List<Flashcard> getDeckCopy();
 
 }

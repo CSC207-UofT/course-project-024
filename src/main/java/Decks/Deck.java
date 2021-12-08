@@ -7,6 +7,9 @@ import Sessions.Observer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a deck of flashcards
+ */
 public class Deck implements Observable {
     private List<Observer> observers;
     private String name;
@@ -91,17 +94,29 @@ public class Deck implements Observable {
         return new Deck(this.name, copiedFlashcards);
     }
 
+    /**
+     * add an observer to the observable
+     * @param observer
+     */
     @Override
     public void addObserver(Observer observer) {
         observers.add(observer);
 
     }
 
+    /**
+     * delete an observer from the observable
+     * @param observer
+     */
     @Override
     public void deleteObserver(Observer observer) {
         observers.remove(observer);
     }
 
+    /**
+     * check if the state of the deck has changed
+     * @return boolean. Return true if the state of the deck has changed
+     */
     @Override
     public boolean hasChanged() {
         if (flashcards.equals(flashcardsLastState)){
@@ -111,6 +126,9 @@ public class Deck implements Observable {
         return true;
     }
 
+    /**
+     * notify observers of any changes. Update the observers if there are changes
+     */
     @Override
     public void notifyObservers() {
         if (hasChanged()){
@@ -120,6 +138,10 @@ public class Deck implements Observable {
         }
     }
 
+    /**
+     * getter method for the list of observers
+     * @return A list of observers
+     */
     @Override
     public List<Observer> getObservers(){
         return this.observers;

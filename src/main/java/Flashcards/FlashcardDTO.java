@@ -2,6 +2,9 @@ package Flashcards;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * Data Transfer Object for Flashcard
+ */
 public class FlashcardDTO {
 
     private final String frontText;

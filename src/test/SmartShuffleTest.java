@@ -1,112 +1,103 @@
 import Decks.Deck;
-import Accounts.Account;
-import Decks.DeckController;
-import Decks.DeckDTO;
-import Decks.DeckInteractor;
 import Flashcards.Flashcard;
-import Flashcards.FlashcardData;
-import Sessions.*;
+import Sessions.SmartShuffle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.LinkedList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class SmartShuffleTest {
-    DeckController deckController;
-    Account account;
-    SessionController sessionController;
-    StudySessionDTO session;
-    DeckDTO deck;
+    SmartShuffle cardShuffler;
+    Deck deck;
 
     @BeforeEach
     void setUp() {
-        this.deckController = new DeckController();
-        this.account = new Account("hi", "bye");
-        this.sessionController = new SessionController();
+        this.deck = new Deck("deck1");
+//
+        Flashcard flashcard = new Flashcard(new Flashcard.Front("1", null), "1");
+        Flashcard flashcard2 = new Flashcard(new Flashcard.Front("2", null), "2");
+        Flashcard flashcard3 = new Flashcard(new Flashcard.Front("3", null), "3");
+        Flashcard flashcard4 = new Flashcard(new Flashcard.Front("4", null), "4");
+        Flashcard flashcard5 = new Flashcard(new Flashcard.Front("5", null), "5");
 
-        this.deckController.createDeck("default");
-        this.deck = DeckInteractor.getCurrentDeck();
-        this.sessionController.startLearningSession(this.deck);
-        this.session = sessionController.getCurrentSession();
+
+        this.deck.getFlashcards().add(flashcard);
+        this.deck.getFlashcards().add(flashcard2);
+        this.deck.getFlashcards().add(flashcard3);
+        this.deck.getFlashcards().add(flashcard4);
+        this.deck.getFlashcards().add(flashcard5);
+//
+        this.cardShuffler = new SmartShuffle(this.deck);
     }
 
     @Test
     void returnChosenFlashcard() {
 
-        deckController.addCard("1", null, "1");
-        deckController.addCard("2", null, "2");
-        deckController.addCard("3", null, "3");
-        deckController.addCard("4", null, "4");
-        deckController.addCard("5", null, "5");
+        SmartShuffle smartShuffle = new SmartShuffle(this.deck);
 
-        StudySession nonDTOsession = SessionInteractor.convertDTOToSession(this.session);
-        Flashcard actual = nonDTOsession.getCardShuffler().returnChosenFlashcard();
-        List<Flashcard> deckCopy = ((SmartShuffle) nonDTOsession.getCardShuffler()).getDeckCopy();
+        Flashcard actual = smartShuffle.returnChosenFlashcard();
 
-        Flashcard expected = deckCopy.get(0);
+        Flashcard expected = smartShuffle.getDeckCopy().get(0);
 
         assertEquals(expected, actual);
 
     }
 
     @Test
-    void updateDeckContext() {
-        deckController.addCard("new", null, "newBack");
-        StudySession nonDTOsession = SessionInteractor.convertDTOToSession(this.session);
-        nonDTOsession.updateDeckContext();
-        // TODO: need to fix the assertEqual statements
-        assertEquals(this.deck.getFlashcards(), ((SmartShuffle) nonDTOsession.getCardShuffler()).getDeckCopy());
+    void update() {
+        Flashcard flashcardAdded = this.cardShuffler.addToFlashcardData();
 
-        deckController.deleteCard(0);
+        this.cardShuffler.update();
 
-        assertEquals(this.deck.getFlashcards(), ((SmartShuffle) nonDTOsession.getCardShuffler()).getDeckCopy());
-    }
+        assertTrue(this.cardShuffler.getDeckCopy().contains(flashcardAdded));
 
-    @Test
-    void getDeckCopy() {
-        this.deckController.addCard("1", null, "1");
-        this.deckController.addCard("2", null, "2");
-        this.deckController.addCard("3", null, "3");
-        // TODO: need to fix the assertEqual statements
-        StudySession nonDTOsession = SessionInteractor.convertDTOToSession(this.session);
-        LinkedList<Flashcard> actual = ((SmartShuffle) nonDTOsession.getCardShuffler()).getDeckCopy();
-        assertEquals(actual, this.deck.getFlashcards());
+        Flashcard flashcardRemoved = this.cardShuffler.removeFromFlashcardData();
+
+        this.cardShuffler.update();
+
+        assertFalse(this.cardShuffler.getDeckCopy().contains(flashcardRemoved));
     }
 
     @Test
     void postAnswerFlashcardDataUpdate() {
-        this.deckController.addCard("1", null, "1");
+        Flashcard testFlashcard = this.cardShuffler.getDeckCopy().get(0);
 
-        this.deckController.addCard("2", null, "2");
+        this.cardShuffler.setLastFlashcardShown(testFlashcard);
 
-        StudySession nonDTOsession = SessionInteractor.convertDTOToSession(this.session);
-        Flashcard currFlashcard = nonDTOsession.getNextCard();
+        this.cardShuffler.postAnswerFlashcardDataUpdate(true);
 
-        ((SmartShuffle) nonDTOsession.getCardShuffler()).postAnswerFlashcardDataUpdate(true);
+        int previousValue = this.cardShuffler.getFlashcardToData().get(testFlashcard).getCardsUntilDue();
 
-        assertTrue(nonDTOsession.getFlashcardToData().get(currFlashcard).getCardsUntilDue() > 0);
+        assertTrue(this.cardShuffler.getFlashcardToData().get(testFlashcard).getCardsUntilDue() > 0);
 
-        currFlashcard = nonDTOsession.getNextCard();
+        this.cardShuffler.postAnswerFlashcardDataUpdate(false);
 
-        ((SmartShuffle) nonDTOsession.getCardShuffler()).postAnswerFlashcardDataUpdate(false);
-
-        assertTrue(nonDTOsession.getFlashcardToData().get(currFlashcard).getCardsUntilDue() > 0);
+        assertTrue(this.cardShuffler.getFlashcardToData().get(testFlashcard).getCardsUntilDue() > 0
+                && this.cardShuffler.getFlashcardToData().get(testFlashcard).getCardsUntilDue()
+                != previousValue);
     }
 
     @Test
     void updateFlashcardData() {
 
-        this.deckController.addCard("1", null, "1");
-        this.deckController.addCard("2", null, "2");
-        StudySession nonDTOsession = SessionInteractor.convertDTOToSession(this.session);
-        nonDTOsession.getNextCard();
+        Flashcard testFlashcard = this.cardShuffler.getDeckCopy().get(0);
 
-        ((SmartShuffle) nonDTOsession.getCardShuffler()).updateFlashcardData(true);
+        this.cardShuffler.setLastFlashcardShown(testFlashcard);
 
-        for (FlashcardData data : nonDTOsession.getFlashcardToData().values()) {
-            assertTrue(data.getCardsUntilDue() >= 0);
-        }
+        this.cardShuffler.updateFlashcardData(true);
+
+        int previousValue = this.cardShuffler.getFlashcardToData().get(testFlashcard).getCardsUntilDue();
+
+        assertEquals(1, previousValue);
+
+        assertEquals(1, this.cardShuffler.getFlashcardToData().get(testFlashcard).getCardsUntilDue());
+
+        int previousValue2 = this.cardShuffler.getFlashcardToData().get(testFlashcard).getCardsUntilDue();
+
+        this.cardShuffler.updateFlashcardData(false);
+
+
+
+        assertEquals(previousValue2 + 2, this.cardShuffler.getFlashcardToData().get(testFlashcard).getCardsUntilDue());
     }
 }

@@ -14,6 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * TODO: what does this class represent
+ */
 public class AccountInteractor {
 
     private static Account currentAccount;
@@ -182,6 +185,11 @@ public class AccountInteractor {
         }
     }
 
+    /**
+     * TODO
+     * @param accountDTO
+     * @return
+     */
     public static Account convertDTOToAccount(AccountDTO accountDTO) {
         String username = accountDTO.getUsername();
         String password = accountDTO.getPassword();
@@ -200,6 +208,11 @@ public class AccountInteractor {
         return new Account(username, password, decks, decksToSessions);
     }
 
+    /**
+     * TODO
+     * @param account
+     * @return
+     */
     public static AccountDTO convertAccountToDTO(Account account) {
         String username = account.getUsername();
         String password = account.getPassword();
@@ -218,6 +231,11 @@ public class AccountInteractor {
         return new AccountDTO(username, password, decksDTO, decksToSessionsDTO);
     }
 
+    /**
+     * TODO
+     * @param deckDTO
+     * @return
+     */
     private static Deck findDeckInCurrentAccountFromDTO(DeckDTO deckDTO) {
         return currentAccount.getDecks().stream()
                 .filter(d -> d.getName().equals(deckDTO.getName()))
@@ -225,6 +243,12 @@ public class AccountInteractor {
                 .orElse(null);
     }
 
+    /**
+     * TODO
+     * @param deck
+     * @param sessionDTO
+     * @return
+     */
     private static StudySession findSessionInCurrentAccountFromDTO(Deck deck, StudySessionDTO sessionDTO) {
         StudySession selectedSession = SessionInteractor.convertDTOToSession(sessionDTO);
         return currentAccount.getDecksToSessions().get(deck).stream()

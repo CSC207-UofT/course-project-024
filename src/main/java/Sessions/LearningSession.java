@@ -2,6 +2,9 @@ package Sessions;
 
 import Decks.Deck;
 
+/**
+ * A type of study session for Learning. This session focuses on content the user is worst at.
+ */
 public class LearningSession extends StudySession {
 
     /**

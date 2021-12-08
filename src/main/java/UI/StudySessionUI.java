@@ -15,6 +15,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
+/**
+ * User interface for study sessions
+ */
 public abstract class StudySessionUI extends Application {
 
     public static final String APPLICATION_TITLE = "Flashcards!";
@@ -101,6 +104,10 @@ public abstract class StudySessionUI extends Application {
         return flashcardBorder;
     }
 
+    /**
+     * TODO
+     * @param image
+     */
     protected void resizeImageViewToFit(ImageView image) {
         image.setFitWidth(FLASHCARD_LENGTH * 0.9);
         image.setPreserveRatio(true);

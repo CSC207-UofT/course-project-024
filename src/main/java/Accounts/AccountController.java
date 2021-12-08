@@ -5,6 +5,10 @@ import Sessions.StudySessionDTO;
 
 import java.util.List;
 
+/**
+ * TODO: what does this class represent
+ */
+
 public class AccountController {
 
     public AccountController(){}
@@ -109,18 +113,5 @@ public class AccountController {
      */
     public static List<StudySessionDTO> getSessionsOfDeck(DeckDTO deckDTO) {
         return AccountInteractor.getSessionsOfDeck(deckDTO);
-    }
-
-
-    // TODO: Determine whether to keep or remove this function.
-    // The UI probably won't ever use this, so if everyone's okay with DeckController calling
-    // AccountInteractor instead of AccountController, then we can safely remove this method
-    /**
-     * Adds or deletes flashcards in the flashcard-to-data mapping of each StudySession to match the current state of
-     * the specified deck. Should be called when a card is added or deleted from a deck.
-     * @param deckDTO The deck which has had cards added or deleted
-     */
-    public static void updateSessionsOfDeckInCurrentAccount(DeckDTO deckDTO) {
-        AccountInteractor.updateSessionsOfDeckInCurrentAccount(deckDTO);
     }
 }
