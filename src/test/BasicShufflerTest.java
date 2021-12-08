@@ -59,10 +59,10 @@ class BasicShufflerTest {
     }
 
     /**
-     * Test returnchosenflashcard actually goes through the entire deck before reshuffling
+     * Test returncChosenFlashcard actually goes through the entire deck before reshuffling
      */
     @Test
-    void returnflashcard() {
+    void returnFlashcard() {
         basicShuffler = new BasicShuffle(deck);
         Flashcard card1 = basicShuffler.returnChosenFlashcard();
         Flashcard card2 = basicShuffler.returnChosenFlashcard();
@@ -74,29 +74,29 @@ class BasicShufflerTest {
     }
 
     /**
-     * Test update deckcontext when flash card is added
+     * Test update when flash card is added
      */
     @Test
-    void deckcontextadd() {
+    void updateAdd() {
         basicShuffler = new BasicShuffle(deck);
         Flashcard.Front front = new Flashcard.Front("<3", null);
         Flashcard card = new Flashcard(front, ":)");
         deck.addFlashcard(card);
-        basicShuffler.updateDeckContext();
+        basicShuffler.update();
         assertTrue(basicShuffler.getDeckCopy().contains(card));
     }
 
     /**
-     * Test update deckcontext when flash card is deleted
+     * Test update when flash card is deleted
      */
     @Test
-    void deckcontextdelete() {
+    void updateDelete() {
         Flashcard.Front front = new Flashcard.Front("<3", null);
         Flashcard card = new Flashcard(front, ":)");
         deck.addFlashcard(card);
         basicShuffler = new BasicShuffle(deck);
         deck.removeFlashcard(card);
-        basicShuffler.updateDeckContext();
+        basicShuffler.update();
         assertFalse(basicShuffler.getDeckCopy().contains(card));
     }
 }

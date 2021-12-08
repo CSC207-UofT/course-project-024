@@ -1,5 +1,8 @@
 package Sessions;
 
+/**
+ * An interface for shufflers that need to be updated after user input
+ */
 public interface UpdatingShuffler {
     /**
      * Performs any post-answer updates that are needed for studySession.
