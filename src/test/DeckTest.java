@@ -4,17 +4,14 @@ import Sessions.*;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DeckTest {
-    Deck deck;
-    List<CardShuffler> observers;
+    Deck myDeck;
 
     @BeforeEach
     void setUp() {
+        this.myDeck = new Deck("deck");
         Flashcard.Front front1 = new Flashcard.Front("1", null);
         Flashcard flashcard1 = new Flashcard(front1, "1");
         Flashcard.Front front2 = new Flashcard.Front("2", null);
@@ -25,20 +22,18 @@ public class DeckTest {
         Flashcard flashcard4 = new Flashcard(front4, "4");
         Flashcard.Front front5 = new Flashcard.Front("5", null);
         Flashcard flashcard5 = new Flashcard(front5, "5");
-        Deck deck = new Deck("deck");
-        deck.addFlashcard(flashcard1);
-        deck.addFlashcard(flashcard2);
-        deck.addFlashcard(flashcard3);
-        deck.addFlashcard(flashcard4);
-        deck.addFlashcard(flashcard5);
-        this.deck = deck;
+        myDeck.addFlashcard(flashcard1);
+        myDeck.addFlashcard(flashcard2);
+        myDeck.addFlashcard(flashcard3);
+        myDeck.addFlashcard(flashcard4);
+        myDeck.addFlashcard(flashcard5);
 
-        CardShuffler observerOne = new WorstToBestShuffle(deck);
-        CardShuffler observerTwo = new BasicShuffle(deck);
-        CardShuffler observerThree = new SmartShuffle(deck);
-        observers.add(observerOne);
-        observers.add(observerTwo);
-        observers.add(observerThree);
+        CardShuffler observerOne = new WorstToBestShuffle(myDeck);
+        CardShuffler observerTwo = new BasicShuffle(myDeck);
+        CardShuffler observerThree = new SmartShuffle(myDeck);
+        myDeck.addObserver(observerOne);
+        myDeck.addObserver(observerTwo);
+        myDeck.addObserver(observerThree);
     }
 
     /**
@@ -46,10 +41,10 @@ public class DeckTest {
      */
     @Test
     public void addObserver() {
-        CardShuffler observerFour = new BasicShuffle(deck);
-        deck.addObserver(observerFour);
-        assertEquals(deck.getObservers().size(), 4);
-        assertTrue(deck.getObservers().contains(observerFour));
+        CardShuffler observerFour = new BasicShuffle(myDeck);
+        myDeck.addObserver(observerFour);
+        assertEquals(myDeck.getObservers().size(), 4);
+        assertTrue(myDeck.getObservers().contains(observerFour));
     }
 
     /**
@@ -57,14 +52,14 @@ public class DeckTest {
      */
     @Test
     public void deleteObserver() {
-        CardShuffler observerFour = new BasicShuffle(deck);
-        CardShuffler observerFive = new BasicShuffle(deck);
-        deck.addObserver(observerFour);
-        deck.addObserver(observerFive);
-        deck.deleteObserver(observerFour);
-        assertEquals(deck.getObservers().size(), 4);
-        assertTrue(deck.getObservers().contains(observerFive));
-        assertFalse(deck.getObservers().contains(observerFour));
+        CardShuffler observerFour = new BasicShuffle(myDeck);
+        CardShuffler observerFive = new BasicShuffle(myDeck);
+        myDeck.addObserver(observerFour);
+        myDeck.addObserver(observerFive);
+        myDeck.deleteObserver(observerFour);
+        assertEquals(myDeck.getObservers().size(), 4);
+        assertTrue(myDeck.getObservers().contains(observerFive));
+        assertFalse(myDeck.getObservers().contains(observerFour));
     }
 
     /**
@@ -74,10 +69,10 @@ public class DeckTest {
     public void hasChanged() {
         Flashcard.Front frontHey = new Flashcard.Front("Hey", null);
         Flashcard flashcardHey = new Flashcard(frontHey, "Hey");
-        deck.addFlashcard(flashcardHey);
-        assertNotEquals(deck.getFlashcardsLastState(), deck.getFlashcards());
-        assertTrue(deck.hasChanged());
-        assertEquals(deck.getFlashcardsLastState(), deck.getFlashcards());
+        myDeck.addFlashcard(flashcardHey);
+        assertNotEquals(myDeck.getFlashcardsLastState(), myDeck.getFlashcards());
+        assertTrue(myDeck.hasChanged());
+        assertEquals(myDeck.getFlashcardsLastState(), myDeck.getFlashcards());
     }
 
     /**
@@ -87,16 +82,18 @@ public class DeckTest {
     public void notifyObservers() {
         Flashcard.Front frontHey = new Flashcard.Front("Hey", null);
         Flashcard flashcardHey = new Flashcard(frontHey, "Hey");
-        deck.addFlashcard(flashcardHey);
+        myDeck.addFlashcard(flashcardHey);
 
-        for (CardShuffler observer: observers){
-            assertNotEquals(observer.getDeckCopy(), deck.getFlashcards());
+        for (Observer o: myDeck.getObservers()){
+            if (o instanceof CardShuffler observer)
+            assertNotEquals(observer.getDeckCopy(), myDeck.getFlashcards());
         }
 
-        deck.notifyObservers();
+        myDeck.notifyObservers();
 
-        for (CardShuffler observer: observers){
-            assertEquals(observer.getDeckCopy(), deck.getFlashcards());
+        for (Observer o: myDeck.getObservers()){
+            if (o instanceof CardShuffler observer)
+            assertEquals(observer.getDeckCopy(), myDeck.getFlashcards());
         }
     }
 }
