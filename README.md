@@ -7,7 +7,10 @@ Learning session also infinitely generates cards based on the user’s feedback 
 Test session generates a finite number of random cards and tracks the percentage of cards that the user gets correct.
 
 
-## Dependency Installation
+## Installation instructions
+
+When opening the project in an IDE, make sure to mark the following: src/main/java folder as sources root, src/test as Test sources root and src/main/resources as Resources root.
+
 Before being able to run the program, you must first install certain dependecies.
 
 JDBC is a Java API used to connect and interact with databases. To install it follow the instructions below:
@@ -20,7 +23,7 @@ JavaFX is a library that provides the tools required to make simple GUIs. To ins
 2. Click the + button, click on Java, open the "lib" folder in the project folder, open the JavaFX sdk folder, then select the "lib" folder to add from there
 3. Apply changes
 
-## User Instructions
+## Running the program
 
 To start the program, navigate to src -> main -> java -> Main -> Main.java and run the main method.
 
