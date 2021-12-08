@@ -6,6 +6,9 @@ import Flashcards.Flashcard;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class deals with how to shuffle decks
+ */
 public abstract class CardShuffler implements Observer{
 
     /**
@@ -25,8 +28,16 @@ public abstract class CardShuffler implements Observer{
     @Override
     public abstract void update();
 
+    /**
+     * getter method for the deckCopy
+     * @return List<Flashcard>
+     */
     public abstract List<Flashcard> getDeckCopy();
 
+    /**
+     * getter method for flashcardToData
+     * @return Map<Flashcard, FlashcardData>
+     */
     protected Map<Flashcard, FlashcardData> getFlashcardToData() {
         return this.flashcardToData;
     }

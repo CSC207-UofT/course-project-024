@@ -1,5 +1,8 @@
 package Flashcards;
 
+/**
+ * Data Transfer Object for FlashcardData
+ */
 public class FlashcardDataDTO {
 
     private final int proficiency;

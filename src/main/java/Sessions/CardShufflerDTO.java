@@ -5,6 +5,9 @@ import Flashcards.FlashcardDataDTO;
 
 import java.util.Map;
 
+/**
+ * Data Transfer Object for CardShufflers
+ */
 public abstract class CardShufflerDTO {
 
     Map<FlashcardDTO, FlashcardDataDTO> flashcardToData;

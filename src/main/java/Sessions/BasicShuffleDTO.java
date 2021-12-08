@@ -6,6 +6,9 @@ import Flashcards.FlashcardDataDTO;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Data Transfer Object for BasicShuffle
+ */
 public class BasicShuffleDTO extends CardShufflerDTO {
 
     private final int index;

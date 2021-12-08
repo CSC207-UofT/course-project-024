@@ -2,6 +2,9 @@ package Sessions;
 
 import Decks.DeckDTO;
 
+/**
+ * Data Transfer Object for TestSession
+ */
 public class TestSessionDTO extends StudySessionDTO {
 
     private final int length;

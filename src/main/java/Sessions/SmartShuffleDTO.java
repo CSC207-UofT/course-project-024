@@ -8,6 +8,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Data Transfer Object for SmartShuffle
+ */
 public class SmartShuffleDTO extends CardShufflerDTO {
 
     private final List<FlashcardDTO> deckCopy;

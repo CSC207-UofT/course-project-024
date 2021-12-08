@@ -2,6 +2,9 @@ package Sessions;
 
 import Decks.DeckDTO;
 
+/**
+ * Data Transfer Object for StudySession
+ */
 public abstract class StudySessionDTO {
 
     private final DeckDTO deckDTO;

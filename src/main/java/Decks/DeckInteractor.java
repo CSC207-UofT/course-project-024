@@ -8,6 +8,9 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * TODO, what does this class represents
+ */
 public class DeckInteractor {
 
     private static Deck currentDeck;
