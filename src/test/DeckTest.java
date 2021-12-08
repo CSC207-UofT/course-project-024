@@ -92,6 +92,7 @@ public class DeckTest {
         Flashcard flashcardHey = new Flashcard(frontHey, "Hey");
         deck.addFlashcard(flashcardHey);
 
+
         for (Observer observer: deck.getObservers()){
             if (observer instanceof CardShuffler shuffler) {
                 assertFalse(deck.getFlashcards().stream().allMatch(d -> shuffler.getFlashcardToData().containsKey(d)));
@@ -99,7 +100,6 @@ public class DeckTest {
                 assert false;
             }
         }
-
         deck.notifyObservers();
 
         for (Observer observer: deck.getObservers()){
