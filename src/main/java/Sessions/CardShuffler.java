@@ -1,6 +1,7 @@
 package Sessions;
 
 import Decks.Deck;
+import Flashcards.FlashcardDTO;
 import Flashcards.FlashcardData;
 import Flashcards.Flashcard;
 
@@ -43,24 +44,24 @@ public abstract class CardShuffler implements Observer{
         return this.flashcardToData;
     }
 
-    public void updateFlashcardToData(Deck deck){
+    public void updateFlashcardToData(List<Flashcard> flashcardList){
 
         // First, check for updates needed from adding a card:
-        // Loop through deck.getFlashcards(). If it is in flashcardData, move on.
+        // Loop through flashcardList. If it is in flashcardData, move on.
         // If it is not in flashcardData, add it to flashcardData.
         // Second, check for updates needed from deleting a card:
-        // Loop through flashcardData. If it is in deck.getFlashcards(), move on.
-        // If it is not in deck.getFlashcards(), then delete it from flashcardData
+        // Loop through flashcardData. If it is in flashcardList, move on.
+        // If it is not in flashcardList, then delete it from flashcardData
 
-        for (Flashcard flashcard : deck.getFlashcards()) {
+        for (Flashcard flashcard : flashcardList) {
             if (!flashcardToData.containsKey(flashcard)) {
                 flashcardToData.put(flashcard, new FlashcardData(0));
             }
         }
 
         for (Flashcard flashcard : flashcardToData.keySet().stream().toList()) {
-            if (!deck.getFlashcards().contains(flashcard)) {
-                deck.getFlashcards().remove(flashcard);
+            if (!flashcardList.contains(flashcard)) {
+                flashcardList.remove(flashcard);
             }
         }
     }

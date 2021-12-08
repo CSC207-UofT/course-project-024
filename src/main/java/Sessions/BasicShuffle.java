@@ -13,6 +13,7 @@ public class BasicShuffle extends CardShuffler {
 
     private int index;
     private List<Flashcard> deckCopy;
+    private List<Flashcard> originalDeck;
 
     /**
      * Construct a new BasicShuffle card shuffler.
@@ -21,7 +22,8 @@ public class BasicShuffle extends CardShuffler {
     public BasicShuffle(Map<Flashcard, FlashcardData> flashcardToData) {
         // This turns an ImmutableList, which ToList returns, to an ArrayList. Don't ask me why.
         this.index = 0;
-        this.deckCopy = new ArrayList<>(flashcardToData.keySet().stream().toList());
+        this.originalDeck = new ArrayList<>(flashcardToData.keySet().stream().toList());
+        this.deckCopy = new ArrayList<>(deckCopy);
         this.flashcardToData = flashcardToData;
     }
 
@@ -34,7 +36,8 @@ public class BasicShuffle extends CardShuffler {
         for (Flashcard card : deck.getFlashcards()) {
             this.flashcardToData.put(card, new FlashcardData(0));
         }
-        this.deckCopy = new ArrayList<>(this.flashcardToData.keySet().stream().toList());
+        this.originalDeck = new ArrayList<>(this.flashcardToData.keySet().stream().toList());
+        this.deckCopy = new ArrayList<>(deckCopy);
     }
 
     /**
@@ -46,6 +49,7 @@ public class BasicShuffle extends CardShuffler {
     public BasicShuffle(Map<Flashcard, FlashcardData> flashcardToData, List<Flashcard> deckCopy, int index) {
         this.index = index;
         this.flashcardToData = flashcardToData;
+        this.originalDeck = new ArrayList<>(deckCopy);
         this.deckCopy = new ArrayList<>(deckCopy);
     }
 
@@ -99,6 +103,7 @@ public class BasicShuffle extends CardShuffler {
      */
     @Override
     public void update() {
+        this.updateFlashcardToData(originalDeck);
             for (Flashcard flashcard : this.flashcardToData.keySet()) {
                 if (!this.deckCopy.contains(flashcard)) {
                     this.deckCopy.add(flashcard);

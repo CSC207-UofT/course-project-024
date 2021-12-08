@@ -15,6 +15,7 @@ import java.util.Map;
 public class WorstToBestShuffle extends CardShuffler implements UpdatingShuffler {
 
     List<Flashcard> deckCopy;
+    List<Flashcard> originalDeck;
     private Flashcard lastFlashcardShown;
     private final Map<Flashcard, FlashcardData> flashcardToData;
 
@@ -27,7 +28,8 @@ public class WorstToBestShuffle extends CardShuffler implements UpdatingShuffler
         for (Flashcard card : deck.getFlashcards()) {
             this.flashcardToData.put(card, new FlashcardData(0));
         }
-        this.deckCopy = new ArrayList<>(this.flashcardToData.keySet().stream().toList());
+        this.originalDeck = new ArrayList<>(this.flashcardToData.keySet().stream().toList());
+        this.deckCopy = new ArrayList<>(originalDeck);
     }
 
 
@@ -41,8 +43,9 @@ public class WorstToBestShuffle extends CardShuffler implements UpdatingShuffler
     public WorstToBestShuffle(Map<Flashcard, FlashcardData> flashcardToData, List<Flashcard> deckCopy,
                         Flashcard lastFlashcardShown) {
         this.flashcardToData = flashcardToData;
-        this.deckCopy = deckCopy;
+        this.deckCopy = new ArrayList<>(deckCopy);
         this.lastFlashcardShown = lastFlashcardShown;
+        this.deckCopy = new ArrayList<>(originalDeck);
     }
 
     /**
@@ -96,6 +99,7 @@ public class WorstToBestShuffle extends CardShuffler implements UpdatingShuffler
      */
     @Override
     public void update() {
+        this.updateFlashcardToData(originalDeck);
         for (Flashcard flashcard : this.flashcardToData.keySet()) {
             if (!this.deckCopy.contains(flashcard)) {
                 this.deckCopy.add(flashcard);

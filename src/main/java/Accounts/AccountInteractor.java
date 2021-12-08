@@ -155,10 +155,12 @@ public class AccountInteractor {
     public static void updateSessionsOfDeckInCurrentAccount(DeckDTO deckDTO) {
         Deck deck = findDeckInCurrentAccountFromDTO(deckDTO);
 
+        List<Flashcard> flashcardList = deck.getFlashcards();
+
         List<StudySession> listOfSessions = currentAccount.getDecksToSessions().get(deck);
 
         for (StudySession session : listOfSessions) {
-            session.getCardShuffler().updateFlashcardToData(deck);
+            session.getCardShuffler().updateFlashcardToData(flashcardList);
             session.updateDeckContext();
         }
     }

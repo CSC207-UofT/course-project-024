@@ -12,6 +12,7 @@ import java.util.*;
 public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
 
     private final List<Flashcard> deckCopy;
+    private final List<Flashcard> originalDeck;
     private Flashcard lastFlashcardShown;
 
     /**
@@ -22,7 +23,8 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
     public SmartShuffle(Map<Flashcard, FlashcardData> flashcardToData) {
         this.flashcardToData = flashcardToData;
         // This turns an ImmutableList, which ToList returns, to an ArrayList.
-        this.deckCopy = new ArrayList<>(this.flashcardToData.keySet().stream().toList());
+        this.originalDeck = new ArrayList<>(this.flashcardToData.keySet().stream().toList());
+        this.deckCopy = new ArrayList<>(originalDeck);
     }
 
     /**
@@ -37,7 +39,8 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
             this.flashcardToData.put(card, new FlashcardData(0));
         }
 
-        this.deckCopy = new ArrayList<>(this.flashcardToData.keySet().stream().toList());
+        this.originalDeck = new ArrayList<>(this.flashcardToData.keySet().stream().toList());
+        this.deckCopy = new ArrayList<>(originalDeck);
     }
 
     /**
@@ -51,7 +54,8 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
                         Flashcard lastFlashcardShown) {
         this.flashcardToData = flashcardToData;
         // This turns an ImmutableList, which ToList returns, to an ArrayList.
-        this.deckCopy = new ArrayList<>(deckCopy);
+        this.originalDeck = new ArrayList<>(deckCopy);
+        this.deckCopy = new ArrayList<>(originalDeck);
         this.lastFlashcardShown = lastFlashcardShown;
     }
 
@@ -71,6 +75,7 @@ public class SmartShuffle extends CardShuffler implements UpdatingShuffler {
      */
     @Override
     public void update() {
+        this.updateFlashcardToData(originalDeck);
         for (Flashcard flashcard : this.flashcardToData.keySet()) {
             if (!this.deckCopy.contains(flashcard)) {
                 this.deckCopy.add(flashcard);
