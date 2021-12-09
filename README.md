@@ -8,7 +8,7 @@ Test session generates a finite number of random cards and tracks the percentage
 
 ## Installation instructions
 
-When opening the project in an IDE, make sure to mark the following: src/main/java folder as sources root, src/test as Test sources root and src/main/resources as Resources root.
+When opening the project in an IDE, make sure to mark the following: `src/main/java` folder as sources root, `src/test` as Test sources root and `src/main/resources` as Resources root.
 
 Before being able to run the program, you must first install certain dependecies.
 
