@@ -14,7 +14,6 @@ import java.util.List;
  * This class handles the logic that UI elements need from Decks.
  */
 public class DeckController {
-    // DatabaseGateway DBgateway = new DatabaseGateway();
     DatabaseGateway DBgateway;
 
     public DeckController(DatabaseGateway DBgateway) {
