@@ -25,8 +25,8 @@ JavaFX is a library that provides the tools required to make simple GUIs. To ins
 JUnit is used to unit test our program. To import it:
 1. Navigate to `src\test\` and open any class there. 
 2. Look at the top of the class for any import that resembles import "`org.junit.jupiter.api`"
-3. Hover over the "`junit`" part and let IntelliJ help you import the required module.
-4. Hover over the "`jupiter`" part and let IntelliJ help you import the required module.
+3. Hover over the "`junit`" part and click IntelliJ's suggestion to "Add JUnit 4 to classpath", and click OK on the next dialog box.
+4. Hover over the "`jupiter`" part and click IntelliJ's suggestion to "Add JUnit 5.7.0 to classpath" and click OK on the next dialog box.
 
 ## Running the program
 
