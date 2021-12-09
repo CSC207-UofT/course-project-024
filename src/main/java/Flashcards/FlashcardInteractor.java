@@ -9,8 +9,6 @@ public class FlashcardInteractor {
 
     private static Flashcard currentFlashcard;
 
-    // public static DatabaseGateway DBgateway = new DatabaseGateway();
-
     private FlashcardInteractor() {}
 
     /**
