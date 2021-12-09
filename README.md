@@ -22,11 +22,19 @@ JavaFX is a library that provides the tools required to make simple GUIs. To ins
 2. Click the + button, click on Java, open the "lib" folder in the project folder, open the JavaFX sdk folder, then select the "lib" folder to add from there
 3. Apply changes
 
+JUnit is used to unit test our program. To import it:
+1. Navigate to `src\test\` and open any class there. 
+2. Look at the top of the class for any import that resembles import "`org.junit.jupiter.api`"
+3. Hover over the "`junit`" part and let IntelliJ help you import the required module.
+4. Hover over the "`jupiter`" part and let IntelliJ help you import the required module.
+
 ## Running the program
 
-To start the program, navigate to src -> main -> java -> Main -> Main.java and run the main method.
+To start the program, navigate to `src\main\java\Main\Main.java` and run the main method.
 
 The Login window then opens up and prompts the user to enter login details. At this point, you can create an account if you don't have one yet and then log in, or log in with existing user credentials.
+
+Note that creating a new account is successful if no popup appears after clicking the button.
 
 This brings us to the main menu where we are presented with four options: creating a new deck, studying an existing deck, editing an existing deck, or logging out.
 
